@@ -53,6 +53,8 @@ class LearnerPreferencesFragment : Fragment() {
     private var loadFailure: String? = null
     private var preferenceLoadJob: Job? = null
     private var contextExpanded = false
+    private val editing get() = arguments?.getBoolean("editing") == true
+    companion object { fun editing() = LearnerPreferencesFragment().apply { arguments = Bundle().apply { putBoolean("editing", true) } } }
     private var setupStep = 1
     private var renderedStep: Int? = null
     private var stepBack: androidx.activity.OnBackPressedCallback? = null
@@ -93,9 +95,11 @@ class LearnerPreferencesFragment : Fragment() {
         }
         top.addView(skip, LinearLayout.LayoutParams(-2, -2).apply { marginStart = context.dp(16) })
         content.addView(top, LinearLayout.LayoutParams(-1, -2))
+        if (editing) top.visibility = View.GONE
         val mascot = GiraffeMascotView(context).apply { importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO }
         content.addView(mascot, LinearLayout.LayoutParams(-1, context.dp(72)))
         mascot.play(GiraffeMascotView.Pose.WAKE)
+        if (editing) mascot.visibility = View.GONE
         content.label("Your study level?", 28f).tag = "preference_heading"
         content.label("Loading your saved preferences…", 14f).tag = "preference_load_status"
         content.action("Retry preferences") { loadPreferences() }.tag = "preference_retry"
@@ -160,7 +164,7 @@ class LearnerPreferencesFragment : Fragment() {
         subjects.label("", 14f).apply {
             tag = "preference_unlock_summary"; accessibilityLiveRegion = View.ACCESSIBILITY_LIVE_REGION_POLITE
         }
-        subjects.action("Continue") { saveAndContinue() }.apply {
+        subjects.action(if (editing) "Save preferences" else "Continue") { saveAndContinue() }.apply {
             tag = "preference_save"; layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
         }
         subjects.label(feedback, 14f).apply {
@@ -187,7 +191,7 @@ class LearnerPreferencesFragment : Fragment() {
                 }
                 launch {
                     saveModel.state.collect { submission ->
-                        if (submission.owner == repository.currentSession()?.uid && submission.selection != null) {
+                        if (!editing && submission.owner == repository.currentSession()?.uid && submission.selection != null) {
                             saving = submission.pending
                             if (submission.selection == PreferenceChoices.forSave(draft, options)) {
                                 acknowledged = submission.confirmed; feedback = submission.message
@@ -210,10 +214,10 @@ class LearnerPreferencesFragment : Fragment() {
                 if (!initialized) {
                     try {
                         val submission = saveModel.state.value
-                        val stored = submission.selection?.takeIf { submission.owner == repository.currentSession()?.uid }
+                        val stored = submission.selection?.takeIf { !editing && submission.owner == repository.currentSession()?.uid }
                             ?: repository.learnerPreferences().first()
                         draft = if (stored.levelId == null && stored.subjectIds.isEmpty()) stored.copy(levelId = "college") else stored
-                        nameInput = submission.displayName?.takeIf { submission.owner == repository.currentSession()?.uid }
+                        nameInput = submission.displayName?.takeIf { !editing && submission.owner == repository.currentSession()?.uid }
                             ?: repository.profileName().first().orEmpty()
                         view?.findViewWithTag<com.google.android.material.textfield.TextInputEditText>("preference_display_name")?.setText(nameInput)
                         initialized = true
@@ -304,6 +308,19 @@ class LearnerPreferencesFragment : Fragment() {
     private fun saveAndContinue() {
         if (!initialized || saving || !classValid || needsCatalog()) return
         val selected = PreferenceChoices.forSave(draft, options)
+        if (editing) {
+            viewLifecycleOwner.lifecycleScope.launch {
+                saving = true; render()
+                try {
+                    kotlinx.coroutines.withTimeout(12000) { repository.saveLearnerPreferences(selected) }
+                    leave()
+                } catch (error: kotlinx.coroutines.TimeoutCancellationException) { feedback = "Waiting to save. Your changes are kept; reconnect and retry." }
+                catch (error: kotlinx.coroutines.CancellationException) { throw error }
+                catch (error: Exception) { feedback = failureText(error) }
+                finally { saving = false; if (view != null) render() }
+            }
+            return
+        }
         saveModel.submit(repository, selected, nameInput.trim().ifBlank { "Student" })
         if (saveModel.state.value.owner != repository.currentSession()?.uid) return
         draft = selected
@@ -313,9 +330,14 @@ class LearnerPreferencesFragment : Fragment() {
 
     private fun render() {
         val content = (view as? ScrollView)?.getChildAt(0) as? LinearLayout ?: return
-        stepBack?.isEnabled = setupStep == 2
-        content.findViewWithTag<View>("preference_profile_step").visibility = if (setupStep == 1) View.VISIBLE else View.GONE
-        content.findViewWithTag<View>("preference_subject_step").visibility = if (setupStep == 2) View.VISIBLE else View.GONE
+        if (editing) {
+            content.findViewWithTag<View>("preference_next").visibility = View.GONE
+            content.findViewWithTag<View>("preference_back").visibility = View.GONE
+            (content.findViewWithTag<View>("preference_display_name").parent.parent as View).visibility = View.GONE
+        }
+        stepBack?.isEnabled = !editing && setupStep == 2
+        content.findViewWithTag<View>("preference_profile_step").visibility = if (editing || setupStep == 1) View.VISIBLE else View.GONE
+        content.findViewWithTag<View>("preference_subject_step").visibility = if (editing || setupStep == 2) View.VISIBLE else View.GONE
         if (renderedStep != setupStep) {
             val previous = renderedStep
             renderedStep = setupStep
@@ -335,7 +357,7 @@ class LearnerPreferencesFragment : Fragment() {
             contentDescription = "Preferences, step $setupStep of 2"
             for (index in 0 until childCount) getChildAt(index).setBackgroundColor(context.tint(if (index < setupStep) R.color.sp_ink else R.color.sp_outline))
         }
-        content.findViewWithTag<TextView>("preference_heading").text = if (setupStep == 1) "Your study level?" else "Your subjects?"
+        content.findViewWithTag<TextView>("preference_heading").text = if (editing) "Study preferences" else if (setupStep == 1) "Your study level?" else "Your subjects?"
         listOf("preference_next", "preference_custom_subject").forEach { content.findViewWithTag<View>(it).isEnabled = initialized && !saving }
         content.findViewWithTag<View>("preference_context_details").visibility = if (contextExpanded) View.VISIBLE else View.GONE
         content.findViewWithTag<MaterialButton>("preference_context_toggle").text =

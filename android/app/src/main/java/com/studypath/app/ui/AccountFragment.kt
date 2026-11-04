@@ -44,12 +44,12 @@ class AccountFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val content = requireContext().column(20)
-        content.giraffe("wave", 116)
+
         content.label(repository.currentSession()?.displayName?.takeIf { it.isNotBlank() } ?: "Your account", 26f)
             .apply { tag = "profile_name"; setTextColor(context.tint(R.color.sp_muted)) }
         content.label("Loading your study track…", 14f).tag = "profile_study_track"
-        content.secondaryAction("Edit profile & preferences") {
-            (requireActivity() as MainActivity).openDetails(LearnerPreferencesFragment())
+        content.secondaryAction("Edit profile") {
+            (requireActivity() as MainActivity).openDetails(EditProfileFragment())
         }.tag = "profile_edit_direct"
         val upNext = content.card("Up Next", "")
         upNext.addView(requireContext().column(0).apply { tag = "profile_due_queue"; label("Checking due reminders…", 14f) })
@@ -66,7 +66,7 @@ class AccountFragment : Fragment() {
         }.tag = "profile_family_action"
         val settings = disclosure(content, "Your study & account", "Preferences and sign-in")
         settings.secondaryAction("Edit learning preferences") {
-            (requireActivity() as MainActivity).openDetails(LearnerPreferencesFragment())
+            (requireActivity() as MainActivity).openDetails(LearnerPreferencesFragment.editing())
         }.tag = "profile_preferences_action"
         settings.addView(requireContext().column(0).apply { tag = "profile_sync_section"; label("Checking saved changes…", 14f) })
         settings.label(getString(R.string.verification_account_pending), 14f).tag = "profile_email_verification_status"
@@ -97,14 +97,14 @@ class AccountFragment : Fragment() {
 
     private fun disclosure(content: LinearLayout, title: String, detail: String): LinearLayout {
         val card = com.google.android.material.card.MaterialCardView(requireContext()).apply {
-            radius = context.dp(24).toFloat(); cardElevation = 0f; strokeWidth = 0
+            radius = context.dp(16).toFloat(); cardElevation = 0f; strokeWidth = 0
             setCardBackgroundColor(context.tint(R.color.sp_card))
         }
-        val wrap = requireContext().column(16)
+        val wrap = requireContext().column(0)
         val panel = requireContext().column(0).apply { visibility = if (title in expanded) View.VISIBLE else View.GONE }
         val toggle = wrap.secondaryAction(title) {}.apply {
             gravity = Gravity.START or Gravity.CENTER_VERTICAL
-            strokeWidth = 0; iconGravity = MaterialButton.ICON_GRAVITY_END; iconSize = context.dp(20)
+            strokeWidth = context.dp(1); iconTint = ColorStateList.valueOf(context.tint(R.color.sp_action)); iconGravity = MaterialButton.ICON_GRAVITY_END; iconSize = context.dp(20)
             tag = "account_section_$title"
         }
         fun update() {
@@ -259,6 +259,11 @@ class AccountFragment : Fragment() {
         layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
         backgroundTintList = ColorStateList.valueOf(android.graphics.Color.TRANSPARENT)
         setTextColor(context.tint(R.color.sp_ink))
+        iconTint = ColorStateList.valueOf(context.tint(R.color.sp_action))
+        iconGravity = MaterialButton.ICON_GRAVITY_END
+        setIconResource(R.drawable.ic_chevron_right)
+        gravity = Gravity.START or Gravity.CENTER_VERTICAL
+        minHeight = context.dp(48); minimumHeight = context.dp(48)
         strokeColor = ColorStateList.valueOf(context.tint(R.color.sp_outline))
         strokeWidth = context.dp(1)
     }

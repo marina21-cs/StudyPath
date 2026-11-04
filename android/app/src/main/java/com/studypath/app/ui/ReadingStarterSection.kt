@@ -40,7 +40,7 @@ class ReadingStarterSection(
                         }.collect { rows ->
                             timeout.cancel()
                             heading()
-                            if (rows.isEmpty()) content.label("No reading suggestions yet. Search Wikipedia above.", 14f)
+                            if (rows.isEmpty()) content.removeAllViews()
                             rows.forEach(::card)
                         }
                     } finally { timeout.cancel() }
@@ -52,7 +52,7 @@ class ReadingStarterSection(
     private fun heading() {
         content.removeAllViews()
         content.label("Reading ideas", 20f)
-        content.label("Supplemental Wikipedia readings · internet needed", 14f)
+
     }
 
     private fun unavailable(message: String) {

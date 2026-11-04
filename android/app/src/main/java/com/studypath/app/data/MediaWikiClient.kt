@@ -75,7 +75,12 @@ class MediaWikiClient(
         }
     }
 
-    suspend fun fetchReading(pageKey: String): ReadingContent {
+    suspend fun fetchReading(pageKey: String): ReadingContent = fetchContent(pageKey, false)
+    suspend fun fetchFullArticle(pageKey: String): ArticleText {
+        val content = fetchContent(pageKey, true)
+        return ArticleText(content.title, content.excerpt, content.sourceUrl, content.revisionUrl, content.attribution, content.licenseTitle, content.licenseUrl)
+    }
+    private suspend fun fetchContent(pageKey: String, full: Boolean): ReadingContent {
         require(pageKey.isNotBlank() && pageKey.length <= 240) { "A valid article key is required." }
         return requestMutex.withLock {
             val url = baseUrl.newBuilder().addPathSegment("page").addPathSegment(pageKey).addPathSegment("with_html").build()
@@ -106,8 +111,10 @@ class MediaWikiClient(
                     if (attribution.length > 500) invalid("Additional attribution cannot fit in an offline snapshot. Open the original source.")
                     val paragraphs = document.select("p")
                     if (paragraphs.none { it.text().isNotBlank() }) invalid("This article has no suitable text excerpt. Open the original source.")
-                    val excerpt = document.select("h2,h3,p").eachText().filter { it.isNotBlank() }
-                        .joinToString("\n\n").take(MAX_EXCERPT_CHARACTERS).trim()
+                    val fullText = document.select("h2,h3,p,li").filter { element ->
+                        element.tagName() != "li" || element.select("p,li").size == 1
+                    }.map { it.text() }.filter { it.isNotBlank() }.joinToString("\n\n")
+                    val excerpt = if (full) fullText else ReadingPages.excerpt(fullText, MAX_EXCERPT_CHARACTERS)
                     if (excerpt.isBlank()) invalid("This article has no suitable text excerpt. Open the original source.")
                     val sourceKey = URLEncoder.encode(key, "UTF-8").replace("+", "%20")
                     ReadingContent(pageId, key, title, excerpt, revision, timestamp,

@@ -32,7 +32,9 @@ fun Context.showReadingSource(title: String, message: String, revisionUrl: Strin
 internal fun MaterialButton.quietAction(): MaterialButton = apply {
     backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
     setTextColor(context.tint(R.color.sp_ink))
-    strokeWidth = 0
+    strokeWidth = context.dp(1)
+    strokeColor = ColorStateList.valueOf(context.tint(R.color.sp_outline))
+    minHeight = context.dp(48); minimumHeight = context.dp(48)
     iconTint = ColorStateList.valueOf(context.tint(R.color.sp_ink))
     gravity = Gravity.START or Gravity.CENTER_VERTICAL
     layoutParams = LinearLayout.LayoutParams(-1, -2).apply {

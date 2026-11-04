@@ -486,6 +486,14 @@ class FirebaseStudyRepository(
         uid
     }
 
+    suspend fun saveProfileName(name: String) {
+        require(name.trim().length in 1..80) { "Enter a name of 1–80 characters." }
+        val token = gate.capture()
+        val profile = privateRef(token, "profile")
+        val patch = mapOf<String, Any>("displayName" to name.trim())
+        awaitOwned(token, trackedSubmission(token, profile, patch, merge = true) { profile.updateChildren(patch) })
+    }
+
     fun profileName(): Flow<String?> = observe("profile") { snapshot ->
         snapshot.optionalText("displayName")?.also {
             require(it.isNotBlank() && it.length <= 80) { "The stored profile name is invalid." }

@@ -2,13 +2,13 @@
 
 A native Android study companion for discovering references, saving readings offline, working through lessons, and planning academic progress.
 
-**[Download StudyPath 0.1.2 APK](https://github.com/marina21-cs/StudyPath/releases/download/v0.1.2/StudyPath.apk)** · [Release notes](https://github.com/marina21-cs/StudyPath/releases/tag/v0.1.2) · [All releases](https://github.com/marina21-cs/StudyPath/releases)
+**[Download StudyPath 0.1.3 APK](https://github.com/marina21-cs/StudyPath/releases/download/v0.1.3/StudyPath.apk)** · [Release notes](https://github.com/marina21-cs/StudyPath/releases/tag/v0.1.3) · [All releases](https://github.com/marina21-cs/StudyPath/releases)
 
-> **Testing prerelease:** Giraffe Spark, version **0.1.2 (3)**, published 4 November 2026. Requires **Android 8.0 or newer**. This is a signed debug APK for evaluation. The hosted lesson catalog is currently empty; downloadable lessons require published content.
+> **Testing prerelease:** Personal Workspace, version **0.1.3 (4)**, published 4 November 2026. Requires **Android 8.0 or newer**. This is a signed debug APK for evaluation. Personal subjects, tasks, study cards, and PDF imports work without published course lessons. The hosted course catalog is currently empty.
 
 <p>
   <img src="docs/images/welcome.png" width="240" alt="StudyPath welcome screen with the giraffe mascot and Get started button">
-  <img src="docs/images/setup-level.png" width="240" alt="StudyPath learner setup with level and subject choices">
+  <img src="docs/images/personal-workspace.png" width="240" alt="StudyPath personal workspace with subjects, tasks, lessons, and PDF imports">
 </p>
 
 ## Install the APK
@@ -23,28 +23,31 @@ When updating, keep your existing app data and original account. If Android repo
 To share the download, send this link:
 
 ```text
-https://github.com/marina21-cs/StudyPath/releases/download/v0.1.2/StudyPath.apk
+https://github.com/marina21-cs/StudyPath/releases/download/v0.1.3/StudyPath.apk
 ```
 
-The APK is **14,074,096 bytes** (about 13.4 MiB). Verify it with the [SHA-256 checksum](docs/releases/SHA256-v0.1.2.txt):
+The APK is **14,119,253 bytes** (about 13.5 MiB). Verify it with the [SHA-256 checksum](docs/releases/SHA256-v0.1.3.txt):
 
 ```text
-1dc1f44bfc5f10d71af420411d45d9ddb1f8f14d8968e856f2aacbd36f05b10c
+93793b8c73a1b1cfbbb752af0e373ae6985acc0a08c1edf9b3b62dab08dcc4fb
 ```
 
 ## Features
 
-- **Discover:** search Wikipedia and read attributed reference material.
+- **Discover:** search Wikipedia and read attributed references or paginated full-article text.
 - **Save:** keep reading snapshots, private notes, and reading position for offline access.
 - **Learn:** choose a study level and subjects; download available approved lessons with practice, explanations, and progress tracking.
-- **Plan:** record scores, explore grade/GWA scenarios, and check prerequisites under the configured academic rules.
+- **Organize:** create personal subjects, tasks, and study cards, and import PDFs for native offline reading.
+- **Plan:** see unfinished personal tasks; record scores, explore grade/GWA scenarios, and check prerequisites under the configured academic rules.
 - **Return:** organize study reminders and optional controlled family summaries.
+
+Personal subjects, tasks, authored lessons, and PDFs stay on this phone and are **not cloud backed up**. They survive normal app updates; uninstalling or clearing app data removes them. Personal task dates do not schedule notifications. Full-article offline availability is not guaranteed.
 
 Wikipedia references and demonstration lessons are separate from approved instructional content. Academic calculations depend on the applicable configured policy; they do not establish official institutional results.
 
 ## Current release status
 
-The 0.1.2 source has recorded evidence for **472 passing JVM tests**, a local native core smoke, and an in-place APK update that retained test data. These are earlier build-specific results, not a claim that every feature or cloud workflow is accepted. See the [release verification summary](docs/releases/v0.1.2.md).
+The 0.1.3 build has recorded evidence for **482 passing JVM tests** and an extended local native flow covering profile editing, personal tasks/cards, PDF import/viewing, and full-article pagination. The delivered cloud APK uses the same application source and signing identity as the tested candidate. These build-specific results do not establish every feature or cloud workflow. See the [release verification summary](docs/releases/v0.1.3.md) and [phone checklist](docs/releases/v0.1.3-phone-checklist.md).
 
 The downloadable APK connects to the configured Firebase cloud backend. A source checkout defaults to local Firebase emulators. Published lessons are unavailable in the current cloud catalog. The original physical-phone issue, older cache recovery, broader accessibility, and final cloud acceptance remain open.
 
@@ -62,6 +65,8 @@ The debug APK is generated at `android/app/build/outputs/apk/debug/app-debug.apk
 
 - [Android setup, local device workflow, and cloud configuration](android/README.md)
 - [Firebase setup, schema, seed data, and tests](backend/README.md)
+- [Personal workspace behavior and limits](docs/implementation/personal-study-workspace.md)
+- [Personal data architecture](docs/architecture/personal-study-data.md)
 - [Release and Git maintenance](docs/PUBLISHING.md)
 
 ## Technology and layout

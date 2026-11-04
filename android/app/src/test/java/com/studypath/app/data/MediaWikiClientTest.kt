@@ -79,6 +79,17 @@ class MediaWikiClientTest {
         assertTrue(reading.excerpt.length in 1..8000)
     }
 
+    @Test fun `full article retains the ending beyond the offline snapshot budget`() = runBlocking<Unit> {
+        val html = "<p>${"A complete explanation. ".repeat(600)}</p><p>The final section is present.</p>"
+        server.enqueue(json(page(html)))
+        val full = api.fetchFullArticle("Data_structure")
+        assertTrue(full.text.length > 8000)
+        assertTrue(full.text.endsWith("The final section is present."))
+        assertTrue(full.attribution.contains("Wikipedia contributors"))
+        server.enqueue(json(page(html)))
+        assertTrue(api.fetchReading("Data_structure").excerpt.length <= 8000)
+    }
+
     @Test fun `missing revision blocks a reusable snapshot`() = runBlocking<Unit> {
         server.enqueue(json(page("<p>Useful article</p>").replace("\"latest\":{\"id\":1377666699,\"timestamp\":\"2026-09-30T12:52:14Z\"},", "")))
         expect<MediaWikiException.InvalidResponse> { api.fetchReading("Data_structure") }

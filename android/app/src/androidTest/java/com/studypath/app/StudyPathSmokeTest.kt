@@ -29,6 +29,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.espresso.matcher.ViewMatchers.withTagValue
 import androidx.test.espresso.matcher.ViewMatchers.hasSibling
+import androidx.test.espresso.matcher.ViewMatchers.withHint
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
@@ -145,6 +146,7 @@ class StudyPathSmokeTest {
             })
             captureScreen("03-study-shelf")
 
+            if (InstrumentationRegistry.getArguments().getString("verifyPersonalWorkspace") == "true") verifyPersonalWorkspace()
             flowStage = "planner-catalog-and-policy"
             tapNavigation(R.id.nav_planner)
             awaitText("Programming Foundations")
@@ -387,6 +389,131 @@ class StudyPathSmokeTest {
         })
         onView(withTagValue(`is`("reading_copy_status" as Any))).perform(scrollTo()).check(matches(isDisplayed()))
         captureScreen("09-saved-reading")
+    }
+
+    private fun verifyPersonalWorkspace() {
+        fun tagged(tag: String) = onView(withTagValue(`is`(tag as Any)))
+        tapNavigation(R.id.nav_account)
+        tagged("profile_edit_direct").perform(scrollTo(), click())
+        awaitTag("edit_profile_name")
+        assertTrue(mainThreadValue { currentRoot()?.findViewWithTag<View>("preference_later") == null })
+        captureScreen("personal-01-edit-profile")
+        val originalName = JSONObject(smokeTree(smokeToken(requireNotNull(FirebaseAuth.getInstance().currentUser))).body)
+            .getJSONObject("profile").getString("displayName")
+        tagged("edit_profile_name").perform(replaceText("Focus learner")); closeSoftKeyboard()
+        tagged("edit_profile_save").perform(scrollTo(), click())
+        awaitText("Focus learner")
+        tagged("profile_edit_direct").perform(scrollTo(), click())
+        awaitTag("edit_profile_name")
+        tagged("edit_profile_name").perform(replaceText(originalName)); closeSoftKeyboard()
+        tagged("edit_profile_save").perform(scrollTo(), click())
+        awaitTag("profile_name")
+        tapNavigation(R.id.nav_planner)
+        tagged("planner_personal_workspace").perform(scrollTo(), click())
+        awaitTag("personal_add_subject")
+        tagged("personal_add_subject").perform(scrollTo(), click())
+        onView(withHint("Subject name")).perform(replaceText("Physics")); closeSoftKeyboard()
+        onView(withText("Save")).perform(click())
+        awaitTag("personal_add_task")
+        assertEquals("Task and lesson tabs must align even when a label wraps", mainThreadValue { currentRoot()!!.findViewWithTag<View>("personal_tab_tasks").height },
+            mainThreadValue { currentRoot()!!.findViewWithTag<View>("personal_tab_lessons").height })
+        tagged("personal_add_task").perform(scrollTo(), click())
+        onView(withHint("Task")).perform(replaceText("Read chapter two")); closeSoftKeyboard()
+        onView(withText("Save")).perform(click())
+        awaitText("Read chapter two")
+        onView(withContentDescription("Mark done: Read chapter two")).perform(scrollTo(), click())
+        onView(withContentDescription("Mark unfinished: Read chapter two")).check(matches(isDisplayed()))
+        tagged("personal_tab_lessons").perform(scrollTo(), click())
+        tagged("personal_create_lesson").perform(scrollTo(), click())
+        onView(withHint("Lesson title")).perform(replaceText("Motion basics"))
+        onView(withHint("Your lesson text")).perform(scrollTo(), replaceText("Speed compares distance with elapsed time."))
+        onView(withHint("Practice question (optional)")).perform(scrollTo(), replaceText("What is speed?"))
+        onView(withHint("Answer")).perform(scrollTo(), replaceText("Distance divided by time.")); closeSoftKeyboard()
+        onView(withText("Save")).perform(click())
+        awaitText("Motion basics")
+        onView(withContentDescription("Study Motion basics")).perform(scrollTo(), click())
+        awaitTag("personal_reveal_answer")
+        tagged("personal_reveal_answer").perform(scrollTo(), click())
+        tagged("personal_answer").check(matches(isDisplayed()))
+        captureScreen("personal-02-study-card")
+        pressBack()
+        tagged("personal_import_pdf").perform(scrollTo(), click())
+        await("The system PDF picker must open") {
+            instrumentation.uiAutomation.rootInActiveWindow?.packageName?.toString()?.contains("documentsui") == true
+        }
+        instrumentation.uiAutomation.performGlobalAction(android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_BACK)
+        awaitTag("personal_import_pdf")
+        val uid = requireNotNull(app.graph.repository.currentSession()?.uid)
+        val store = com.studypath.app.data.PersonalStudyStore(File(app.filesDir, "personal-study"), uid)
+        val subjectId = store.read().subjects.single().id
+        val fixture = File(app.cacheDir, "personal-native-fixture.pdf")
+        val document = android.graphics.pdf.PdfDocument()
+        try {
+            repeat(2) { index ->
+                val page = document.startPage(android.graphics.pdf.PdfDocument.PageInfo.Builder(400, 600, index + 1).create())
+                page.canvas.drawText("Personal module page ${index + 1}", 30f, 60f, Paint().apply { textSize = 20f })
+                document.finishPage(page)
+            }
+            fixture.outputStream().use(document::writeTo)
+        } finally { document.close() }
+        // Exercise the production URI-copy and native PDF validation after the picker result.
+        // External DocumentsUI itself is not automated by this in-app Espresso case.
+        instrumentation.runOnMainSync {
+            val fragment = (resumedActivity(MainActivity::class.java) as MainActivity).supportFragmentManager.findFragmentById(R.id.main_content)!!
+            fragment.javaClass.getDeclaredField("pendingSubject").apply { isAccessible = true }.set(fragment, subjectId)
+            fragment.javaClass.getDeclaredMethod("importPdf", android.net.Uri::class.java).apply { isAccessible = true }
+                .invoke(fragment, android.net.Uri.fromFile(fixture))
+        }
+        await("The personal PDF must be validated and committed") { store.read().materials.any { it.pdf } }
+        val pdf = store.read().materials.single { it.pdf }
+        awaitText(pdf.title)
+        onView(withContentDescription("Study ${pdf.title}")).perform(scrollTo(), click())
+        awaitText("Page 1 of 2 · Available offline")
+        tagged("offline_pdf_next").perform(click())
+        awaitText("Page 2 of 2 · Available offline")
+        captureScreen("personal-03-pdf-page-two")
+        pressBack()
+        // The manual workspace does not depend on a live database or a published course pack.
+        com.google.firebase.database.FirebaseDatabase.getInstance().goOffline()
+        pressBack()
+        tagged("planner_personal_workspace").perform(scrollTo(), click())
+        awaitTextContaining("Physics")
+        assertEquals(2, store.read().materials.size)
+        tagged("personal_tab_tasks").perform(scrollTo(), click())
+        tagged("personal_add_task").perform(scrollTo(), click())
+        onView(withHint("Task")).perform(replaceText("Review offline")); closeSoftKeyboard()
+        onView(withText("Save")).perform(click())
+        awaitText("Review offline")
+        captureScreen("personal-04-offline-workspace")
+        pressBack()
+        awaitText("Review offline")
+        captureScreen("personal-05-manual-planner")
+        com.google.firebase.database.FirebaseDatabase.getInstance().goOnline()
+        fixture.delete()
+        val catalogUrl = "http://127.0.0.1:9000/catalog/courses.json?ns=demo-studypath-default-rtdb"
+        val original = cleanupClient.newCall(Request.Builder().url(catalogUrl).header("Authorization", "Bearer owner").build()).execute().use {
+            check(it.isSuccessful); it.body!!.string()
+        }
+        fun setCourses(json: String) {
+            cleanupClient.newCall(Request.Builder().url(catalogUrl).header("Authorization", "Bearer owner")
+                .put(json.toRequestBody("application/json".toMediaType())).build()).execute().use { check(it.isSuccessful) }
+        }
+        try {
+            setCourses("null")
+            awaitText("No course pack yet")
+            tagged("planner_personal_workspace").perform(scrollTo()).check(matches(isDisplayed()))
+            captureScreen("personal-06-empty-catalog-planner")
+        } finally { setCourses(original) }
+        instrumentation.runOnMainSync {
+            (resumedActivity(MainActivity::class.java) as MainActivity).openDetails(
+                com.studypath.app.ui.FullArticleFragment.open("Computer_programming", "https://en.wikipedia.org/wiki/Computer_programming"))
+        }
+        awaitTag("full_article_text")
+        val firstPage = mainThreadValue { currentRoot()!!.findViewWithTag<TextView>("full_article_text").text.toString() }
+        tagged("full_article_next").perform(scrollTo(), click())
+        assertTrue(mainThreadValue { currentRoot()!!.findViewWithTag<TextView>("full_article_text").text.toString() != firstPage })
+        captureScreen("personal-07-full-article-page-two")
+        pressBack()
     }
 
     private fun leaveLoadedPreferences() {

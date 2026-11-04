@@ -38,7 +38,7 @@ class OfflinePdfView(context: Context, private val owner: LifecycleOwner) : Line
     init {
         orientation = VERTICAL
         status.accessibilityLiveRegion = ACCESSIBILITY_LIVE_REGION_POLITE
-        addView(ScrollView(context).apply { isFillViewport = false; addView(image, LayoutParams(-1, -2)) }, LayoutParams(-1, 0, 1f))
+        addView(ScrollView(context).apply { isFillViewport = false; isVerticalScrollBarEnabled = false; addView(image, LayoutParams(-1, -2)) }, LayoutParams(-1, 0, 1f))
         val largeText = resources.configuration.fontScale >= 1.5f
         val navigation = LinearLayout(context).apply { orientation = if (largeText) VERTICAL else HORIZONTAL; gravity = Gravity.CENTER }
         previous = MaterialButton(context).apply {
@@ -51,7 +51,7 @@ class OfflinePdfView(context: Context, private val owner: LifecycleOwner) : Line
         }
         fun buttonParams() = if (largeText) LayoutParams(-1, -2) else LayoutParams(0, -2, 1f)
         navigation.addView(previous, buttonParams()); navigation.addView(next, buttonParams()); addView(navigation)
-        label("PDF pages are images. Use the module’s lesson text for accessible explanations and practice.", 14f)
+        label("PDF pages are images; text selection is unavailable.", 14f)
         updateButtons(false)
     }
 

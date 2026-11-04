@@ -29,10 +29,10 @@ Use a pull request for review before merging into `main`. Keep signing keys, Fir
 For a future version, replace the example tag and paths below with the checked version and existing files:
 
 ```sh
-gh release create v0.1.3 /path/to/StudyPath.apk /path/to/SHA256.txt \
+gh release create v0.1.4 /path/to/StudyPath.apk /path/to/SHA256.txt \
   --repo marina21-cs/StudyPath \
   --target main \
-  --title "StudyPath 0.1.3" \
+  --title "StudyPath 0.1.4" \
   --prerelease \
   --notes-file /path/to/release-notes.md
 ```

@@ -34,6 +34,9 @@ class SavedFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val content = requireContext().column()
+        content.action("My subjects · PDFs & lessons") {
+            (requireActivity() as MainActivity).openDetails(PersonalWorkspaceFragment.lessons())
+        }.quietAction().tag = "saved_personal_workspace"
         val tabs = LinearLayout(requireContext()).apply {
             orientation = LinearLayout.HORIZONTAL
             isBaselineAligned = false

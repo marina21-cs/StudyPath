@@ -7,7 +7,7 @@
         <item name="colorOutline">@color/sp_outline</item><item name="colorError">#B3261E</item>
         <item name="android:colorBackground">@color/sp_background</item>
         <item name="android:fontFamily">@font/geist</item>
-        <item name="android:windowLightStatusBar">true</item><item name="android:windowLightNavigationBar">true</item><item name="android:navigationBarColor">@color/sp_background</item>
+        <item name="android:statusBarColor">@color/sp_background</item><item name="android:windowLightStatusBar">true</item><item name="android:windowLightNavigationBar">true</item><item name="android:navigationBarColor">@color/sp_background</item>
         <item name="materialButtonStyle">@style/Widget.StudyPath.Button</item>
         <item name="textInputStyle">@style/Widget.StudyPath.Input</item>
         <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.StudyPath.Card</item>

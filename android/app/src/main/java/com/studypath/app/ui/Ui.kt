@@ -124,7 +124,7 @@ fun LinearLayout.giraffe(pose: String = "wave", height: Int = 140): GiraffeMasco
 }
 fun LinearLayout.detailArtwork() { giraffe("wave", 112) }
 fun Context.scrolling(content: View): ScrollView = ScrollView(this).apply {
-    isFillViewport = true; clipToPadding = false
+    isFillViewport = true; clipToPadding = false; isVerticalScrollBarEnabled = false; isHorizontalScrollBarEnabled = false
     addView(content, FrameLayout.LayoutParams(-1, -2))
 }
 fun Context.openSource(url: String) {

@@ -125,7 +125,7 @@ class MainActivity : AppCompatActivity() {
         binding.toolbar.title = "StudyPath"
         binding.toolbar.isTitleCentered = false
         binding.toolbar.setTitleTextAppearance(this, R.style.TextAppearance_StudyPath_Title)
-        binding.navigation.isItemActiveIndicatorEnabled = false
+        binding.navigation.isItemActiveIndicatorEnabled = true
         binding.navigation.menu.apply {
             add(0, R.id.nav_study, 0, "Study").setIcon(R.drawable.ic_study).setContentDescription("Study")
             add(0, R.id.nav_saved, 1, "Saved").setIcon(R.drawable.ic_saved).setContentDescription("Saved")
@@ -145,12 +145,16 @@ class MainActivity : AppCompatActivity() {
         }
         fun updateChrome() {
             val current = supportFragmentManager.findFragmentById(R.id.main_content)
-            val detail = current is ReadingFragment || current is ModuleFragment || current is LearnerPreferencesFragment || current is InteractiveLessonFragment || current is OfflinePdfFragment || current is FamilySharingFragment || current is OnboardingReadyFragment
+            val detail = current is PersonalWorkspaceFragment || current is PersonalMaterialFragment || current is EditProfileFragment || current is FullArticleFragment || current is ReadingFragment || current is ModuleFragment || current is LearnerPreferencesFragment || current is InteractiveLessonFragment || current is OfflinePdfFragment || current is FamilySharingFragment || current is OnboardingReadyFragment
             binding.toolbar.navigationIcon = if (detail)
                 androidx.appcompat.content.res.AppCompatResources.getDrawable(this, androidx.appcompat.R.drawable.abc_ic_ab_back_material) else null
             binding.toolbar.navigationContentDescription = if (detail) "Back" else null
             binding.navigation.visibility = if (detail) View.GONE else View.VISIBLE
             binding.toolbar.title = when (current) {
+                is PersonalWorkspaceFragment -> "My subjects"
+                is PersonalMaterialFragment -> "My lesson"
+                is EditProfileFragment -> "Edit profile"
+                is FullArticleFragment -> "Full article"
                 is FamilySharingFragment -> "Family summaries"
                 is OfflinePdfFragment -> "Companion PDF"
                 is ReadingFragment -> "Reading"

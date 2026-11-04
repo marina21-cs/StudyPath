@@ -95,8 +95,8 @@ class StudyFragment : Fragment() {
             tag = "reading_search_clear"; quietAction(); isVisible = model.state.value.submitted
         }
         val topics = requireContext().column(0).apply { tag = "study_browse_body" }
-        val wikiLane = topics.card("Topic starters", "Wikipedia · supplemental reading")
-        val topicRow = LinearLayout(requireContext()).apply { orientation = LinearLayout.HORIZONTAL }
+        val wikiLane = requireContext().column(0).also { topics.addView(it); it.label("Browse topics", 20f) }
+        val topicRow = com.google.android.material.chip.ChipGroup(requireContext()).apply { isSingleLine = false; chipSpacingHorizontal = context.dp(8) }
         listOf("Programming" to "Computer programming", "Data structures" to "Data structure", "Databases" to "Relational database").forEach { (title, topic) ->
             val chip = MaterialButton(requireContext(), null, com.google.android.material.R.attr.materialButtonOutlinedStyle).apply {
                 text = title; isAllCaps = false; textSize = 14f; minHeight = requireContext().dp(48)
@@ -105,15 +105,19 @@ class StudyFragment : Fragment() {
                 contentDescription = "Search $topic"
                 setOnClickListener { query.setText(topic); model.search(api, topic, graph.repository) }
             }
-            topicRow.addView(chip, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = requireContext().dp(8) })
+            topicRow.addView(chip, ViewGroup.LayoutParams(-2, -2))
         }
-        wikiLane.addView(HorizontalScrollView(requireContext()).apply { isHorizontalScrollBarEnabled = false; addView(topicRow) })
-        content.action("Browse topics & lessons") { topics.requestRectangleOnScreen(android.graphics.Rect(0, 0, topics.width, requireContext().dp(120)), true) }.apply { tag = "study_browse"; quietAction() }
+        wikiLane.addView(topicRow)
+        content.action("My subjects · PDFs & lessons") {
+            (requireActivity() as MainActivity).openDetails(PersonalWorkspaceFragment.lessons())
+        }.apply { tag = "study_personal_workspace"; quietAction() }
+        content.action("Browse topics & lessons  ↓") { topics.requestRectangleOnScreen(android.graphics.Rect(0, 0, topics.width, requireContext().dp(120)), true) }.apply { tag = "study_browse"; quietAction() }
         content.addView(topics)
         val results = requireContext().column(0).apply { tag = "search_results" }
         content.addView(results)
         wikiLane.addView(requireContext().column(0).apply { tag = "reading_starters" })
-        topics.card("Course lessons", "").addView(requireContext().column(0).apply { tag = "featured_module" })
+        topics.label("Download course lessons", 20f)
+        topics.addView(requireContext().column(0).apply { tag = "featured_module" })
         return requireContext().scrolling(content)
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -159,7 +163,7 @@ class StudyFragment : Fragment() {
             (requireActivity() as MainActivity).openDetails(ReadingFragment.forPage(page))
         }.start()
         LessonLibrarySection(featured, viewLifecycleOwner, graph.repository,
-            editPreferences = { (requireActivity() as MainActivity).openDetails(LearnerPreferencesFragment()) },
+            editPreferences = { (requireActivity() as MainActivity).openDetails(LearnerPreferencesFragment.editing()) },
             openLesson = { key -> (requireActivity() as MainActivity).openDetails(InteractiveLessonFragment.forPackage(key)) },
         ).start()
         viewLifecycleOwner.lifecycleScope.launch {

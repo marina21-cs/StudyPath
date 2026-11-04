@@ -74,7 +74,13 @@ class PlannerFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val page = requireContext().column()
-        page.label("A little clarity.", 30f)
+        page.label("Plan your next step", 24f)
+        page.action("My subjects & tasks") {
+            (requireActivity() as MainActivity).openDetails(PersonalWorkspaceFragment())
+        }.tag = "planner_personal_workspace"
+        page.label("Add subjects, set dates and track tasks.", 14f)
+        page.addView(requireContext().column(0).apply { tag = "personal_planner_summary" })
+        page.label("Course grade tools", 20f)
         loading = page.label("Loading courses…", 14f)
         coursePicker = Spinner(requireContext()).also { picker ->
             picker.minimumHeight = requireContext().dp(48)
@@ -95,6 +101,16 @@ class PlannerFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val summary = view.findViewWithTag<LinearLayout>("personal_planner_summary")
+        try {
+            val personal = personalStore().read()
+            val upcoming = personal.tasks.filterNot { it.done }.sortedBy { it.due.ifEmpty { "9999" } }.take(5)
+            if (upcoming.isEmpty()) summary.label("No tasks yet. Add one in My subjects & tasks.", 14f)
+            upcoming.forEach { task ->
+                val subject = personal.subjects.firstOrNull { it.id == task.subjectId }?.title.orEmpty()
+                summary.card(task.title, listOf(subject, task.due).filter { it.isNotBlank() }.joinToString(" · "))
+            }
+        } catch (_: Exception) { summary.label("Open My subjects to retry your saved tasks.", 14f) }
         sessionUid = repository.currentSession()?.uid
         observe()
     }
@@ -161,8 +177,8 @@ class PlannerFragment : Fragment() {
         if (!sessionActive()) { body.removeAllViews(); return }
         body.removeAllViews()
         val course = data.courses.firstOrNull { it.id == selectedCourseId } ?: run {
-            body.card("No courses yet", "Choose your study preferences to check for available courses.").tag = "planner_policy_unavailable"
-            body.action("Choose study preferences") { (requireActivity() as MainActivity).openDetails(LearnerPreferencesFragment()) }
+            body.card("No course pack yet", "Grade tools need a reviewed course pack.").tag = "planner_policy_unavailable"
+            body.action("Choose course pack") { (requireActivity() as MainActivity).openDetails(LearnerPreferencesFragment.editing()) }
             body.action("Browse readings") { (requireActivity() as MainActivity).goToStudy() }.quietAction()
             return
         }
@@ -205,7 +221,7 @@ class PlannerFragment : Fragment() {
                 label(evaluation.warnings.joinToString("\n"), 14f)
             }
             unavailable.studyDisclosure("Policy details", details, "planner_policy_details")
-            body.action("Change learning preferences") { (requireActivity() as MainActivity).openDetails(LearnerPreferencesFragment()) }.quietAction()
+            body.action("Change learning preferences") { (requireActivity() as MainActivity).openDetails(LearnerPreferencesFragment.editing()) }.quietAction()
             val prerequisites = access(data, course, AcademicCapability.PREREQUISITES)
             if (prerequisites.allowed) renderPrerequisites(body, course, data)
             renderAttempts(body, course, data)

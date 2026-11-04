@@ -67,12 +67,18 @@ class ReadingFragment : Fragment() {
                     val reading = if (savedId != null) withTimeout(12_000) { graph.repository.openReading(savedId).reading }
                         else draftReading ?: graph.readings.fetchReading(requireArguments().getString("page")!!)
                     content.removeAllViews(); render(content, reading, savedId)
-                } catch (error: TimeoutCancellationException) { content.removeAllViews(); content.label(failureText(error)); content.action("Try again", ::load) }
+                } catch (error: TimeoutCancellationException) { content.removeAllViews(); content.label(failureText(error)); content.action("Try again", ::load); sourceFallback(content) }
                 catch (error: CancellationException) { throw error }
-                catch (error: Exception) { content.removeAllViews(); content.label(failureText(error)); content.action("Try again", ::load) }
+                catch (error: Exception) { content.removeAllViews(); content.label(failureText(error)); content.action("Try again", ::load); sourceFallback(content) }
             }
         }
         load()
+    }
+
+    private fun sourceFallback(content: LinearLayout) {
+        val key = arguments?.getString("page") ?: return
+        val encoded = java.net.URLEncoder.encode(key, "UTF-8").replace("+", "%20")
+        content.action("Open on Wikipedia") { requireContext().openSource("https://en.wikipedia.org/wiki/$encoded") }.quietAction()
     }
 
     private fun render(content: LinearLayout, reading: ReadingContent, savedId: String?) {
@@ -109,6 +115,13 @@ class ReadingFragment : Fragment() {
             if (sourceRow.orientation == LinearLayout.HORIZONTAL) layoutParams = LinearLayout.LayoutParams(0, -2, 1f)
         }
         readingContext?.let { content.label("Related reading", 14f) }
+        content.action("Read full article") {
+            (requireActivity() as MainActivity).openDetails(FullArticleFragment.open(reading.pageKey, reading.sourceUrl))
+        }.quietAction().tag = "reading_full_article"
+        content.action("Make a study card") {
+            (requireActivity() as MainActivity).openDetails(PersonalWorkspaceFragment.forReading(reading.title))
+        }.quietAction().tag = "reading_study_card"
+
         val excerpt = content.label(reading.excerpt).apply {
             tag = "reading_excerpt"; setTextIsSelectable(true)
             background = GradientDrawable().apply { setColor(Color.WHITE); cornerRadius = context.dp(24).toFloat() }
@@ -116,6 +129,7 @@ class ReadingFragment : Fragment() {
             setLineSpacing(context.dp(5).toFloat(), 1f)
             layoutParams = LinearLayout.LayoutParams(-1, -2).apply { topMargin = context.dp(12); bottomMargin = context.dp(12) }
         }
+        content.label("End of excerpt · continue with Read full article", 14f)
         val status = content.label(readingCopyStatus(retained), 14f).apply {
             tag = "reading_copy_status"; accessibilityLiveRegion = View.ACCESSIBILITY_LIVE_REGION_POLITE
             isVisible = retained != null
