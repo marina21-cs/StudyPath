@@ -1,0 +1,1301 @@
+{
+  "schemaVersion": 1,
+  "warning": "FABRICATED TEST DATA ONLY",
+  "cases": [
+    {
+      "id": "all_three_formats_and_short_review",
+      "accepted": true,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3721,
+        "assetBytes": 0,
+        "packageSha256": "2231af82318bbf0f80924aa1c6d6342241054580149565170d93addebc92b78b"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2195,\"sha256\":\"4cec0de1f76a1389ef0d4e1f79f8f1aa55730e795afc7bb12d17af87b7c4345d\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "unicode_and_numeric_boundary",
+      "accepted": true,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3687,
+        "assetBytes": 0,
+        "packageSha256": "249945ffaf75674c04cfab7aa5cea6fe300d08480a962e5d2f13f27fb60e144a"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2161,\"sha256\":\"ab5f9ad205775104f1d52ccb8ad324706e1fbeb7c8319fabae7e3b69a13f5016\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Unicode 界 🧠\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":-1000000000,\"tolerance\":1000000,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "integral_decimal_and_exponent_identity",
+      "accepted": true,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3727,
+        "assetBytes": 0,
+        "packageSha256": "b9312f90f0a4a4ae76c777582aadb96bb4505bba78c3754961c33ffee8588a03"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2201,\"sha256\":\"ee9e7d531a9989c1c7481eb88ccb49cebe5d12693bb29e8ed607ab0d053401e7\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1.0,\"moduleId\":\"fixture_module\",\"version\":0.1e1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "metadata_only_payload",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 1602,
+        "assetBytes": 0,
+        "packageSha256": "33f160c65e908e51643ea108dcebe251ae68c4c07e3c93b3040919db0ffeecb4"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":78,\"sha256\":\"a75570f0fd6eaab2f40c29980c1d0a05b941a4f9f2a0715ddbcdcbaad6748113\"},\"assets\":[]}",
+      "textJson": "{\"moduleId\":\"fixture_module\",\"version\":1,\"teaching\":\"Synthetic metadata only\"}"
+    },
+    {
+      "id": "missing_glossary",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3646,
+        "assetBytes": 0,
+        "packageSha256": "693c86422980c0aadb9f40767d2919840d4f9e7e955a1b7511ab32cd72ccf3f9"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2120,\"sha256\":\"9379e5aa826dca93f6a6271d0d969724c42716379b932f1a7e09a9951d36593e\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}]}"
+    },
+    {
+      "id": "unknown_payload_field",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3734,
+        "assetBytes": 0,
+        "packageSha256": "8d5a640070d9da30fad31f4156aa370fc06330f33ac59a384e78b0099dd29d51"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2208,\"sha256\":\"7a50e69fd61cf9511ac4ea17a6bf1c9f02df3f186c4d3455337a2ad1cdf1b16b\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}],\"extra\":true}"
+    },
+    {
+      "id": "wrong_schema_type",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3723,
+        "assetBytes": 0,
+        "packageSha256": "52ad3e05f4262570dc9d4b2760552d8ea1d3f70e881923e269d3fc46bbfe9829"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2197,\"sha256\":\"78f9d2281c28c254c0b22ed1f92d1f88487d0fd3ca69a10e2304bdc29fc6a785\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":\"1\",\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "unknown_step_kind",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3719,
+        "assetBytes": 0,
+        "packageSha256": "51a041d5557cc1c741859b3af8787384ce5165a4d6d0ed9a4f9341e150e1d13b"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2193,\"sha256\":\"d4f44d8c0f2e0d015369ae1670425665da965aa4fe9d0a26ece2a44bf2560051\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"VIDEO\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "missing_worked_example",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3721,
+        "assetBytes": 0,
+        "packageSha256": "1c908a6616ca9102084298ccd55889613eac928ae764ea270a42a1b6a206b204"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2195,\"sha256\":\"fbc48bb5907222b89158547a51baff81ad86740641b1d852958ee04e28f95614\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"READING\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "dangling_check",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3725,
+        "assetBytes": 0,
+        "packageSha256": "efb12ea0e8da87814dbdba8cb870cfd5c028ad43d53afdda5fec7532af9f5094"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2199,\"sha256\":\"27367c2f97522a43b38ba4b06c215b70a1043303c395bc9afb422332d25f60ae\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"missing\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "duplicate_step_id",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3718,
+        "assetBytes": 0,
+        "packageSha256": "4cb9cf700244df67931da1b35d8c492d473ba4451e9ffbcfa9b955b3285a7587"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2192,\"sha256\":\"609730ec89a3a34a2f39874a786eff4671f40f6e269e70918ef24856450c32ca\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"goal\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "inventory_order_mismatch",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3721,
+        "assetBytes": 0,
+        "packageSha256": "f6095a64784c48aba4c55dbbedf0ce9cf73bc6fec93675d47131c615cdcec594"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2195,\"sha256\":\"9796828d81d79bf9265c4dbac779f8aeb15f61ee866d0f7c5964f4d8668ab5a1\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "missing_option_feedback",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3685,
+        "assetBytes": 0,
+        "packageSha256": "ed2b435ac392490885a3c5c82d254e004d85ae1960e45f1fab7ac4c7109273a2"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2159,\"sha256\":\"c5f5504e8a15046918818b47b894991044dfe0e0cf1c56e68c4f59095faaa004\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "unknown_correct_option",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3727,
+        "assetBytes": 0,
+        "packageSha256": "7c732ab7fa45423373163f3c93dec0a21190e7ae1df2a9392d98b6600121219a"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2201,\"sha256\":\"7734ebc3622ae39cd642bb8df413293ff77298e16dc269ef3753cce1a8592d4e\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"missing\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "duplicate_question",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 4005,
+        "assetBytes": 0,
+        "packageSha256": "cd5c55d62f37afd836d8a86e144253a0a4c3fe879a3857ba83b64277e1f00ae6"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2479,\"sha256\":\"783e428721d1c089d03a19a6543b43db9e72183784a8caa700fee1fad45f6d8a\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "format_mismatch",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3716,
+        "assetBytes": 0,
+        "packageSha256": "c2bf222cf9c7a5b003eb27b415284dae5c10d9d90643fb8c7e4e0736f9a085e7"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2190,\"sha256\":\"81c07348588ca7409785067926d14fbe3d07e8dd7dfade3f674c650dccb93443\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"ordering\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\",\"b\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "incomplete_ordering_answer",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3712,
+        "assetBytes": 0,
+        "packageSha256": "0433f6a8876d1008ca333bdc4cb716a4acd60625457018d0e03666bf4f9e19e4"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2186,\"sha256\":\"5deb05ce9a7eefda32f8cf5cb71c41c27a13f3cc37119bf140ed9711dc069751\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "negative_tolerance",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3719,
+        "assetBytes": 0,
+        "packageSha256": "fc19d05fe05d7b8849e64add3b100eadfe3c402e8c7c2954b7d2dee522a0b0e7"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2193,\"sha256\":\"3efcea5e66df2489a19aec387a4a9e5e3cce1e391c872c9255de6e190d9b412a\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":-1,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "numeric_target_out_of_bounds",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3730,
+        "assetBytes": 0,
+        "packageSha256": "faaad37f4c67f153490220b643a683cdb063adec5a32ca8e9169479e62f5bdc6"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2204,\"sha256\":\"edf2165882866632897c0f52ceff34a6e2d6c18d4ad272ce5496f54e1cccadf4\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":1000000001,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "non_boolean_case_sensitivity",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3723,
+        "assetBytes": 0,
+        "packageSha256": "81da9de7141c56c173f9d50d57934d219bad9c1c8611643f5a1b27f3ac0e1ccd"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2197,\"sha256\":\"a7f260815e98c17f8f34f4251bb3101a92d58e117b293850dfc38a97933093aa\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":\"false\",\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "normalized_duplicate_short_answers",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3727,
+        "assetBytes": 0,
+        "packageSha256": "ea4ee899d76492e88d508ae4059c0107caf2328903f670e97d8bafcb7d592ba5"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2201,\"sha256\":\"e7c9323920d3fcc9dde843cbf669429f03a3fb72a2b20225971fcbc9a20f6f24\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\",\" A \"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "unsupported_validator",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3721,
+        "assetBytes": 0,
+        "packageSha256": "f3688381e6cd1ff8862efdc8ff9de6f0136daa76021cd203a0688b3ce6d52589"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2195,\"sha256\":\"0f70c2e5a2fb1b392d7c13102306c314b446ae4130905f1033e4d08a5b3c6f63\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"regex\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "duplicate_glossary_term",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3783,
+        "assetBytes": 0,
+        "packageSha256": "2ea4940854666dc370ead17e60c64823fe5b2cf6a6a3097778b28c8ad6c31c73"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2257,\"sha256\":\"530566045d2063d6b30e8425d717e06a54577f4ad66afc4f3a242a596f245c9f\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"},{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "overlong_objective",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 4192,
+        "assetBytes": 0,
+        "packageSha256": "42327de3ad24a861a5a4273289a23cbaeae57dd4b968d2fa6dd5f6af22a265a6"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2195,\"sha256\":\"4cec0de1f76a1389ef0d4e1f79f8f1aa55730e795afc7bb12d17af87b7c4345d\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "overlong_step_body",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 11660,
+        "assetBytes": 0,
+        "packageSha256": "497e27e56c4d273fb538dc7782b03a6dbcd1a3f33cdef58e54cdbb6583a7ef4a"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":10133,\"sha256\":\"e9f0acf6838ae53579433ca917eb874847abf2a4980e1a328afb770fee7573c1\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "invalid_question_key",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3725,
+        "assetBytes": 0,
+        "packageSha256": "386bd6c99f86c82226f934efa894ce95fdb2ffd2c76551d3a748e7e1fed1df27"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2199,\"sha256\":\"346387f5c0b904cf2a271a07edcdf06c3b4b240673b35ec4fc7226ad7a947f3d\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"bad key\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "numeric_overflow",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3725,
+        "assetBytes": 0,
+        "packageSha256": "5b227e7b78389e9c128fef621c9d22bb381e8bed5d5770c99f75f993436bc1b1"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2199,\"sha256\":\"cd84261e537ed9751bf8bfcb0dadc1e6d2f82557b7a5af0b2c9c12c2fea859fe\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":1e999,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "fractional_schema_hidden_by_js_rounding",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3738,
+        "assetBytes": 0,
+        "packageSha256": "15e1d93c681ab33457f123335b12847f86ca6afcc8be6194aa9ec39fca0f7682"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2212,\"sha256\":\"f5ab87ecfbd66b2b17b80b27a9842e4a86265fddeebae64cd48dc52624c94787\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1.0000000000000001,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "fractional_version_hidden_by_js_rounding",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3738,
+        "assetBytes": 0,
+        "packageSha256": "fc035eb2216661bfdbedd15a5f7a53388db34df71fc797f0fb2016a83d79538a"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2212,\"sha256\":\"dfaf282497dc5b615ee8c7e6de221880d1f121f5750d7275f178e9e22fc24de0\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1.0000000000000001,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "duplicate_json_member",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3739,
+        "assetBytes": 0,
+        "packageSha256": "83f0cb5b1166f7e28401ea61af6060ae0e8b8ed4b2f7921f9747d36d796222cc"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2213,\"sha256\":\"2716d251015d72e7b86c19f380de35261aab56c2b457626c6039ebaace32827c\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "escaped_duplicate_json_member",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3744,
+        "assetBytes": 0,
+        "packageSha256": "03a225d42870c55930232e2bde733e0caca49d5c7527dcda7745c34009c6f635"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2218,\"sha256\":\"0b71d88637b092cc4941a587933adc22ab8a200a3f26d3f9b40b63a5e62a6d27\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"schema\\u0056ersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "unpaired_unicode_escape",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3706,
+        "assetBytes": 0,
+        "packageSha256": "1b6703eccf6701c4007abaf7ef2ce12ac81871cc3432b8773fb9cd028c38f88b"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2180,\"sha256\":\"88ccdd9b602f23209cca5d514aa32e5d269536a2028fb4a5181eea9066d7e13b\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Unpaired \\uD800 using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "overdeep_json",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3859,
+        "assetBytes": 0,
+        "packageSha256": "c0ec65edb0d39c16618778c391f6457d1c918a334992f6042b67d28cf7d44d53"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2333,\"sha256\":\"d208730757cf6518acb1ca7773bf9dbc83b7cf6041d4b7d203e3aa269515cc9a\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"extra\":[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[0]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    },
+    {
+      "id": "trailing_json",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3723,
+        "assetBytes": 0,
+        "packageSha256": "07313252e7d52ffd17d7bc00b6bcb54f530a240d5024878d387307dfe7af7160"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2197,\"sha256\":\"431b535cce88ea82272394623ec38393893e1a6332797b87ea0dbed372d4f930\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}{}"
+    },
+    {
+      "id": "duplicate_manifest_member",
+      "accepted": false,
+      "summary": {
+        "schemaVersion": 1,
+        "moduleId": "fixture_module",
+        "version": 1,
+        "title": "Synthetic interactive test lesson",
+        "visibility": "PUBLIC",
+        "applicability": {
+          "curriculumVersion": "fixture_v1",
+          "levelId": "fixture_level",
+          "subjectId": "fixture_subject"
+        },
+        "source": {
+          "title": "Synthetic test source",
+          "reference": "https://example.invalid/test",
+          "locator": "Test only",
+          "author": "Test author",
+          "version": "fixture_v1"
+        },
+        "review": {
+          "status": "APPROVED",
+          "reviewer": "TEST ONLY",
+          "reviewedOn": "2026-10-26",
+          "approvalReference": "TEST ONLY",
+          "permissionReference": "TEST ONLY",
+          "adaptationAllowed": true,
+          "redistributionAllowed": true
+        },
+        "textBytes": 3739,
+        "assetBytes": 0,
+        "packageSha256": "d53af09a38b845b0c881239af52ccfe2739e612c7692566ba30ed3450c45afc1"
+      },
+      "manifestJson": "{\"schemaVersion\":1,\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"title\":\"Synthetic interactive test lesson\",\"applicability\":{\"curriculumVersion\":\"fixture_v1\",\"levelId\":\"fixture_level\",\"subjectId\":\"fixture_subject\",\"classIds\":[]},\"source\":{\"title\":\"Synthetic test source\",\"reference\":\"https://example.invalid/test\",\"locator\":\"Test only\",\"author\":\"Test author\",\"version\":\"fixture_v1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"TEST ONLY\",\"reviewedOn\":\"2026-10-26\",\"approvalReference\":\"TEST ONLY\",\"permissionReference\":\"TEST ONLY\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"obj_1\",\"description\":\"Practice synthetic equal parts\"}],\"concepts\":[{\"id\":\"parts\",\"keywords\":[\"equal parts\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"obj_1\"],\"stepIds\":[\"goal\",\"example\",\"choice\",\"ordering\",\"number\",\"short\"],\"questionIds\":[\"q_1\",\"q_order\",\"q_number\",\"q_short\"],\"reviewQuestionIds\":[\"q_review\"],\"conceptIds\":[\"parts\"]}],\"questions\":[{\"id\":\"q_1\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"selected_response\"},{\"id\":\"q_order\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"ordering\"},{\"id\":\"q_number\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_short\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"},{\"id\":\"q_review\",\"objectiveId\":\"obj_1\",\"conceptIds\":[\"parts\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":2195,\"sha256\":\"4cec0de1f76a1389ef0d4e1f79f8f1aa55730e795afc7bb12d17af87b7c4345d\"},\"assets\":[]}",
+      "textJson": "{\"schemaVersion\":1,\"moduleId\":\"fixture_module\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"Synthetic interactive test lesson\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal\",\"body\":\"Practice synthetic equal parts using four authored test checks.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"One synthetic part and two synthetic parts make three.\"},{\"id\":\"choice\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Choose a synthetic answer.\",\"questionId\":\"q_1\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Independent ordering\",\"body\":\"Put steps in order.\",\"questionId\":\"q_order\"},{\"id\":\"number\",\"kind\":\"CHECK\",\"title\":\"Independent number\",\"body\":\"Count synthetic parts.\",\"questionId\":\"q_number\"},{\"id\":\"short\",\"kind\":\"CHECK\",\"title\":\"Independent short answer\",\"body\":\"Name a synthetic letter.\",\"questionId\":\"q_short\"}]}],\"questions\":[{\"id\":\"q_1\",\"prompt\":\"Pick A\",\"format\":\"selected_response\",\"options\":[{\"id\":\"a\",\"text\":\"A\",\"feedback\":\"A follows the example.\"},{\"id\":\"b\",\"text\":\"B\",\"feedback\":\"Look again at the example.\"}],\"answer\":[\"a\"],\"hint\":\"Read the example.\",\"explanation\":\"A follows this synthetic example.\"},{\"id\":\"q_order\",\"prompt\":\"First then second\",\"format\":\"ordering\",\"options\":[{\"id\":\"first\",\"text\":\"First\",\"feedback\":\"First comes first.\"},{\"id\":\"second\",\"text\":\"Second\",\"feedback\":\"Second comes later.\"}],\"answer\":[\"first\",\"second\"],\"hint\":\"Begin with first.\",\"explanation\":\"First precedes second.\"},{\"id\":\"q_number\",\"prompt\":\"One plus two\",\"format\":\"bounded_response\",\"responseType\":\"numeric\",\"unit\":\"parts\",\"target\":3,\"tolerance\":0.05,\"hint\":\"Count the parts.\",\"explanation\":\"One plus two makes three.\"},{\"id\":\"q_short\",\"prompt\":\"Name the first letter\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"},{\"id\":\"q_review\",\"prompt\":\"Name the first letter again\",\"format\":\"bounded_response\",\"responseType\":\"short\",\"acceptedAnswers\":[\"a\"],\"caseSensitive\":false,\"unit\":\"\",\"hint\":\"The alphabet begins here.\",\"explanation\":\"A is the first letter.\"}],\"glossary\":[{\"term\":\"parts\",\"definition\":\"Parts of a synthetic fixture.\"}]}"
+    }
+  ]
+}

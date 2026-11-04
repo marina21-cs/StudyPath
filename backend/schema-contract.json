@@ -1,0 +1,420 @@
+{
+  "version": 10,
+  "databaseNamespace": "demo-studypath-default-rtdb",
+  "publicCatalogPath": "catalog",
+  "privateRoot": "users/{uid}",
+  "note": "All records reject unspecified fields. Owner-only access. Catalog authenticated read, no client writes. Missing score earnedPoints means ungraded/excused; never substitute zero.",
+  "limits": {
+    "recordKey": "^[A-Za-z0-9_-]{1,64}$",
+    "excerptCharacters": 8000,
+    "titleCharacters": 240,
+    "timestamp": "integer Unix milliseconds 0..4102444800000",
+    "stringId": "1..64 characters, same key pattern",
+    "savedReadings": "20 distinct snapshots in an active version-1 shelf, enforced by twenty fixed server-validated slots; legacy over-limit data remains readable and is never pruned by migration",
+    "readingNoteCharacters": 4000,
+    "familySharing": "Five fixed grant slots g0..g4 (ordinal below reviewed maxActiveGrants), fifty immutable recipient acceptances a00..a49, generations1..1000000, lifetime bounded by reviewed policy <=30days."
+  },
+  "records": {
+    "profile": {
+      "required": {
+        "displayName": "string 1..80",
+        "selectedCurriculumVersion": "string ID"
+      },
+      "optional": {
+        "createdAt": "timestamp",
+        "updatedAt": "timestamp",
+        "learnerPreferences": "version 1 preference record; absent legacy record reads as incomplete without rewriting or copying the demo curriculum"
+      }
+    },
+    "scores/{id}": {
+      "required": {
+        "courseId": "string ID",
+        "assessmentId": "string ID",
+        "categoryId": "string ID",
+        "status": "SCORED | UNGRADED | EXCUSED",
+        "possiblePoints": "number >0 <=1000000",
+        "planVersion": "reviewed course plan version; legacy unbound rows remain retained and cannot be reinterpreted",
+        "curriculumVersion": "ID of the currently reviewed academic policy matching completed learner preferences",
+        "policyRevision": "integer1..1000000 matching trusted policy revision",
+        "policyRef": "exact separately approved capability reference; never a client approval flag"
+      },
+      "conditional": {
+        "earnedPoints": "number 0..possiblePoints, required for SCORED and forbidden otherwise"
+      },
+      "optional": {
+        "updatedAt": "timestamp"
+      }
+    },
+    "courseAttempts/{id}": {
+      "required": {
+        "courseId": "string ID",
+        "term": "string 1..40",
+        "status": "COMPLETED | IN_PROGRESS | WITHDRAWN",
+        "units": "number >0 <=30",
+        "includeInGwa": "boolean; default false in UI, required explicitly in stored records",
+        "curriculumVersion": "ID of the currently reviewed academic policy matching completed learner preferences",
+        "policyRevision": "integer1..1000000 matching trusted policy revision",
+        "policyRef": "exact separately approved capability reference; never a client approval flag",
+        "planVersion": "reviewed course plan version; legacy unbound rows remain retained and cannot be reinterpreted"
+      },
+      "optional": {
+        "grade": "number 0..100, only COMPLETED (institution scale requires verified policy)",
+        "finalPercent": "number 0..100, only COMPLETED",
+        "updatedAt": "timestamp",
+        "completionStatus": "PASSED | FAILED | UNKNOWN | CREDITED_EQUIVALENT, only COMPLETED; self-reported and never inferred from numeric grade",
+        "scaleId": "string ID, externally verified scale required for numeric interpretations"
+      },
+      "conditional": {
+        "includeInGwa true": "requires status COMPLETED, numeric grade and nonempty valid scaleId; numeric scale semantics remain unverified"
+      }
+    },
+    "scenarios/{id}": {
+      "required": {
+        "courseId": "string ID",
+        "title": "string 1..80",
+        "targetPercent": "number 0..100",
+        "baseVersion": "string 1..128 fingerprint of source scores",
+        "curriculumVersion": "ID of the currently reviewed academic policy matching completed learner preferences",
+        "policyRevision": "integer1..1000000 matching trusted policy revision",
+        "policyRef": "exact separately approved capability reference; never a client approval flag",
+        "planVersion": "reviewed course plan version; legacy unbound rows remain retained and cannot be reinterpreted"
+      },
+      "optional": {
+        "requiredPercent": "number 0..100; absence means unavailable/impossible, never use as official grade",
+        "updatedAt": "timestamp",
+        "overrides": "map assessment IDs to number 0..100 hypothetical percent"
+      }
+    },
+    "savedReadings/{id}": {
+      "required": {
+        "pageId": "positive integer",
+        "title": "string 1..240",
+        "excerpt": "string 1..8000 plain text",
+        "sourceUrl": "https://en.wikipedia.org/wiki/...",
+        "revisionId": "positive integer",
+        "revisionUrl": "https://en.wikipedia.org/w/index.php?oldid=...",
+        "revisionTimestamp": "ISO-8601 UTC string YYYY-MM-DDTHH:mm:ssZ",
+        "licenseTitle": "string 1..80",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/{digit}.{digit}/ with optional literal deed.en suffix; preserve the API URL",
+        "attribution": "string 1..500",
+        "modificationNotice": "string 1..240",
+        "savedAt": "timestamp",
+        "pageKey": "string 1..240, MediaWiki page key",
+        "retrievedAt": "timestamp"
+      },
+      "optional": {
+        "courseId": "string ID"
+      },
+      "immutable": true,
+      "capacity": "New records require readingShelfVersion 1 and membership in savedReadingSlots/s00..s19; snapshots and existing stable IDs remain unchanged. Legacy unversioned existing records allow exact retries and deletion but no new inserts."
+    },
+    "practiceAttempts/{id}": {
+      "required": {
+        "moduleId": "string ID",
+        "correct": "integer 0..total",
+        "total": "integer 1..500",
+        "submittedAt": "timestamp",
+        "version": "positive integer <=1000000"
+      },
+      "immutable": true
+    },
+    "reminders/{id}": {
+      "required": {
+        "moduleId": "string ID",
+        "title": "string 1..120",
+        "dueAt": "timestamp",
+        "enabled": "boolean"
+      },
+      "optional": {
+        "zoneId": "string 1..80, Android ZoneId validates semantics",
+        "updatedAt": "timestamp"
+      }
+    },
+    "reviewProgress/{moduleId}/v{version}": {
+      "required": {
+        "moduleId": "string ID; equal to record key",
+        "version": "positive integer <=1000000; version key equals v+version",
+        "completed": "boolean",
+        "lastSection": "integer 0..1000"
+      },
+      "optional": {
+        "updatedAt": "timestamp"
+      }
+    },
+    "profile/learnerPreferences": {
+      "required": {
+        "schemaVersion": "integer exactly 1",
+        "onboardingComplete": "boolean"
+      },
+      "optional": {
+        "levelId": "string ID",
+        "curriculumVersion": "string ID",
+        "classSectionId": "string ID; preference/filter only, never membership authorization",
+        "subjectIds": "map of string IDs to true; app/option-index codec caps at 20; omit empty map; RTDB rules validate entries but do not enforce total draft cardinality"
+      },
+      "conditional": {
+        "onboardingComplete true": "levelId, curriculumVersion and nonempty subjectIds required; catalog/learnerPreferenceOptions/{curriculumVersion} must have schemaVersion 1, matching curriculumVersion/levelId, approved true, approvalStatus APPROVED and all selected subject IDs true"
+      },
+      "migration": "Absence produces empty incomplete preferences in memory. Draft IDs may be stale/unsupported; they grant no access and cannot complete onboarding."
+    },
+    "catalog/moduleIndex/{curriculumVersion}/{moduleId}/v{version}": {
+      "required": {
+        "schemaVersion": "integer exactly 1",
+        "moduleId": "string ID equal to module key",
+        "version": "integer 1..1000000; version key exactly v+version",
+        "title": "nonblank string up to 240",
+        "visibility": "PUBLIC only; private assignments must never be placed in authenticated-readable catalog",
+        "applicability": "exact curriculumVersion,levelId,subjectId string IDs; curriculum matches path; optional classIds map IDs to true, up to 1000, omit empty map",
+        "source": "exact title,reference,locator,author,version nonblank strings up to 1000; reference is recorded text and is not fetched",
+        "review": "exact status (APPROVED|DEMONSTRATION_ONLY|REVIEW_PENDING), reviewer,reviewedOn calendar date,approvalReference,permissionReference,adaptationAllowed,redistributionAllowed; permission flags boolean",
+        "textBytes": "declared integer 1..99999 including original manifest plus payload; measured and package-bound by offline candidate preflight, must be reverified on download",
+        "assetBytes": "declared integer 0..104857600; exact total asset bytes measured by maintainer preflight and independently checked on download against the reviewed asset policy, per-file bounds and hashes",
+        "packageSha256": "64 lowercase hex package identity from metadata preflight"
+      },
+      "ownership": "Maintainer-only public metadata; existing catalog rules deny every client create/update/delete, including multi-path mutation. Rules unchanged because no new client writes are introduced.",
+      "immutable": "Module/version/package identity; exact versions coexist. No latest-version alias or fallback is inferred. Local projection does not perform publication or establish actual human approval.",
+      "selection": "Requires complete preferences supported by current option index; match curriculum, level, selected subject and public section applicability; APPROVED plus both permission flags true. No implicit mapping from bsit_demo_v1.",
+      "limits": "Malformed metadata terminates the repository flow. EMPTY is distinct from incomplete/unsupported and from parse/read errors. Metadata cache is not complete lesson/offline-download readiness or server acknowledgment.",
+      "remaining": "Full approved curriculum/policy records, payload inventory/semantics, authoritative publication/revocation, actual S00 choices and private assignment membership remain separate gates."
+    },
+    "catalog/readingStarters/{wiki_pageId_revisionId}": {
+      "required": {
+        "schemaVersion": "integer exactly 1",
+        "kind": "SUPPLEMENTAL only; no approved lesson/curriculum implication",
+        "provider": "ENGLISH_WIKIPEDIA only",
+        "pageId": "positive safe integer <=9007199254740991; path identity wiki_{pageId}_{revisionId}",
+        "pageKey": "nonblank string <=240; valid Unicode",
+        "title": "nonblank string <=240",
+        "description": "original discovery description, nonblank string <=500",
+        "topicQuery": "nonblank string <=120",
+        "revisionId": "positive safe integer; exact gathered revision, not promise of live/current content",
+        "revisionTimestamp": "valid UTC YYYY-MM-DDTHH:mm:ssZ",
+        "sourceUrl": "exact https://en.wikipedia.org/wiki/ plus Java URLEncoder pageKey with spaces %20",
+        "revisionUrl": "exact https://en.wikipedia.org/w/index.php?oldid={revisionId}",
+        "licenseTitle": "nonblank string <=80; preserve API value",
+        "licenseUrl": "exact HTTPS Creative Commons by-sa digit.digit URL ending / or /deed.en",
+        "attribution": "nonblank string <=500",
+        "retrievedAt": "integer Unix milliseconds 0..4102444800000, gathered metadata timestamp"
+      },
+      "access": "Existing authenticated catalog read; all client writes denied. Local seeder only performs granular insert/exact retry and does not publish approved content.",
+      "limits": "1..20 records and raw JSON input <100000 UTF8 bytes in local tooling; runtime rejects >20 or malformed rows. No HTML/article excerpt is bundled in this discovery record.",
+      "semantics": "Display gathered provenance. Open latest reading only after explicit tap; save through immutable owner snapshot path only after live content parse. Metadata cache is not a downloaded reading.",
+      "actualGatheredFile": "backend/seed/reading-starters.json",
+      "sourceEvidence": "research/sources/learning-materials-20261026/inventory.json"
+    },
+    "catalog/modulePackages/{curriculumVersion}/{moduleId}/v{version}": {
+      "required": {
+        "schemaVersion": "integer exactly 1",
+        "manifestJson": "original strictly valid UTF-8 manifest bytes represented as a JSON string; must round-trip unchanged",
+        "textJson": "original strictly valid UTF-8 text payload bytes represented as a JSON string; must round-trip unchanged"
+      },
+      "access": "Authenticated public catalog read, no client create/update/delete. No private assignment content belongs under this public catalog.",
+      "projection": "Local packageCandidate reuses candidate metadata/byte/integrity/review validation and rejects nonempty assets; raw manifest and payload strings preserve packageSha256 identity. No publication, content approval, lesson/answer semantic validation or PDF support is implied.",
+      "limits": "Combined decoded raw manifest plus text payload UTF-8 bytes strictly below 100000. This is not the JSON transport serialization size. All required content must be checked again on device; inventory/interactive semantics belong to B11."
+    },
+    "offlinePackages/{curriculumVersion}/{moduleId}/v{version}": {
+      "required": {
+        "schemaVersion": "integer exactly 1",
+        "moduleId": "string ID equal to module key",
+        "version": "integer 1..1000000 with canonical version key v+version",
+        "curriculumVersion": "string ID equal to curriculum key",
+        "packageSha256": "64 lowercase hex matching exact public index version",
+        "textBytes": "integer 1..99999 equal to exact public index version declaration",
+        "downloadedAt": "integer Unix milliseconds 0..4102444800000; local download time retained on retry",
+        "confirmedAt": "integer Unix milliseconds 0..4102444800000; independent server clock, not ordered against local downloadedAt; repository submits ServerValue.TIMESTAMP and only persists completion locally after acknowledgement"
+      },
+      "ownership": "UID owner only. Catalog reference must exist at create/retry with matching schema, identity, public visibility, a nonnegative integral assetBytes declaration <=104857600 and approved redistribution/adaptation metadata. Matching schema-v1 transport with both raw JSON strings must exist. Catalog clients cannot create references themselves.",
+      "immutable": "Identity, hash, byte declaration and original local downloadedAt remain unchanged on retry. confirmedAt may refresh. The two timestamps use independent local/server clocks and are never ordered against each other. Independently retained versions coexist; remove only the selected version.",
+      "deletion": "Owner remove is allowed even after public version withdrawal. It deletes no progress, scores, attempts or other versions; SDK queued writes and local retention cleanup remain repository responsibilities.",
+      "limits": "This owner-authored receipt cannot prove actual device content validation or storage durability. Rules do not parse or hash the Admin-published raw transport. All locally verified required text/PDF files and acknowledged managed writes jointly establish complete-package readiness; metadata/cache/connection alone do not."
+    },
+    "lessonAttempts/{runId}": {
+      "required": {
+        "schemaVersion": "integer exactly 1",
+        "curriculumVersion": "string ID; catalog applicability binding",
+        "moduleId": "string ID; catalog module identity",
+        "version": "positive integer <=1000000; immutable catalog version",
+        "packageSha256": "lowercase SHA-256; exact catalog package identity",
+        "lessonId": "string ID; verified payload parser validates authored membership",
+        "runId": "string ID equal to record key; deliberate new run has a new ID",
+        "startedAt": "integer timestamp 0..4102444800000",
+        "completedAt": "integer timestamp >=startedAt, <=4102444800000; fixed before first submission",
+        "totalSteps": "integer 1..1000",
+        "resolvedSteps": "integer equal to totalSteps",
+        "totalChecks": "integer 1..500, <=totalSteps",
+        "firstTryCorrect": "integer 0..totalChecks",
+        "assistedChecks": "integer 0..totalChecks",
+        "incorrectChecks": "integer 0..totalChecks; may overlap assisted checks",
+        "responsesJson": "nonempty deterministic JSON string <=60000 UTF-16 code units; app parser validates question state semantics"
+      },
+      "immutable": true,
+      "deletion": "denied for accepted attempts, including ancestor deletion; existing legacy record deletion still works when no lesson attempts exist",
+      "retry": "exact same fields and values only; accepted exact retries survive catalog version withdrawal",
+      "publication": "new completion requires matching PUBLIC catalog/moduleIndex/{curriculumVersion}/{moduleId}/v{version}, schema 1, APPROVED status and adaptation/redistribution permission; after both index and payload withdrawal, RETAIN_EXISTING_PRIVATE_COPIES history may authorize a matching private completion only with exact schema/context/module/version/hash history and an existing owner offlinePackages receipt confirmed no later than withdrawal; REVIEW_REQUIRED_FOR_RETAINED_COPIES remains denied",
+      "separation": "self-reported instructional results only; no course score mutation or mastery certification; mutable drafts are UID-bound local atomic snapshots only"
+    },
+    "readingShelfVersion": {
+      "value": "integer exactly 1",
+      "activation": "Client creation requires old savedReadings and savedReadingSlots absent; immutable while user subtree remains. Nonempty legacy shelves require trusted lossless migration."
+    },
+    "savedReadingSlots/{slot}": {
+      "slotKey": "s00..s19 only",
+      "value": "stable saved-reading ID string",
+      "invariant": "Every occupied slot points to a final source snapshot. Old slots cannot clear/repoint while that source remains. Source removal requires its annotation and context absent in the same atomic update. Duplicated aliases consume capacity and must all be removed during source deletion."
+    },
+    "readingAnnotations/{readingId}": {
+      "required": {
+        "snapshotRevisionId": "positive safe integer equal to savedReadings/{readingId}/revisionId",
+        "excerptLength": "integer 1..8000 equal to saved excerpt UTF-16 length",
+        "note": "string length 0..4000 UTF-16 characters",
+        "position": "integer 0..excerptLength inclusive",
+        "editId": "stable ID",
+        "modifiedAt": "bounded integral client timestamp"
+      },
+      "mutable": true,
+      "ownership": "active version-1 shelf and existing owned snapshot required",
+      "deletion": "source deletion removes annotation, source, every matching slot and optional context reference atomically; local disappearance is not acknowledgement"
+    },
+    "readingContexts/{readingId}": {
+      "required": {
+        "schemaVersion": "integer exactly 1",
+        "contextId": "stable registry ID"
+      },
+      "immutable": true,
+      "creation": "Active shelf + existing source; APPROVED registry and current approved supported learner preferences; module index/package/applicability or current verified course plan/category match. Weak context courseId must equal source snapshot courseId. Native verifies manifest concept membership; RTDB cannot parse manifestJson.",
+      "retry": "Exact reference retry survives registry withdrawal; new association does not.",
+      "deletion": "Cannot remove or reassign while source exists; remove atomically with source and all its slots/annotation."
+    },
+    "lessonCompletionIndex/{curriculumVersion}": {
+      "required": {
+        "count": "integer1..1000000 protected append-one counter",
+        "lastKey": "moduleId:v{version}:lessonId of exactly one newly appended entry",
+        "entries/{key}": "immutable exact {runId,curriculumVersion,moduleId,version,lessonId}"
+      },
+      "proof": "Existing acknowledged own lessonAttempts/runId with exact tuple/completed steps and maintainer catalog/sharingLessonKeys/curriculumVersion/key equal to exact package SHA256. Neither proof can be manufactured in the same write.",
+      "write": "Atomic PATCH count+lastKey+entries/key. Parent validates oldcount+1 and old absence/new presence; every new entry equals lastKey. No parent write grant or deletion; duplicate runs cannot increase count. Empty absent index means zero."
+    },
+    "catalog/sharingLessonKeys/{curriculumVersion}/{moduleId}:v{version}:{lessonId}": {
+      "value": "exact SHA256 of independently published authored lesson package; trusted maintainer only",
+      "note": "Derived from validated authored payload lesson IDs; arbitrary/synthesized review identifiers are not independently supported completion sources."
+    }
+  },
+  "catalogContracts": {
+    "courses/{courseId}": {
+      "prerequisitesKnown": "boolean, required; false keeps the selected result UNKNOWN even with a valid nested expression; true alone is not reviewed curriculum/policy approval",
+      "ruleKind": "legacy NONE | ALL_OF | ANY_OF; absent/unsupported kind stays UNKNOWN; explicit NONE survives RTDB empty-map removal",
+      "prerequisiteCourseIds": "legacy map courseId->literal true; ALL_OF/ANY_OF require a nonempty valid list, NONE requires no references; malformed values are not silently dropped",
+      "prerequisiteExpression": {
+        "optional": true,
+        "required": {
+          "schemaVersion": "numeric value exactly 1",
+          "expression": "one strict node object; no unknown/missing fields"
+        },
+        "nodeFields": {
+          "NONE": "exact kind; explicitly no prerequisite",
+          "UNKNOWN": "exact kind,reason; nonblank reason <=240 characters",
+          "COURSE": "exact kind,courseId; ID matches [A-Za-z0-9_-]{1,64}",
+          "AND": "exact kind,children; nonempty ordered children",
+          "OR": "exact kind,children; nonempty ordered children"
+        },
+        "children": "SDK list or map with exact contiguous decimal string keys 0..n-1; sparse, leading-zero, non-string, null and unexpected children rejected; encoder emits maps",
+        "limits": {
+          "maximumDepthRootIsOne": 8,
+          "maximumNodesPerExpression": 64,
+          "maximumChildrenPerGroup": 16,
+          "maximumDistinctReferencesPerExpression": 32,
+          "maximumCatalogCourses": 200
+        },
+        "validation": "Native codec/adapter validate exact fields, types, bounds, unique course IDs, duplicate references anywhere in each expression, catalog membership and self/indirect cycles before evaluation. Any invalid catalog yields UNKNOWN with a specific reason, including when entered records say PASSED. Direct domain callers receive the same graph checks.",
+        "compatibility": "Absent nested field retains legacy parsing. Present malformed nested data retains its invalid reason and never falls back to legacy NONE. Entire graph validation precedes prerequisitesKnown gating, so an unavailable flag cannot hide an invalid graph. No catalog or owner record is rewritten.",
+        "accessAndPolicyBoundary": "Existing catalog rules deny all client publication; no new client write path or automatic catalog approval. This component is native syntax/graph validation only, not trusted maintainer publication enforcement or the still-open BR01 reviewed curriculum/policy capability gate. All completion results remain self-reported/advisory."
+      },
+      "gradePlan": {
+        "version": "demo_linear_v1; immutable meaning once published, create a new version for changes",
+        "assessmentPlanKnown": true,
+        "verified": false,
+        "label": "Demonstration assessment plan; not an actual syllabus",
+        "categories": "map categoryId->{weight fractional 0..1 summing to 1, aggregation POOLED_POINTS | EQUAL_ITEMS | EXPLICIT_WEIGHTS, assessments map assessmentId->{title,possiblePoints,optional explicitWeight}}",
+        "completePlannedAssessments": [
+          "quiz_1",
+          "quiz_2",
+          "midterm",
+          "final"
+        ],
+        "missingScoreSemantics": "Overlay a missing score record as UNGRADED, never infer finality from saved record count; require matching planVersion, courseId, categoryId, assessmentId, possiblePoints before overlay."
+      }
+    },
+    "readingContexts/{contextId}": {
+      "commonExactFields": {
+        "schemaVersion": "integer exactly 1",
+        "kind": "MODULE_CONCEPT | WEAK_CATEGORY",
+        "curriculumVersion": "stable ID",
+        "subjectId": "stable ID",
+        "query": "nonblank string 1..120",
+        "review": "exact status, reviewer, reviewedOn, approvalReference"
+      },
+      "review": {
+        "status": "APPROVED | DEMONSTRATION_ONLY | REVIEW_PENDING | WITHDRAWN",
+        "reviewer": "nonblank string <=120",
+        "reviewedOn": "YYYY-MM-DD",
+        "approvalReference": "nonblank string <=240"
+      },
+      "moduleConceptExactAdditionalFields": {
+        "moduleId": "stable ID",
+        "moduleVersion": "integer 1..1000000",
+        "packageSha256": "64 lower-case hexadecimal characters",
+        "conceptId": "stable ID"
+      },
+      "weakCategoryExactAdditionalFields": {
+        "courseId": "stable ID",
+        "planVersion": "stable ID",
+        "categoryId": "stable ID"
+      },
+      "publication": "Maintainer-owned immutable definition identity; client writes denied. Query approval never approves a returned article, course completion, or policy."
+    },
+    "academicPolicies/{curriculumVersion}": {
+      "schemaVersion": 1,
+      "clientWrite": false,
+      "fields": "AcademicPolicyRecords exact schema: curriculum/level/sector/subjects, reviewer/date/source/context/approval, revision/validity, independent capabilities+approvalRefs, coursePlans subject/plan binding",
+      "enforcement": "Fail closed UI/domain/repository and rules; higher education required for GWA/prerequisites; scores validate catalog category/assessment/possiblePoints; new rows require exact current binding; old unbound rows are retained but excluded from active interpretation",
+      "humanReview": "Trusted publisher must verify provenance and applicability; rules do not establish human approval from a boolean"
+    },
+    "modulePublicationHistory/{curriculumVersion}/{moduleId}/v{version}": {
+      "clientWrite": false,
+      "purpose": "Public-safe immutable version/hash/evidence digests, publication actor/time and withdrawal tombstone; no credentials or private review artifacts",
+      "atomicity": "CAS publication/withdrawal updates catalog summary, payload and history atomically; exact retry idempotent, collision and withdrawn re-publication denied"
+    }
+  },
+  "learnerPreferenceOptionIndex": {
+    "path": "catalog/learnerPreferenceOptions/{curriculumVersion}",
+    "clientWrites": false,
+    "fields": {
+      "schemaVersion": "integer exactly 1",
+      "curriculumVersion": "string ID matching key",
+      "levelId": "string ID",
+      "subjectIds": "nonempty map of up to 20 string IDs to true",
+      "approved": "boolean",
+      "approvalStatus": "APPROVED | DEMONSTRATION_ONLY | REVIEW_PENDING"
+    },
+    "note": "Read-only option index, not full curriculum/policy provenance. Actual S00 approved options and publication integration remain pending. No option records are added to the demonstration seed."
+  },
+  "readingShelfMigration": {
+    "tool": "backend/scripts/migrate-reading-shelf.mjs DEMO_NAMESPACE UID [--apply]",
+    "scope": "fixed local emulator 127.0.0.1:9000 only, dry run by default; explicit demo namespace and UID",
+    "preservation": "Validated snapshots keep IDs and complete field values. Unrelated fields and exported priority metadata preserved. ETag conditional full-user PUT refuses stale concurrent writes; full export readback must match. No source/private bodies printed.",
+    "refusals": "More than20 readings, malformed snapshots, source priority wrappers, unknown shelf version, partial old index, unvalidated legacy companions; never truncate/prune.",
+    "offlineBoundary": "Native durable UID-owned pending snapshots must survive old-client insert rejection and be reissued with atomic slot claims; trusted migration cannot certify another installation has no queued writes.",
+    "contract": "implementation/phases/04-ppt-spec-alignment/04-backend-api-reading-context/reading-shelf-contract.md"
+  },
+  "familySharing": {
+    "contract": "implementation/phases/04-ppt-spec-alignment/07-backend-family-sharing/network-sharing-contract.md",
+    "policy": "catalog/sharingPolicies/{contextId}; trusted reviewed applicable HUMAN_REVIEW_RECORDED policy. Missing/unsupported/currently invalid policy denies sharing. Only completedLessonCount+asOf supported.",
+    "eligibility": "sharingEligibility/{ownerUid}/{contextId}; trusted owner/context/curriculum/level/role/model/consent reference+validity. Owner exact read; no client write.",
+    "recipientRole": "sharingRecipientRoles/{recipientUid}/{contextId}; exact recipientUid/contextId/recipientRole/validUntil; recipient exact read, no client write.",
+    "acceptance": "familyAcceptances/{ownerUid}/{a00..a49}; independently authenticated non-owner recipient creates immutable exact policy/consent/scope/expiry binding; owner can inspect its collection; recipient exact own record only.",
+    "slots": "sharedStudy/{ownerUid}/{g0..g4}; atomic {grant,projection?} envelope. Owner reads/conditional writes. Active grant immutable, revoke retains exact generation/identity and removes projection, regrant generation+1. Revocation remains usable after policy withdrawal.",
+    "projection": "Exact schemaVersion/ownerUid/recipientUid/slotId/generation/contextId/policyRevision/expiresAt/summary. Summary exactly completedLessonCount+asOf. Count must equal protected curriculum source at write. Recipient exact projection read only under current policy/eligibility/role/acceptance/status/generation/expiry; ancestor/private reads denied.",
+    "transport": "Fresh forced Firebase Auth token and authenticated HTTPS REST for every request. No shared-summary SDK/durable cache. Current trusted role/policy withdrawal is checked each request; Admin Auth checkRevoked cannot be represented as equivalent on Spark rules alone.",
+    "synthetic": "Production rules have no synthetic enable branch. Isolated demo-only generated rules require exact namespace test control and mock_computing_v1. No fixture claims real consent or approval."
+  }
+}

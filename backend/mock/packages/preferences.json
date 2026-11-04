@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "curriculumVersion": "mock_computing_v1",
+  "levelId": "mock_college",
+  "subjectIds": {
+    "computing": true
+  },
+  "onboardingComplete": true
+}

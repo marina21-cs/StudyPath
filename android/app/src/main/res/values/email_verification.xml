@@ -1,0 +1,36 @@
+<resources>
+    <string name="verification_heading">Verify your email.</string>
+    <string name="verification_intro">Verify now or finish later in Account.</string>
+    <string name="verification_created">Your account is created. Choose Send verification email when you are ready.</string>
+    <string name="verification_pending">Email not verified. Send a link, open it in your email, then choose I\'ve verified.</string>
+    <string name="verification_email">Account email: %1$s</string>
+    <string name="verification_send">Send verification email</string>
+    <string name="verification_resend">Resend verification email</string>
+    <string name="verification_wait">Resend in %1$d s</string>
+    <string name="verification_check">I\'ve verified</string>
+    <string name="verification_open_email">Open email app</string>
+    <string name="verification_continue">Continue studying</string>
+    <string name="verification_later">You can verify later. Your saved work is kept.</string>
+    <string name="verification_help">Check Inbox and Spam. Delivery may take a moment.</string>
+    <string name="verification_local_help">Test build: use the verification link on your test computer. No email is sent.</string>
+    <string name="verification_sending">Requesting a verification email…</string>
+    <string name="verification_checking">Checking your email verification…</string>
+    <string name="verification_requested">Check your email for a verification link.</string>
+    <string name="verification_local_requested">Local verification link created on the test computer. No real email was sent. After the test link is opened, choose I\'ve verified.</string>
+    <string name="verification_verified">Email verified. You can continue studying.</string>
+    <string name="verification_still_pending">This email is still unverified. Open the link in your email, then check again.</string>
+    <string name="verification_send_failed">Your account is created. The verification email request failed. You can retry after the countdown or continue studying.</string>
+    <string name="verification_send_timeout">An email may still arrive. Check Inbox and Spam before trying again.</string>
+    <string name="verification_check_timeout">Verification could not be checked in time. Your saved work is kept. Reconnect and check again.</string>
+    <string name="verification_check_failed">Could not check verification. Reconnect and try again. Your saved work is kept.</string>
+    <string name="verification_throttled">Too many verification requests. Wait before trying again. Your account and saved work are kept.</string>
+    <string name="verification_session_changed">Return to the original signed-in account to verify its email. Your saved work is kept.</string>
+    <string name="verification_account_unavailable">This account could not be refreshed. Sign in again with the original account. Your saved work is kept.</string>
+    <string name="verification_interrupted">The verification request stopped waiting. An email request may still finish. You can check again or continue studying.</string>
+    <string name="verification_no_mail_app">No email app is available. Open your email in a browser, follow the verification link, then return here.</string>
+    <string name="verification_account_pending">Email not verified · you can confirm it when online.</string>
+    <string name="verification_account_verified">Email verified</string>
+    <string name="verification_account_action">Verify email</string>
+    <string name="verification_account_recheck">Check email verification</string>
+    <string name="verification_progress">Email verification request in progress</string>
+</resources>

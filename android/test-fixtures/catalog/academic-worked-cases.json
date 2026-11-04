@@ -1,0 +1,2108 @@
+{
+  "schemaVersion": 1,
+  "title": "StudyPath mock academic reference cases",
+  "mockOnly": true,
+  "authoringMethod": "Explicit independently written rational arithmetic, decimal rounding and three-valued reference reasoning; no production engine generated expected values.",
+  "externallyReviewed": false,
+  "institutionallyApproved": false,
+  "caseCount": 50,
+  "scope": "Raw arithmetic, explicit mock-policy guards and recorded-completion logic; not real policy/content approval or final planner/device acceptance.",
+  "referencePolicy": {
+    "curriculumVersion": "case_curriculum",
+    "levelId": "case_college",
+    "educationSector": "HIGHER_EDUCATION",
+    "subjectId": "computing",
+    "courseId": "one",
+    "planVersion": "plan_v1",
+    "policyRevision": 1,
+    "reviewedAt": 1,
+    "validFrom": 1,
+    "validUntil": 4102444800000,
+    "nowMs": 1800000000000,
+    "approvalReferences": "SYNTHETIC_TEST_ONLY",
+    "gwaScale": {
+      "id": "mock_numeric",
+      "minimum": 0,
+      "maximum": 100
+    }
+  },
+  "cases": [
+    {
+      "id": "G01-pooled-unequal-points",
+      "kind": "GRADE",
+      "assumptions": [
+        "Raw percent arithmetic; no institutional conversion or rounding.",
+        "Listed assessment inventory is complete."
+      ],
+      "input": {
+        "categories": [
+          {
+            "id": "work",
+            "weight": 1,
+            "aggregation": "POOLED_POINTS",
+            "assessments": [
+              {
+                "id": "short",
+                "possiblePoints": 10,
+                "earnedPoints": 7,
+                "status": "SCORED"
+              },
+              {
+                "id": "long",
+                "possiblePoints": 60,
+                "earnedPoints": 36,
+                "status": "SCORED"
+              }
+            ]
+          }
+        ],
+        "assessmentPlanKnown": true,
+        "targetPercent": 60
+      },
+      "expected": {
+        "gradedWorkPercent": "430/7",
+        "minimumFinalPercent": "430/7",
+        "maximumFinalPercent": "430/7",
+        "remainingWeight": "0",
+        "complete": true,
+        "target": {
+          "status": "FINAL_MET",
+          "requiredRemainingPercent": null
+        }
+      },
+      "workedExplanation": "Pool actual points: 43 of 70, so 100\u00d743/70 = 430/7 percent. There is no remaining work.",
+      "arithmeticWitnesses": {
+        "gradedWorkPercent": "(7+36)/(10+60)*100",
+        "minimumFinalPercent": "43/70*100",
+        "maximumFinalPercent": "43/70*100"
+      }
+    },
+    {
+      "id": "G02-equal-items-same-points",
+      "kind": "GRADE",
+      "assumptions": [
+        "Raw percent arithmetic; no institutional conversion or rounding.",
+        "Listed assessment inventory is complete."
+      ],
+      "input": {
+        "categories": [
+          {
+            "id": "work",
+            "weight": 1,
+            "aggregation": "EQUAL_ITEMS",
+            "assessments": [
+              {
+                "id": "short",
+                "possiblePoints": 10,
+                "earnedPoints": 7,
+                "status": "SCORED"
+              },
+              {
+                "id": "long",
+                "possiblePoints": 60,
+                "earnedPoints": 36,
+                "status": "SCORED"
+              }
+            ]
+          }
+        ],
+        "assessmentPlanKnown": true,
+        "targetPercent": 66
+      },
+      "expected": {
+        "gradedWorkPercent": "65",
+        "minimumFinalPercent": "65",
+        "maximumFinalPercent": "65",
+        "remainingWeight": "0",
+        "complete": true,
+        "target": {
+          "status": "FINAL_MISSED",
+          "requiredRemainingPercent": null
+        }
+      },
+      "workedExplanation": "Equal-item assumption: the two percentages are 70 and 60; their mean is 65, despite unequal possible points.",
+      "arithmeticWitnesses": {
+        "gradedWorkPercent": "(7/10*100+36/60*100)/2",
+        "minimumFinalPercent": "(70+60)/2"
+      }
+    },
+    {
+      "id": "G03-explicit-items-same-points",
+      "kind": "GRADE",
+      "assumptions": [
+        "Raw percent arithmetic; no institutional conversion or rounding.",
+        "Listed assessment inventory is complete."
+      ],
+      "input": {
+        "categories": [
+          {
+            "id": "work",
+            "weight": 1,
+            "aggregation": "EXPLICIT_WEIGHTS",
+            "assessments": [
+              {
+                "id": "short",
+                "possiblePoints": 10,
+                "earnedPoints": 7,
+                "status": "SCORED",
+                "explicitWeight": 0.2
+              },
+              {
+                "id": "long",
+                "possiblePoints": 60,
+                "earnedPoints": 36,
+                "status": "SCORED",
+                "explicitWeight": 0.8
+              }
+            ]
+          }
+        ],
+        "assessmentPlanKnown": true,
+        "targetPercent": 62
+      },
+      "expected": {
+        "gradedWorkPercent": "62",
+        "minimumFinalPercent": "62",
+        "maximumFinalPercent": "62",
+        "remainingWeight": "0",
+        "complete": true,
+        "target": {
+          "status": "FINAL_MET",
+          "requiredRemainingPercent": null
+        }
+      },
+      "workedExplanation": "Explicit 20/80 item shares give 0.2\u00d770+0.8\u00d760 = 62.",
+      "arithmeticWitnesses": {
+        "gradedWorkPercent": ".2*70+.8*60",
+        "minimumFinalPercent": ".2*70+.8*60"
+      }
+    },
+    {
+      "id": "G04-scored-zero-versus-ungraded",
+      "kind": "GRADE",
+      "assumptions": [
+        "Raw percent arithmetic; no institutional conversion or rounding.",
+        "Listed assessment inventory is complete."
+      ],
+      "input": {
+        "categories": [
+          {
+            "id": "work",
+            "weight": 1,
+            "aggregation": "POOLED_POINTS",
+            "assessments": [
+              {
+                "id": "zero",
+                "possiblePoints": 10,
+                "earnedPoints": 0,
+                "status": "SCORED"
+              },
+              {
+                "id": "future",
+                "possiblePoints": 10,
+                "earnedPoints": null,
+                "status": "UNGRADED"
+              }
+            ]
+          }
+        ],
+        "assessmentPlanKnown": true,
+        "targetPercent": 40
+      },
+      "expected": {
+        "gradedWorkPercent": "0",
+        "minimumFinalPercent": "0",
+        "maximumFinalPercent": "50",
+        "remainingWeight": ".5",
+        "complete": false,
+        "target": {
+          "status": "NEEDS_REMAINING",
+          "requiredRemainingPercent": "80"
+        }
+      },
+      "workedExplanation": "A recorded zero contributes zero; the ungraded half can still contribute up to 50. A 40 target needs 80 on the remaining half.",
+      "arithmeticWitnesses": {
+        "maximumFinalPercent": "100*10/20",
+        "remainingWeight": "10/20",
+        "target.requiredRemainingPercent": "(40-0)/.5"
+      }
+    },
+    {
+      "id": "G05-no-scored-work",
+      "kind": "GRADE",
+      "assumptions": [
+        "Raw percent arithmetic; no institutional conversion or rounding.",
+        "Listed assessment inventory is complete."
+      ],
+      "input": {
+        "categories": [
+          {
+            "id": "work",
+            "weight": 1,
+            "aggregation": "POOLED_POINTS",
+            "assessments": [
+              {
+                "id": "small",
+                "possiblePoints": 20,
+                "earnedPoints": null,
+                "status": "UNGRADED"
+              },
+              {
+                "id": "large",
+                "possiblePoints": 80,
+                "earnedPoints": null,
+                "status": "UNGRADED"
+              }
+            ]
+          }
+        ],
+        "assessmentPlanKnown": true,
+        "targetPercent": 75
+      },
+      "expected": {
+        "gradedWorkPercent": null,
+        "minimumFinalPercent": "0",
+        "maximumFinalPercent": "100",
+        "remainingWeight": "1",
+        "complete": false,
+        "target": {
+          "status": "NEEDS_REMAINING",
+          "requiredRemainingPercent": "75"
+        }
+      },
+      "workedExplanation": "No observed grade exists; the whole 100-point inventory remains. A 75 target needs 75 percent of the remaining work.",
+      "arithmeticWitnesses": {
+        "remainingWeight": "(20+80)/100",
+        "target.requiredRemainingPercent": "(75-0)/1"
+      }
+    },
+    {
+      "id": "G06-partial-pooled-inventory",
+      "kind": "GRADE",
+      "assumptions": [
+        "Raw percent arithmetic; no institutional conversion or rounding.",
+        "Listed assessment inventory is complete."
+      ],
+      "input": {
+        "categories": [
+          {
+            "id": "work",
+            "weight": 1,
+            "aggregation": "POOLED_POINTS",
+            "assessments": [
+              {
+                "id": "done",
+                "possiblePoints": 15,
+                "earnedPoints": 9,
+                "status": "SCORED"
+              },
+              {
+                "id": "future",
+                "possiblePoints": 45,
+                "earnedPoints": null,
+                "status": "UNGRADED"
+              }
+            ]
+          }
+        ],
+        "assessmentPlanKnown": true,
+        "targetPercent": 75
+      },
+      "expected": {
+        "gradedWorkPercent": "60",
+        "minimumFinalPercent": "15",
+        "maximumFinalPercent": "90",
+        "remainingWeight": ".75",
+        "complete": false,
+        "target": {
+          "status": "NEEDS_REMAINING",
+          "requiredRemainingPercent": "80"
+        }
+      },
+      "workedExplanation": "Nine earned points of a final 60 give a 15-point contribution; 45/60 remains. (75\u221215)/(45/60)=80.",
+      "arithmeticWitnesses": {
+        "gradedWorkPercent": "9/15*100",
+        "minimumFinalPercent": "9/60*100",
+        "maximumFinalPercent": "(9+45)/60*100",
+        "remainingWeight": "45/60",
+        "target.requiredRemainingPercent": "(75-15)/(45/60)"
+      }
+    },
+    {
+      "id": "G07-partial-category-weight",
+      "kind": "GRADE",
+      "assumptions": [
+        "Raw percent arithmetic; no institutional conversion or rounding.",
+        "Listed assessment inventory is complete."
+      ],
+      "input": {
+        "categories": [
+          {
+            "id": "quiz",
+            "weight": 0.4,
+            "aggregation": "POOLED_POINTS",
+            "assessments": [
+              {
+                "id": "done",
+                "possiblePoints": 10,
+                "earnedPoints": 9,
+                "status": "SCORED"
+              },
+              {
+                "id": "future",
+                "possiblePoints": 30,
+                "earnedPoints": null,
+                "status": "UNGRADED"
+              }
+            ]
+          },
+          {
+            "id": "exam",
+            "weight": 0.6,
+            "aggregation": "POOLED_POINTS",
+            "assessments": [
+              {
+                "id": "exam",
+                "possiblePoints": 100,
+                "earnedPoints": null,
+                "status": "UNGRADED"
+              }
+            ]
+          }
+        ],
+        "assessmentPlanKnown": true,
+        "targetPercent": 72
+      },
+      "expected": {
+        "gradedWorkPercent": "90",
+        "minimumFinalPercent": "9",
+        "maximumFinalPercent": "99",
+        "remainingWeight": ".9",
+        "complete": false,
+        "target": {
+          "status": "NEEDS_REMAINING",
+          "requiredRemainingPercent": "70"
+        }
+      },
+      "workedExplanation": "Completed work owns only 0.4\u00d710/40 = 0.1 of the final grade. Its 90 percent yields 9; the remaining 0.9 can add 90. Target 72 needs 70.",
+      "arithmeticWitnesses": {
+        "minimumFinalPercent": ".4*(10/40)*(9/10*100)",
+        "remainingWeight": ".4*(30/40)+.6",
+        "maximumFinalPercent": "9+100*.9",
+        "target.requiredRemainingPercent": "(72-9)/.9"
+      }
+    },
+    {
+      "id": "G08-weighted-complete-categories",
+      "kind": "GRADE",
+      "assumptions": [
+        "Raw percent arithmetic; no institutional conversion or rounding.",
+        "Listed assessment inventory is complete."
+      ],
+      "input": {
+        "categories": [
+          {
+            "id": "quiz",
+            "weight": 0.25,
+            "aggregation": "EQUAL_ITEMS",
+            "assessments": [
+              {
+                "id": "a",
+                "possiblePoints": 10,
+                "earnedPoints": 8,
+                "status": "SCORED"
+              },
+              {
+                "id": "b",
+                "possiblePoints": 20,
+                "earnedPoints": 15,
+                "status": "SCORED"
+              }
+            ]
+          },
+          {
+            "id": "exam",
+            "weight": 0.75,
+            "aggregation": "POOLED_POINTS",
+            "assessments": [
+              {
+                "id": "exam",
+                "possiblePoints": 50,
+                "earnedPoints": 45,
+                "status": "SCORED"
+              }
+            ]
+          }
+        ],
+        "assessmentPlanKnown": true,
+        "targetPercent": 86.875
+      },
+      "expected": {
+        "gradedWorkPercent": "695/8",
+        "minimumFinalPercent": "695/8",
+        "maximumFinalPercent": "695/8",
+        "remainingWeight": "0",
+        "complete": true,
+        "target": {
+          "status": "FINAL_MET",
+          "requiredRemainingPercent": null
+        }
+      },
+      "workedExplanation": "The quiz mean is (80+75)/2=77.5. One-quarter of that plus three-quarters of 90 is 86.875; no early rounding.",
+      "arithmeticWitnesses": {
+        "gradedWorkPercent": ".25*((80+75)/2)+.75*90",
+        "minimumFinalPercent": ".25*((80+75)/2)+.75*90"
+      }
+    },
+    {
+      "id": "G09-excused-pooled-renormalization",
+      "kind": "GRADE",
+      "assumptions": [
+        "Raw percent arithmetic; no institutional conversion or rounding.",
+        "Listed assessment inventory is complete."
+      ],
+      "input": {
+        "categories": [
+          {
+            "id": "work",
+            "weight": 1,
+            "aggregation": "POOLED_POINTS",
+            "assessments": [
+              {
+                "id": "a",
+                "possiblePoints": 10,
+                "earnedPoints": 8,
+                "status": "SCORED"
+              },
+              {
+                "id": "excused",
+                "possiblePoints": 100,
+                "earnedPoints": null,
+                "status": "EXCUSED"
+              },
+              {
+                "id": "b",
+                "possiblePoints": 10,
+                "earnedPoints": 2,
+                "status": "SCORED"
+              }
+            ]
+          }
+        ],
+        "assessmentPlanKnown": true
+      },
+      "expected": {
+        "gradedWorkPercent": "50",
+        "minimumFinalPercent": "50",
+        "maximumFinalPercent": "50",
+        "remainingWeight": "0",
+        "complete": true
+      },
+      "workedExplanation": "The explicitly excused 100-point item leaves the denominator. Remaining scores total 10 of 20 = 50 percent.",
+      "arithmeticWitnesses": {
+        "gradedWorkPercent": "(8+2)/(10+10)*100",
+        "minimumFinalPercent": "10/20*100"
+      }
+    },
+    {
+      "id": "G10-excused-explicit-renormalization",
+      "kind": "GRADE",
+      "assumptions": [
+        "Raw percent arithmetic; no institutional conversion or rounding.",
+        "Listed assessment inventory is complete."
+      ],
+      "input": {
+        "categories": [
+          {
+            "id": "work",
+            "weight": 1,
+            "aggregation": "EXPLICIT_WEIGHTS",
+            "assessments": [
+              {
+                "id": "a",
+                "possiblePoints": 10,
+                "earnedPoints": 7,
+                "status": "SCORED",
+                "explicitWeight": 0.2
+              },
+              {
+                "id": "excused",
+                "possiblePoints": 10,
+                "earnedPoints": null,
+                "status": "EXCUSED",
+                "explicitWeight": 0.3
+              },
+              {
+                "id": "b",
+                "possiblePoints": 10,
+                "earnedPoints": 8,
+                "status": "SCORED",
+                "explicitWeight": 0.5
+              }
+            ]
+          }
+        ],
+        "assessmentPlanKnown": true
+      },
+      "expected": {
+        "gradedWorkPercent": "540/7",
+        "minimumFinalPercent": "540/7",
+        "maximumFinalPercent": "540/7",
+        "remainingWeight": "0",
+        "complete": true
+      },
+      "workedExplanation": "Remove the excused 0.3 share and divide the surviving 14+40 contributions by 0.7: 540/7 percent.",
+      "arithmeticWitnesses": {
+        "gradedWorkPercent": "(.2*70+.5*80)/(.2+.5)",
+        "minimumFinalPercent": "(14+40)/.7"
+      }
+    },
+    {
+      "id": "G11-unknown-inventory-no-projection",
+      "kind": "GRADE",
+      "assumptions": [
+        "Raw percent arithmetic; no institutional conversion or rounding.",
+        "Inventory is a snapshot; future assessment inventory is unknown."
+      ],
+      "input": {
+        "categories": [
+          {
+            "id": "work",
+            "weight": 1,
+            "aggregation": "EQUAL_ITEMS",
+            "assessments": [
+              {
+                "id": "done",
+                "possiblePoints": 20,
+                "earnedPoints": 18,
+                "status": "SCORED"
+              },
+              {
+                "id": "future",
+                "possiblePoints": 20,
+                "earnedPoints": null,
+                "status": "UNGRADED"
+              }
+            ]
+          }
+        ],
+        "assessmentPlanKnown": false,
+        "targetPercent": 80
+      },
+      "expected": {
+        "gradedWorkPercent": "90",
+        "minimumFinalPercent": null,
+        "maximumFinalPercent": null,
+        "remainingWeight": null,
+        "complete": false,
+        "target": {
+          "status": "UNKNOWN_PLAN",
+          "requiredRemainingPercent": null
+        }
+      },
+      "workedExplanation": "The observed 18/20 is 90 percent. Unknown future inventory makes exact final bounds and required score unavailable.",
+      "arithmeticWitnesses": {
+        "gradedWorkPercent": "18/20*100"
+      }
+    },
+    {
+      "id": "G12-unknown-inventory-observed-category",
+      "kind": "GRADE",
+      "assumptions": [
+        "Raw percent arithmetic; no institutional conversion or rounding.",
+        "Inventory is a snapshot; future assessment inventory is unknown."
+      ],
+      "input": {
+        "categories": [
+          {
+            "id": "observed",
+            "weight": 0.3,
+            "aggregation": "POOLED_POINTS",
+            "assessments": [
+              {
+                "id": "done",
+                "possiblePoints": 10,
+                "earnedPoints": 6,
+                "status": "SCORED"
+              }
+            ]
+          },
+          {
+            "id": "unobserved",
+            "weight": 0.7,
+            "aggregation": "POOLED_POINTS",
+            "assessments": [
+              {
+                "id": "unknown",
+                "possiblePoints": 10,
+                "earnedPoints": null,
+                "status": "UNGRADED"
+              }
+            ]
+          }
+        ],
+        "assessmentPlanKnown": false
+      },
+      "expected": {
+        "gradedWorkPercent": "60",
+        "minimumFinalPercent": null,
+        "maximumFinalPercent": null,
+        "remainingWeight": null,
+        "complete": false
+      },
+      "workedExplanation": "Only the first category has observed work: its snapshot is 60. The absent-category inventory cannot turn that observation into a projected final 18.",
+      "arithmeticWitnesses": {
+        "gradedWorkPercent": "(.3*60)/.3"
+      }
+    },
+    {
+      "id": "G13-target-already-secured",
+      "kind": "GRADE",
+      "assumptions": [
+        "Raw percent arithmetic; no institutional conversion or rounding.",
+        "Listed assessment inventory is complete."
+      ],
+      "input": {
+        "categories": [
+          {
+            "id": "work",
+            "weight": 1,
+            "aggregation": "POOLED_POINTS",
+            "assessments": [
+              {
+                "id": "done",
+                "possiblePoints": 100,
+                "earnedPoints": 80,
+                "status": "SCORED"
+              },
+              {
+                "id": "future",
+                "possiblePoints": 25,
+                "earnedPoints": null,
+                "status": "UNGRADED"
+              }
+            ]
+          }
+        ],
+        "assessmentPlanKnown": true,
+        "targetPercent": 60
+      },
+      "expected": {
+        "gradedWorkPercent": "80",
+        "minimumFinalPercent": "64",
+        "maximumFinalPercent": "84",
+        "remainingWeight": ".2",
+        "complete": false,
+        "target": {
+          "status": "ALREADY_SECURED",
+          "requiredRemainingPercent": "0"
+        }
+      },
+      "workedExplanation": "Eighty earned points over final possible 125 secure 64 percent even with zero on the remaining 25. A 60 target needs no additional points.",
+      "arithmeticWitnesses": {
+        "minimumFinalPercent": "80/125*100",
+        "maximumFinalPercent": "(80+25)/125*100",
+        "remainingWeight": "25/125"
+      }
+    },
+    {
+      "id": "G14-target-unreachable",
+      "kind": "GRADE",
+      "assumptions": [
+        "Raw percent arithmetic; no institutional conversion or rounding.",
+        "Listed assessment inventory is complete."
+      ],
+      "input": {
+        "categories": [
+          {
+            "id": "work",
+            "weight": 1,
+            "aggregation": "POOLED_POINTS",
+            "assessments": [
+              {
+                "id": "done",
+                "possiblePoints": 100,
+                "earnedPoints": 80,
+                "status": "SCORED"
+              },
+              {
+                "id": "future",
+                "possiblePoints": 25,
+                "earnedPoints": null,
+                "status": "UNGRADED"
+              }
+            ]
+          }
+        ],
+        "assessmentPlanKnown": true,
+        "targetPercent": 90
+      },
+      "expected": {
+        "gradedWorkPercent": "80",
+        "minimumFinalPercent": "64",
+        "maximumFinalPercent": "84",
+        "remainingWeight": ".2",
+        "complete": false,
+        "target": {
+          "status": "UNREACHABLE",
+          "requiredRemainingPercent": "130"
+        }
+      },
+      "workedExplanation": "A 90 target exceeds the best final 84. Algebra gives (90\u221264)/0.2=130, retained as an unreachable requirement.",
+      "arithmeticWitnesses": {
+        "target.requiredRemainingPercent": "(90-64)/.2"
+      }
+    },
+    {
+      "id": "G15-target-at-best-boundary",
+      "kind": "GRADE",
+      "assumptions": [
+        "Raw percent arithmetic; no institutional conversion or rounding.",
+        "Listed assessment inventory is complete."
+      ],
+      "input": {
+        "categories": [
+          {
+            "id": "work",
+            "weight": 1,
+            "aggregation": "POOLED_POINTS",
+            "assessments": [
+              {
+                "id": "done",
+                "possiblePoints": 100,
+                "earnedPoints": 80,
+                "status": "SCORED"
+              },
+              {
+                "id": "future",
+                "possiblePoints": 25,
+                "earnedPoints": null,
+                "status": "UNGRADED"
+              }
+            ]
+          }
+        ],
+        "assessmentPlanKnown": true,
+        "targetPercent": 84
+      },
+      "expected": {
+        "gradedWorkPercent": "80",
+        "minimumFinalPercent": "64",
+        "maximumFinalPercent": "84",
+        "remainingWeight": ".2",
+        "complete": false,
+        "target": {
+          "status": "NEEDS_REMAINING",
+          "requiredRemainingPercent": "100"
+        }
+      },
+      "workedExplanation": "A target exactly at the best final 84 requires 100 on the remaining 20 percent; it is reachable.",
+      "arithmeticWitnesses": {
+        "target.requiredRemainingPercent": "(84-64)/.2"
+      }
+    },
+    {
+      "id": "G16-complete-target-no-division",
+      "kind": "GRADE",
+      "assumptions": [
+        "Raw percent arithmetic; no institutional conversion or rounding.",
+        "Listed assessment inventory is complete."
+      ],
+      "input": {
+        "categories": [
+          {
+            "id": "work",
+            "weight": 1,
+            "aggregation": "POOLED_POINTS",
+            "assessments": [
+              {
+                "id": "done",
+                "possiblePoints": 10,
+                "earnedPoints": 7,
+                "status": "SCORED"
+              }
+            ]
+          }
+        ],
+        "assessmentPlanKnown": true,
+        "targetPercent": 71
+      },
+      "expected": {
+        "gradedWorkPercent": "70",
+        "minimumFinalPercent": "70",
+        "maximumFinalPercent": "70",
+        "remainingWeight": "0",
+        "complete": true,
+        "target": {
+          "status": "FINAL_MISSED",
+          "requiredRemainingPercent": null
+        }
+      },
+      "workedExplanation": "The complete grade is 70, so target 71 is missed. With no remaining weight there is no required-score division.",
+      "arithmeticWitnesses": {
+        "minimumFinalPercent": "7/10*100"
+      }
+    },
+    {
+      "id": "G17-zero-weight-ungraded-item",
+      "kind": "GRADE",
+      "assumptions": [
+        "Raw percent arithmetic; no institutional conversion or rounding.",
+        "Listed assessment inventory is complete."
+      ],
+      "input": {
+        "categories": [
+          {
+            "id": "work",
+            "weight": 1,
+            "aggregation": "EXPLICIT_WEIGHTS",
+            "assessments": [
+              {
+                "id": "done",
+                "possiblePoints": 20,
+                "earnedPoints": 17,
+                "status": "SCORED",
+                "explicitWeight": 1
+              },
+              {
+                "id": "unused",
+                "possiblePoints": 20,
+                "earnedPoints": null,
+                "status": "UNGRADED",
+                "explicitWeight": 0
+              }
+            ]
+          }
+        ],
+        "assessmentPlanKnown": true,
+        "targetPercent": 85
+      },
+      "expected": {
+        "gradedWorkPercent": "85",
+        "minimumFinalPercent": "85",
+        "maximumFinalPercent": "85",
+        "remainingWeight": "0",
+        "complete": true,
+        "target": {
+          "status": "FINAL_MET",
+          "requiredRemainingPercent": null
+        }
+      },
+      "workedExplanation": "The ungraded item has an explicit zero share. The whole assessed grade is 17/20=85 and complete.",
+      "arithmeticWitnesses": {
+        "minimumFinalPercent": "17/20*100",
+        "remainingWeight": "0/1"
+      }
+    },
+    {
+      "id": "G18-missing-has-no-treatment",
+      "kind": "GRADE",
+      "assumptions": [
+        "Raw percent arithmetic; no institutional conversion or rounding.",
+        "Listed assessment inventory is complete."
+      ],
+      "input": {
+        "categories": [
+          {
+            "id": "work",
+            "weight": 1,
+            "aggregation": "POOLED_POINTS",
+            "assessments": [
+              {
+                "id": "done",
+                "possiblePoints": 10,
+                "earnedPoints": 8,
+                "status": "SCORED"
+              },
+              {
+                "id": "missing",
+                "possiblePoints": 10,
+                "earnedPoints": null,
+                "status": "MISSING"
+              }
+            ]
+          }
+        ],
+        "assessmentPlanKnown": true
+      },
+      "expected": {
+        "errorContains": "reviewed treatment"
+      },
+      "workedExplanation": "MISSING is neither an earned zero nor ordinary ungraded work. No reviewed missing-work treatment is provided, so arithmetic must reject it.",
+      "arithmeticWitnesses": {}
+    },
+    {
+      "id": "G19-all-excused-no-denominator",
+      "kind": "GRADE",
+      "assumptions": [
+        "Raw percent arithmetic; no institutional conversion or rounding.",
+        "Listed assessment inventory is complete."
+      ],
+      "input": {
+        "categories": [
+          {
+            "id": "work",
+            "weight": 1,
+            "aggregation": "POOLED_POINTS",
+            "assessments": [
+              {
+                "id": "excused",
+                "possiblePoints": 10,
+                "earnedPoints": null,
+                "status": "EXCUSED"
+              }
+            ]
+          }
+        ],
+        "assessmentPlanKnown": true
+      },
+      "expected": {
+        "errorContains": "replacement policy"
+      },
+      "workedExplanation": "Removing every item leaves no assessed denominator. No replacement policy is supplied, so a numeric result is invalid.",
+      "arithmeticWitnesses": {}
+    },
+    {
+      "id": "G20-invalid-category-total",
+      "kind": "GRADE",
+      "assumptions": [
+        "Raw percent arithmetic; no institutional conversion or rounding.",
+        "Listed assessment inventory is complete."
+      ],
+      "input": {
+        "categories": [
+          {
+            "id": "work",
+            "weight": 0.9,
+            "aggregation": "POOLED_POINTS",
+            "assessments": [
+              {
+                "id": "done",
+                "possiblePoints": 10,
+                "earnedPoints": 8,
+                "status": "SCORED"
+              }
+            ]
+          }
+        ],
+        "assessmentPlanKnown": true
+      },
+      "expected": {
+        "errorContains": "sum to one"
+      },
+      "workedExplanation": "A category inventory totaling 0.9 omits a tenth of the grade; this is not a complete normalized plan.",
+      "arithmeticWitnesses": {}
+    },
+    {
+      "id": "W01-unit-weighted-average",
+      "kind": "GWA",
+      "assumptions": [
+        "Only explicitly included attempts count; numeric scale is a synthetic reference scale.",
+        "Repeated attempts remain separate; inclusion is specified in this case, not inferred."
+      ],
+      "input": {
+        "attempts": [
+          {
+            "attemptId": "one",
+            "courseId": "one",
+            "numericGrade": 1.75,
+            "units": 3,
+            "included": true,
+            "scaleId": "mock_numeric"
+          },
+          {
+            "attemptId": "two",
+            "courseId": "two",
+            "numericGrade": 2.25,
+            "units": 2,
+            "included": true,
+            "scaleId": "mock_numeric"
+          }
+        ]
+      },
+      "expected": {
+        "average": "1.95",
+        "includedUnits": "5",
+        "includedAttemptCount": 2
+      },
+      "workedExplanation": "(3\u00d71.75+2\u00d72.25)/5 = 1.95, not the unweighted mean 2.",
+      "arithmeticWitnesses": {
+        "average": "(3*1.75+2*2.25)/(3+2)",
+        "includedUnits": "3+2"
+      }
+    },
+    {
+      "id": "W02-explicit-retake-exclusion",
+      "kind": "GWA",
+      "assumptions": [
+        "Only explicitly included attempts count; numeric scale is a synthetic reference scale.",
+        "Repeated attempts remain separate; inclusion is specified in this case, not inferred."
+      ],
+      "input": {
+        "attempts": [
+          {
+            "attemptId": "old",
+            "courseId": "repeat",
+            "numericGrade": 5,
+            "units": 3,
+            "included": false,
+            "scaleId": "mock_numeric"
+          },
+          {
+            "attemptId": "new",
+            "courseId": "repeat",
+            "numericGrade": 2,
+            "units": 3,
+            "included": true,
+            "scaleId": "mock_numeric"
+          },
+          {
+            "attemptId": "other",
+            "courseId": "other",
+            "numericGrade": 1.5,
+            "units": 2,
+            "included": true,
+            "scaleId": "mock_numeric"
+          }
+        ]
+      },
+      "expected": {
+        "average": "1.8",
+        "includedUnits": "5",
+        "includedAttemptCount": 2
+      },
+      "workedExplanation": "The old attempt is explicitly excluded. The remaining weighted numerator is 6+3 over five units.",
+      "arithmeticWitnesses": {
+        "average": "(3*2+2*1.5)/(3+2)",
+        "includedUnits": "3+2"
+      }
+    },
+    {
+      "id": "W03-both-retakes-explicitly-included",
+      "kind": "GWA",
+      "assumptions": [
+        "Only explicitly included attempts count; numeric scale is a synthetic reference scale.",
+        "Repeated attempts remain separate; inclusion is specified in this case, not inferred."
+      ],
+      "input": {
+        "attempts": [
+          {
+            "attemptId": "old",
+            "courseId": "repeat",
+            "numericGrade": 5,
+            "units": 3,
+            "included": true,
+            "scaleId": "mock_numeric"
+          },
+          {
+            "attemptId": "new",
+            "courseId": "repeat",
+            "numericGrade": 2,
+            "units": 3,
+            "included": true,
+            "scaleId": "mock_numeric"
+          },
+          {
+            "attemptId": "other",
+            "courseId": "other",
+            "numericGrade": 1.5,
+            "units": 2,
+            "included": true,
+            "scaleId": "mock_numeric"
+          }
+        ]
+      },
+      "expected": {
+        "average": "3",
+        "includedUnits": "8",
+        "includedAttemptCount": 3
+      },
+      "workedExplanation": "This case explicitly includes both retakes: (15+6+3)/8=3. No latest-attempt policy is invented.",
+      "arithmeticWitnesses": {
+        "average": "(3*5+3*2+2*1.5)/(3+3+2)",
+        "includedUnits": "3+3+2"
+      }
+    },
+    {
+      "id": "W04-no-included-attempt",
+      "kind": "GWA",
+      "assumptions": [
+        "Only explicitly included attempts count; numeric scale is a synthetic reference scale.",
+        "Repeated attempts remain separate; inclusion is specified in this case, not inferred."
+      ],
+      "input": {
+        "attempts": [
+          {
+            "attemptId": "excluded",
+            "courseId": "excluded",
+            "numericGrade": null,
+            "units": 0,
+            "included": false,
+            "scaleId": "mock_numeric"
+          }
+        ]
+      },
+      "expected": {
+        "average": null,
+        "includedUnits": "0",
+        "includedAttemptCount": 0,
+        "reasonContains": "No attempts"
+      },
+      "workedExplanation": "An empty included set has no weighted denominator; unavailable differs from a numeric zero.",
+      "arithmeticWitnesses": {}
+    },
+    {
+      "id": "W05-included-grade-missing",
+      "kind": "GWA",
+      "assumptions": [
+        "Only explicitly included attempts count; numeric scale is a synthetic reference scale.",
+        "Repeated attempts remain separate; inclusion is specified in this case, not inferred."
+      ],
+      "input": {
+        "attempts": [
+          {
+            "attemptId": "one",
+            "courseId": "one",
+            "numericGrade": 1,
+            "units": 2,
+            "included": true,
+            "scaleId": "mock_numeric"
+          },
+          {
+            "attemptId": "ungraded",
+            "courseId": "ungraded",
+            "numericGrade": null,
+            "units": 3,
+            "included": true,
+            "scaleId": "mock_numeric"
+          }
+        ]
+      },
+      "expected": {
+        "average": null,
+        "includedUnits": "5",
+        "includedAttemptCount": 2,
+        "reasonContains": "no numeric grade"
+      },
+      "workedExplanation": "Five units are explicitly selected, but one included grade is absent. Do not replace its missing grade with zero.",
+      "arithmeticWitnesses": {
+        "includedUnits": "2+3"
+      }
+    },
+    {
+      "id": "W06-numeric-zero-is-observed",
+      "kind": "GWA",
+      "assumptions": [
+        "Only explicitly included attempts count; numeric scale is a synthetic reference scale.",
+        "Repeated attempts remain separate; inclusion is specified in this case, not inferred."
+      ],
+      "input": {
+        "attempts": [
+          {
+            "attemptId": "zero",
+            "courseId": "zero",
+            "numericGrade": 0,
+            "units": 1,
+            "included": true,
+            "scaleId": "mock_numeric"
+          },
+          {
+            "attemptId": "hundred",
+            "courseId": "hundred",
+            "numericGrade": 100,
+            "units": 1,
+            "included": true,
+            "scaleId": "mock_numeric"
+          }
+        ]
+      },
+      "expected": {
+        "average": "50",
+        "includedUnits": "2",
+        "includedAttemptCount": 2
+      },
+      "workedExplanation": "On this mock 0\u2013100 scale, zero is a real observation: (0+100)/2=50.",
+      "arithmeticWitnesses": {
+        "average": "(1*0+1*100)/(1+1)",
+        "includedUnits": "1+1"
+      }
+    },
+    {
+      "id": "W07-fractional-units",
+      "kind": "GWA",
+      "assumptions": [
+        "Only explicitly included attempts count; numeric scale is a synthetic reference scale.",
+        "Repeated attempts remain separate; inclusion is specified in this case, not inferred."
+      ],
+      "input": {
+        "attempts": [
+          {
+            "attemptId": "one",
+            "courseId": "one",
+            "numericGrade": 2,
+            "units": 1.5,
+            "included": true,
+            "scaleId": "mock_numeric"
+          },
+          {
+            "attemptId": "two",
+            "courseId": "two",
+            "numericGrade": 1.2,
+            "units": 2.5,
+            "included": true,
+            "scaleId": "mock_numeric"
+          }
+        ]
+      },
+      "expected": {
+        "average": "1.5",
+        "includedUnits": "4",
+        "includedAttemptCount": 2
+      },
+      "workedExplanation": "Fractional units give (1.5\u00d72+2.5\u00d71.2)/4 = 6/4 = 1.5.",
+      "arithmeticWitnesses": {
+        "average": "(1.5*2+2.5*1.2)/(1.5+2.5)",
+        "includedUnits": "1.5+2.5"
+      }
+    },
+    {
+      "id": "W08-mixed-scales-rejected",
+      "kind": "GWA",
+      "assumptions": [
+        "Only explicitly included attempts count; numeric scale is a synthetic reference scale.",
+        "Repeated attempts remain separate; inclusion is specified in this case, not inferred."
+      ],
+      "input": {
+        "attempts": [
+          {
+            "attemptId": "one",
+            "courseId": "one",
+            "numericGrade": 2,
+            "units": 3,
+            "included": true,
+            "scaleId": "mock_numeric"
+          },
+          {
+            "attemptId": "two",
+            "courseId": "two",
+            "numericGrade": 80,
+            "units": 3,
+            "included": true,
+            "scaleId": "different_scale"
+          }
+        ]
+      },
+      "expected": {
+        "errorContains": "grade scale"
+      },
+      "workedExplanation": "A grade of 2 on one scale and 80 on another cannot be averaged without an independently specified conversion.",
+      "arithmeticWitnesses": {}
+    },
+    {
+      "id": "W09-duplicate-attempt-identity",
+      "kind": "GWA",
+      "assumptions": [
+        "Only explicitly included attempts count; numeric scale is a synthetic reference scale.",
+        "Repeated attempts remain separate; inclusion is specified in this case, not inferred."
+      ],
+      "input": {
+        "attempts": [
+          {
+            "attemptId": "same",
+            "courseId": "same",
+            "numericGrade": 1,
+            "units": 3,
+            "included": true,
+            "scaleId": "mock_numeric"
+          },
+          {
+            "attemptId": "same",
+            "courseId": "same",
+            "numericGrade": 2,
+            "units": 3,
+            "included": true,
+            "scaleId": "mock_numeric"
+          }
+        ]
+      },
+      "expected": {
+        "errorContains": "unique"
+      },
+      "workedExplanation": "The same attempt identity cannot be counted twice, even if its supplied grade differs.",
+      "arithmeticWitnesses": {}
+    },
+    {
+      "id": "W10-nonpositive-included-units",
+      "kind": "GWA",
+      "assumptions": [
+        "Only explicitly included attempts count; numeric scale is a synthetic reference scale.",
+        "Repeated attempts remain separate; inclusion is specified in this case, not inferred."
+      ],
+      "input": {
+        "attempts": [
+          {
+            "attemptId": "one",
+            "courseId": "one",
+            "numericGrade": 2,
+            "units": 0,
+            "included": true,
+            "scaleId": "mock_numeric"
+          }
+        ]
+      },
+      "expected": {
+        "errorContains": "positive"
+      },
+      "workedExplanation": "An included zero-unit row has no valid positive weight; it must be corrected or explicitly excluded.",
+      "arithmeticWitnesses": {}
+    },
+    {
+      "id": "R01-explicit-half-up",
+      "kind": "GWA_POLICY",
+      "assumptions": [
+        "Only explicitly included attempts count; numeric scale is a synthetic reference scale.",
+        "Repeated attempts remain separate; inclusion is specified in this case, not inferred."
+      ],
+      "input": {
+        "attempts": [
+          {
+            "attemptId": "one",
+            "courseId": "one",
+            "numericGrade": 1.225,
+            "units": 3,
+            "included": true,
+            "scaleId": "mock_numeric"
+          }
+        ],
+        "rounding": {
+          "mode": "HALF_UP",
+          "scale": 2,
+          "exactRaw": "1.225"
+        }
+      },
+      "expected": {
+        "average": "1.23",
+        "includedUnits": "3",
+        "includedAttemptCount": 1
+      },
+      "workedExplanation": "A single included 1.225 grade has raw average 1.225. Under the explicitly selected mock HALF_UP policy at two decimals, the tie rounds to 1.23.",
+      "arithmeticWitnesses": {
+        "includedUnits": "3"
+      }
+    },
+    {
+      "id": "R02-explicit-half-even",
+      "kind": "GWA_POLICY",
+      "assumptions": [
+        "Only explicitly included attempts count; numeric scale is a synthetic reference scale.",
+        "Repeated attempts remain separate; inclusion is specified in this case, not inferred."
+      ],
+      "input": {
+        "attempts": [
+          {
+            "attemptId": "one",
+            "courseId": "one",
+            "numericGrade": 1.225,
+            "units": 3,
+            "included": true,
+            "scaleId": "mock_numeric"
+          }
+        ],
+        "rounding": {
+          "mode": "HALF_EVEN",
+          "scale": 2,
+          "exactRaw": "1.225"
+        }
+      },
+      "expected": {
+        "average": "1.22",
+        "includedUnits": "3",
+        "includedAttemptCount": 1
+      },
+      "workedExplanation": "The same raw 1.225 under mock HALF_EVEN at two decimals selects 1.22 because its last retained digit is even.",
+      "arithmeticWitnesses": {
+        "includedUnits": "3"
+      }
+    },
+    {
+      "id": "T01-nested-equivalent-alternative",
+      "kind": "PREREQUISITE",
+      "assumptions": [
+        "Self-reported recorded completion only; MET is not certified enrollment eligibility.",
+        "Missing completion is UNKNOWN; credited equivalence is explicitly provided when used."
+      ],
+      "input": {
+        "expression": {
+          "kind": "AND",
+          "children": [
+            {
+              "kind": "COURSE",
+              "courseId": "A"
+            },
+            {
+              "kind": "OR",
+              "children": [
+                {
+                  "kind": "COURSE",
+                  "courseId": "B"
+                },
+                {
+                  "kind": "COURSE",
+                  "courseId": "C"
+                }
+              ]
+            }
+          ]
+        },
+        "catalogCourseIds": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E"
+        ],
+        "completions": {
+          "A": "PASSED",
+          "B": "FAILED",
+          "C": "CREDITED_EQUIVALENT"
+        }
+      },
+      "expected": {
+        "state": "MET",
+        "reasons": []
+      },
+      "workedExplanation": "A is true; B OR credited-equivalent C is false OR true = true. True AND true = true.",
+      "arithmeticWitnesses": {}
+    },
+    {
+      "id": "T02-nested-unknown-alternative",
+      "kind": "PREREQUISITE",
+      "assumptions": [
+        "Self-reported recorded completion only; MET is not certified enrollment eligibility.",
+        "Missing completion is UNKNOWN; credited equivalence is explicitly provided when used."
+      ],
+      "input": {
+        "expression": {
+          "kind": "AND",
+          "children": [
+            {
+              "kind": "COURSE",
+              "courseId": "A"
+            },
+            {
+              "kind": "OR",
+              "children": [
+                {
+                  "kind": "COURSE",
+                  "courseId": "B"
+                },
+                {
+                  "kind": "COURSE",
+                  "courseId": "C"
+                }
+              ]
+            }
+          ]
+        },
+        "catalogCourseIds": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E"
+        ],
+        "completions": {
+          "A": "PASSED",
+          "B": "FAILED"
+        }
+      },
+      "expected": {
+        "state": "UNKNOWN",
+        "reasons": [
+          "B is FAILED; recorded passing completion is required",
+          "C completion is UNKNOWN"
+        ]
+      },
+      "workedExplanation": "True AND (false OR unknown) = unknown. Both failed B and missing C explain the unresolved alternative.",
+      "arithmeticWitnesses": {}
+    },
+    {
+      "id": "T03-passed-branch-dominates-unknown",
+      "kind": "PREREQUISITE",
+      "assumptions": [
+        "Self-reported recorded completion only; MET is not certified enrollment eligibility.",
+        "Missing completion is UNKNOWN; credited equivalence is explicitly provided when used."
+      ],
+      "input": {
+        "expression": {
+          "kind": "OR",
+          "children": [
+            {
+              "kind": "AND",
+              "children": [
+                {
+                  "kind": "COURSE",
+                  "courseId": "A"
+                },
+                {
+                  "kind": "COURSE",
+                  "courseId": "B"
+                }
+              ]
+            },
+            {
+              "kind": "COURSE",
+              "courseId": "C"
+            }
+          ]
+        },
+        "catalogCourseIds": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E"
+        ],
+        "completions": {
+          "A": "FAILED",
+          "C": "PASSED"
+        }
+      },
+      "expected": {
+        "state": "MET",
+        "reasons": []
+      },
+      "workedExplanation": "(False AND unknown) OR true = true. A satisfied alternative resolves the whole OR.",
+      "arithmeticWitnesses": {}
+    },
+    {
+      "id": "T04-all-alternatives-blocked",
+      "kind": "PREREQUISITE",
+      "assumptions": [
+        "Self-reported recorded completion only; MET is not certified enrollment eligibility.",
+        "Missing completion is UNKNOWN; credited equivalence is explicitly provided when used."
+      ],
+      "input": {
+        "expression": {
+          "kind": "OR",
+          "children": [
+            {
+              "kind": "AND",
+              "children": [
+                {
+                  "kind": "COURSE",
+                  "courseId": "A"
+                },
+                {
+                  "kind": "COURSE",
+                  "courseId": "B"
+                }
+              ]
+            },
+            {
+              "kind": "COURSE",
+              "courseId": "C"
+            }
+          ]
+        },
+        "catalogCourseIds": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E"
+        ],
+        "completions": {
+          "A": "FAILED",
+          "C": "NOT_TAKEN"
+        }
+      },
+      "expected": {
+        "state": "NOT_MET",
+        "reasons": [
+          "A is FAILED; recorded passing completion is required",
+          "B completion is UNKNOWN",
+          "C is NOT_TAKEN; recorded passing completion is required"
+        ]
+      },
+      "workedExplanation": "(False AND unknown) OR false = false. The unknown B reason remains visible within its blocked branch.",
+      "arithmeticWitnesses": {}
+    },
+    {
+      "id": "T05-two-alternative-groups",
+      "kind": "PREREQUISITE",
+      "assumptions": [
+        "Self-reported recorded completion only; MET is not certified enrollment eligibility.",
+        "Missing completion is UNKNOWN; credited equivalence is explicitly provided when used."
+      ],
+      "input": {
+        "expression": {
+          "kind": "AND",
+          "children": [
+            {
+              "kind": "OR",
+              "children": [
+                {
+                  "kind": "COURSE",
+                  "courseId": "A"
+                },
+                {
+                  "kind": "COURSE",
+                  "courseId": "B"
+                }
+              ]
+            },
+            {
+              "kind": "OR",
+              "children": [
+                {
+                  "kind": "COURSE",
+                  "courseId": "C"
+                },
+                {
+                  "kind": "COURSE",
+                  "courseId": "D"
+                }
+              ]
+            }
+          ]
+        },
+        "catalogCourseIds": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E"
+        ],
+        "completions": {
+          "A": "PASSED",
+          "D": "FAILED"
+        }
+      },
+      "expected": {
+        "state": "UNKNOWN",
+        "reasons": [
+          "C completion is UNKNOWN",
+          "D is FAILED; recorded passing completion is required"
+        ]
+      },
+      "workedExplanation": "(True OR unknown) AND (unknown OR false) = unknown. The first group is satisfied, so only the second group supplies blockers.",
+      "arithmeticWitnesses": {}
+    },
+    {
+      "id": "T06-failure-dominates-and",
+      "kind": "PREREQUISITE",
+      "assumptions": [
+        "Self-reported recorded completion only; MET is not certified enrollment eligibility.",
+        "Missing completion is UNKNOWN; credited equivalence is explicitly provided when used."
+      ],
+      "input": {
+        "expression": {
+          "kind": "AND",
+          "children": [
+            {
+              "kind": "COURSE",
+              "courseId": "A"
+            },
+            {
+              "kind": "COURSE",
+              "courseId": "B"
+            }
+          ]
+        },
+        "catalogCourseIds": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E"
+        ],
+        "completions": {
+          "A": "FAILED"
+        }
+      },
+      "expected": {
+        "state": "NOT_MET",
+        "reasons": [
+          "A is FAILED; recorded passing completion is required",
+          "B completion is UNKNOWN"
+        ]
+      },
+      "workedExplanation": "False AND unknown = false. The missing record is still explained instead of converted to a failure.",
+      "arithmeticWitnesses": {}
+    },
+    {
+      "id": "T07-in-progress-is-not-passed",
+      "kind": "PREREQUISITE",
+      "assumptions": [
+        "Self-reported recorded completion only; MET is not certified enrollment eligibility.",
+        "Missing completion is UNKNOWN; credited equivalence is explicitly provided when used."
+      ],
+      "input": {
+        "expression": {
+          "kind": "OR",
+          "children": [
+            {
+              "kind": "COURSE",
+              "courseId": "A"
+            },
+            {
+              "kind": "COURSE",
+              "courseId": "B"
+            }
+          ]
+        },
+        "catalogCourseIds": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E"
+        ],
+        "completions": {
+          "A": "IN_PROGRESS"
+        }
+      },
+      "expected": {
+        "state": "UNKNOWN",
+        "reasons": [
+          "A is IN_PROGRESS; recorded passing completion is required",
+          "B completion is UNKNOWN"
+        ]
+      },
+      "workedExplanation": "An in-progress course is not a recorded pass; false OR unknown remains unknown.",
+      "arithmeticWitnesses": {}
+    },
+    {
+      "id": "T08-incomplete-and-failed-alternatives",
+      "kind": "PREREQUISITE",
+      "assumptions": [
+        "Self-reported recorded completion only; MET is not certified enrollment eligibility.",
+        "Missing completion is UNKNOWN; credited equivalence is explicitly provided when used."
+      ],
+      "input": {
+        "expression": {
+          "kind": "OR",
+          "children": [
+            {
+              "kind": "COURSE",
+              "courseId": "A"
+            },
+            {
+              "kind": "COURSE",
+              "courseId": "B"
+            }
+          ]
+        },
+        "catalogCourseIds": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E"
+        ],
+        "completions": {
+          "A": "INCOMPLETE",
+          "B": "FAILED"
+        }
+      },
+      "expected": {
+        "state": "NOT_MET",
+        "reasons": [
+          "A is INCOMPLETE; recorded passing completion is required",
+          "B is FAILED; recorded passing completion is required"
+        ]
+      },
+      "workedExplanation": "Neither incomplete nor failed is a pass; false OR false = false.",
+      "arithmeticWitnesses": {}
+    },
+    {
+      "id": "T09-unknown-catalog-reference",
+      "kind": "PREREQUISITE",
+      "assumptions": [
+        "Self-reported recorded completion only; MET is not certified enrollment eligibility.",
+        "Missing completion is UNKNOWN; credited equivalence is explicitly provided when used."
+      ],
+      "input": {
+        "expression": {
+          "kind": "COURSE",
+          "courseId": "Z"
+        },
+        "catalogCourseIds": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E"
+        ],
+        "completions": {
+          "Z": "PASSED"
+        }
+      },
+      "expected": {
+        "state": "UNKNOWN",
+        "reasons": [
+          "Unknown catalog course reference: Z"
+        ]
+      },
+      "workedExplanation": "A record for Z cannot establish the meaning of an absent catalog reference; policy/catalog validity comes first.",
+      "arithmeticWitnesses": {}
+    },
+    {
+      "id": "T10-authored-policy-unknown",
+      "kind": "PREREQUISITE",
+      "assumptions": [
+        "Self-reported recorded completion only; MET is not certified enrollment eligibility.",
+        "Missing completion is UNKNOWN; credited equivalence is explicitly provided when used."
+      ],
+      "input": {
+        "expression": {
+          "kind": "UNKNOWN",
+          "reason": "Mock syllabus review pending"
+        },
+        "catalogCourseIds": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E"
+        ],
+        "completions": {
+          "A": "PASSED"
+        }
+      },
+      "expected": {
+        "state": "UNKNOWN",
+        "reasons": [
+          "Mock syllabus review pending"
+        ]
+      },
+      "workedExplanation": "A passed course does not fill an explicitly missing prerequisite specification.",
+      "arithmeticWitnesses": {}
+    },
+    {
+      "id": "T11-equivalent-mandatory-record",
+      "kind": "PREREQUISITE",
+      "assumptions": [
+        "Self-reported recorded completion only; MET is not certified enrollment eligibility.",
+        "Missing completion is UNKNOWN; credited equivalence is explicitly provided when used."
+      ],
+      "input": {
+        "expression": {
+          "kind": "AND",
+          "children": [
+            {
+              "kind": "OR",
+              "children": [
+                {
+                  "kind": "COURSE",
+                  "courseId": "A"
+                },
+                {
+                  "kind": "COURSE",
+                  "courseId": "B"
+                }
+              ]
+            },
+            {
+              "kind": "COURSE",
+              "courseId": "C"
+            }
+          ]
+        },
+        "catalogCourseIds": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E"
+        ],
+        "completions": {
+          "A": "CREDITED_EQUIVALENT",
+          "B": "FAILED",
+          "C": "PASSED"
+        }
+      },
+      "expected": {
+        "state": "MET",
+        "reasons": []
+      },
+      "workedExplanation": "(Explicit equivalence OR false) AND true = true; equivalence is supplied, never inferred from a similar title.",
+      "arithmeticWitnesses": {}
+    },
+    {
+      "id": "T12-deeper-three-valued-tree",
+      "kind": "PREREQUISITE",
+      "assumptions": [
+        "Self-reported recorded completion only; MET is not certified enrollment eligibility.",
+        "Missing completion is UNKNOWN; credited equivalence is explicitly provided when used."
+      ],
+      "input": {
+        "expression": {
+          "kind": "OR",
+          "children": [
+            {
+              "kind": "AND",
+              "children": [
+                {
+                  "kind": "COURSE",
+                  "courseId": "A"
+                },
+                {
+                  "kind": "OR",
+                  "children": [
+                    {
+                      "kind": "COURSE",
+                      "courseId": "B"
+                    },
+                    {
+                      "kind": "COURSE",
+                      "courseId": "C"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "AND",
+              "children": [
+                {
+                  "kind": "COURSE",
+                  "courseId": "D"
+                },
+                {
+                  "kind": "COURSE",
+                  "courseId": "E"
+                }
+              ]
+            }
+          ]
+        },
+        "catalogCourseIds": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E"
+        ],
+        "completions": {
+          "B": "PASSED",
+          "C": "FAILED",
+          "D": "PASSED",
+          "E": "FAILED"
+        }
+      },
+      "expected": {
+        "state": "UNKNOWN",
+        "reasons": [
+          "A completion is UNKNOWN",
+          "E is FAILED; recorded passing completion is required"
+        ]
+      },
+      "workedExplanation": "(Unknown AND (true OR false)) OR (true AND false) = unknown OR false = unknown.",
+      "arithmeticWitnesses": {}
+    },
+    {
+      "id": "P01-matching-current-capability",
+      "kind": "ACCESS",
+      "assumptions": [
+        "Policy is a mock reference fixture; no real institutional review is asserted.",
+        "Validity interval is start-inclusive and end-exclusive; the fixed comparison time is specified explicitly."
+      ],
+      "input": {},
+      "expected": {
+        "allowed": true,
+        "bindingMatches": true
+      },
+      "workedExplanation": "Matching mock preferences, current approved policy, course plan and score-capability binding permit this score operation only.",
+      "arithmeticWitnesses": {}
+    },
+    {
+      "id": "P02-exclusive-expiry-boundary",
+      "kind": "ACCESS",
+      "assumptions": [
+        "Policy is a mock reference fixture; no real institutional review is asserted.",
+        "Validity interval is start-inclusive and end-exclusive; the fixed comparison time is specified explicitly."
+      ],
+      "input": {
+        "nowMs": 4102444800000
+      },
+      "expected": {
+        "allowed": false,
+        "reasonContains": "currently valid"
+      },
+      "workedExplanation": "At now = validUntil, the exclusive upper bound has expired. No grade/target result may remain active.",
+      "arithmeticWitnesses": {}
+    },
+    {
+      "id": "P03-withdrawn-policy",
+      "kind": "ACCESS",
+      "assumptions": [
+        "Policy is a mock reference fixture; no real institutional review is asserted.",
+        "Validity interval is start-inclusive and end-exclusive; the fixed comparison time is specified explicitly."
+      ],
+      "input": {
+        "approvalStatus": "WITHDRAWN"
+      },
+      "expected": {
+        "allowed": false,
+        "reasonContains": "withdrawn"
+      },
+      "workedExplanation": "A withdrawn mock policy cannot authorize an active calculation or score operation even when its curriculum IDs still match.",
+      "arithmeticWitnesses": {}
+    },
+    {
+      "id": "P04-plan-mismatch",
+      "kind": "ACCESS",
+      "assumptions": [
+        "Policy is a mock reference fixture; no real institutional review is asserted.",
+        "Validity interval is start-inclusive and end-exclusive; the fixed comparison time is specified explicitly."
+      ],
+      "input": {
+        "requestedPlanVersion": "older_plan"
+      },
+      "expected": {
+        "allowed": false,
+        "reasonContains": "does not match"
+      },
+      "workedExplanation": "The requested older plan differs from the currently bound plan_v1; no fallback conversion is supplied.",
+      "arithmeticWitnesses": {}
+    },
+    {
+      "id": "P05-stale-record-revision",
+      "kind": "ACCESS",
+      "assumptions": [
+        "Policy is a mock reference fixture; no real institutional review is asserted.",
+        "Validity interval is start-inclusive and end-exclusive; the fixed comparison time is specified explicitly."
+      ],
+      "input": {
+        "policyRevision": 2,
+        "bindingRevision": 1
+      },
+      "expected": {
+        "allowed": true,
+        "bindingMatches": false
+      },
+      "workedExplanation": "The current revision 2 policy can authorize new work, but a revision 1 record remains stale and cannot be silently rebound.",
+      "arithmeticWitnesses": {}
+    },
+    {
+      "id": "P06-basic-context-does-not-enable-college-gwa",
+      "kind": "ACCESS",
+      "assumptions": [
+        "Policy is a mock reference fixture; no real institutional review is asserted.",
+        "Validity interval is start-inclusive and end-exclusive; the fixed comparison time is specified explicitly."
+      ],
+      "input": {
+        "educationSector": "BASIC_EDUCATION",
+        "capability": "GWA"
+      },
+      "expected": {
+        "allowed": false,
+        "reasonContains": "basic-education"
+      },
+      "workedExplanation": "A basic-education selection does not gain college GWA authority from numerically valid grades.",
+      "arithmeticWitnesses": {}
+    }
+  ]
+}

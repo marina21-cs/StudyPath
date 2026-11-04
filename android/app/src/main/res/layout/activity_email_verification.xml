@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/authRoot" android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/sp_background" android:fillViewport="true" android:clipToPadding="false">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:paddingHorizontal="24dp" android:paddingVertical="24dp">
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="24dp" android:text="@string/verification_heading"
+            android:textAppearance="@style/TextAppearance.StudyPath.Auth.Heading"
+            android:fontFamily="@font/nunito_bold" android:textStyle="bold" android:accessibilityHeading="true"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" android:text="@string/verification_intro" android:fontFamily="@font/geist"
+            android:textSize="16sp" android:textColor="@color/sp_muted" android:lineSpacingExtra="4dp"/>
+        <TextView android:id="@+id/emailText" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="20dp" android:textSize="16sp" android:fontFamily="@font/geist"
+            android:textColor="@color/sp_ink"/>
+        <TextView android:id="@+id/statusText" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="16dp" android:accessibilityLiveRegion="polite" android:fontFamily="@font/geist"
+            android:textColor="@color/sp_ink" android:textSize="16sp" android:lineSpacingExtra="4dp"/>
+        <com.google.android.material.progressindicator.LinearProgressIndicator android:id="@+id/progress"
+            android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp"
+            android:contentDescription="@string/verification_progress" android:indeterminate="true" android:visibility="gone"/>
+        <com.studypath.app.ui.StudyButton android:id="@+id/sendVerificationButton"
+            style="@style/Widget.StudyPath.Auth.Primary" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginTop="24dp" android:minHeight="56dp"
+            android:text="@string/verification_send"/>
+        <com.studypath.app.ui.StudyButton android:id="@+id/checkVerificationButton"
+            style="@style/Widget.Material3.Button.OutlinedButton" android:fontFamily="@font/geist" android:textSize="16sp" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginTop="8dp" android:minHeight="56dp"
+            android:text="@string/verification_check"/>
+        <com.studypath.app.ui.StudyButton android:id="@+id/openEmailButton"
+            style="@style/Widget.StudyPath.Auth.Link" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginTop="8dp" android:minHeight="48dp"
+            android:text="@string/verification_open_email"/>
+        <TextView android:id="@+id/helpText" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" android:text="@string/verification_help" android:textSize="14sp"
+            android:fontFamily="@font/geist" android:textColor="@color/sp_muted" android:lineSpacingExtra="3dp"/>
+        <com.studypath.app.ui.StudyButton android:id="@+id/continueStudyingButton"
+            style="@style/Widget.StudyPath.Auth.Link" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginTop="20dp" android:minHeight="48dp"
+            android:text="@string/verification_continue"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="@string/verification_later" android:textSize="14sp" android:fontFamily="@font/geist"
+            android:textColor="@color/sp_muted" android:lineSpacingExtra="3dp"/>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

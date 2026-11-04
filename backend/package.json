@@ -1,0 +1,35 @@
+{
+  "name": "studypath-firebase-backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Local-only Firebase Auth and Realtime Database contract and rule tests",
+  "engines": {
+    "node": ">=24.12.0"
+  },
+  "scripts": {
+    "emulators": "firebase emulators:start --project demo-studypath --only auth,database",
+    "test": "firebase emulators:exec --project demo-studypath --only auth,database \"node --test --test-reporter=tap --test-concurrency=1 tests/*.test.mjs\"",
+    "test:rules": "node --test --test-reporter=tap --test-concurrency=1 tests/*.test.mjs",
+    "test:integration": "npm run test:integration:main && npm run test:interactive && npm run test:family:rules",
+    "test:integration:main": "firebase emulators:exec --project demo-studypath --only auth,database \"node --test --test-reporter=tap --test-concurrency=1 tests/*.test.mjs catalog/rules/*.test.mjs preferences/tests/*.rules.test.mjs downloads/*.rules.test.mjs materials/rules/*.test.mjs academics/*.rules.test.mjs reminders/*.rules.test.mjs\"",
+    "test:interactive": "firebase emulators:exec --config firebase.b11-test.json --project demo-studypath-b11-rules --only database \"node --test --test-reporter=tap --test-concurrency=1 interactive/lesson-attempts.rules.test.mjs\"",
+    "test:family:rules": "firebase emulators:exec --config firebase.b11-test.json --project demo-studypath-family-rules --only database \"node --test --test-isolation=none --test-reporter=tap --test-concurrency=1 sharing/firebase-family.rules.test.mjs\"",
+    "test:tooling": "node --test --test-isolation=none --test-reporter=tap --test-concurrency=1 catalog/tests/*.test.mjs materials/tests/*.test.mjs sharing/tests/*.test.mjs mock/*.test.mjs rules/*.test.mjs",
+    "rules:dry-run:check": "node scripts/dry-run-cloud-rules.mjs --check",
+    "rules:dry-run": "node scripts/dry-run-cloud-rules.mjs --run --project studypath-c8086",
+    "test:foundation": "firebase emulators:exec --project demo-studypath --only auth,database \"node scripts/test-stage.mjs foundation\"",
+    "test:auth": "firebase emulators:exec --project demo-studypath --only auth,database \"node scripts/test-stage.mjs auth\"",
+    "test:records": "firebase emulators:exec --project demo-studypath --only auth,database \"node scripts/test-stage.mjs records\"",
+    "test:readings": "firebase emulators:exec --project demo-studypath --only auth,database \"node scripts/test-stage.mjs readings\"",
+    "test:study": "firebase emulators:exec --project demo-studypath --only auth,database \"node scripts/test-stage.mjs study\"",
+    "test:academics": "firebase emulators:exec --project demo-studypath --only auth,database \"node scripts/test-stage.mjs academics\"",
+    "seed": "node scripts/seed-emulator.mjs",
+    "test:catalog": "node --test --test-isolation=none --test-reporter=tap catalog/tests/*.test.mjs"
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "6.0.0",
+    "firebase": "13.1.0",
+    "firebase-tools": "15.34.1"
+  }
+}

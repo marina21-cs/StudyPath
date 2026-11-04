@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "mode": "SYNTHETIC_LOCAL_ONLY",
+  "curriculumVersion": "mock_computing_v1",
+  "levelId": "mock_college",
+  "subjectId": "computing",
+  "institution": "MOCK INSTITUTION - NONE REAL",
+  "campus": "MOCK LOCAL",
+  "program": "MOCK COMPUTING",
+  "cohort": "MOCK DEMO",
+  "effectiveYear": "2026",
+  "policyReferences": [
+    "MOCK_ONLY_ACADEMIC_POLICY_V1"
+  ],
+  "reviewer": "MOCK FIXTURE - NO HUMAN REVIEW",
+  "reviewedOn": "2026-10-30",
+  "approvalReference": "MOCK_ONLY_mock_databases_v1",
+  "permissionReference": "MOCK_ORIGINAL_TEXT_NO_REAL_RIGHTS_REVIEW",
+  "manifestSha256": "908011c245bba3ec717c7c829d877d656f307ded9687b4a08d856f33b8d6f17f",
+  "contentAccuracyReviewed": true,
+  "lessonSemanticsReviewed": true,
+  "applicabilityReviewed": true,
+  "adaptationAllowed": true,
+  "redistributionAllowed": true,
+  "evidence": [
+    {
+      "file": "mock-evidence.txt",
+      "sha256": "e4c8667bcf01d2b53ea6abc10ae64ee5c04357aff072918e8c447128f4d95ce6"
+    }
+  ]
+}

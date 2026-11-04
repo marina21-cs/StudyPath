@@ -1,0 +1,282 @@
+{
+  "schemaVersion": 1,
+  "curriculumVersion": "bsit_demo_v1",
+  "title": "StudyPath BSIT demonstration pilot",
+  "approved": false,
+  "approvalStatus": "DEMONSTRATION_ONLY",
+  "notice": "Synthetic learning content and prerequisite examples. Instructor review and curriculum verification are pending. These are not official grades or enrollment decisions.",
+  "courses": {
+    "it101": {
+      "courseId": "it101",
+      "title": "Programming Foundations",
+      "units": 3,
+      "topicQuery": "Computer programming",
+      "moduleId": "programming_basics",
+      "prerequisitesKnown": true,
+      "ruleKind": "NONE",
+      "gradePlan": {
+        "version": "demo_linear_v1",
+        "assessmentPlanKnown": true,
+        "verified": false,
+        "label": "Demonstration assessment plan; not an actual syllabus",
+        "categories": {
+          "quizzes": {
+            "weight": 0.4,
+            "aggregation": "POOLED_POINTS",
+            "assessments": {
+              "quiz_1": {
+                "possiblePoints": 20,
+                "title": "Quiz 1"
+              },
+              "quiz_2": {
+                "possiblePoints": 20,
+                "title": "Quiz 2"
+              }
+            }
+          },
+          "exams": {
+            "weight": 0.6,
+            "aggregation": "EQUAL_ITEMS",
+            "assessments": {
+              "midterm": {
+                "possiblePoints": 100,
+                "title": "Midterm"
+              },
+              "final": {
+                "possiblePoints": 100,
+                "title": "Final"
+              }
+            }
+          }
+        }
+      }
+    },
+    "it102": {
+      "courseId": "it102",
+      "title": "Data Structures",
+      "units": 3,
+      "topicQuery": "Data structure",
+      "moduleId": "data_structures",
+      "prerequisiteCourseIds": {
+        "it101": true
+      },
+      "prerequisitesKnown": true,
+      "ruleKind": "ALL_OF",
+      "gradePlan": {
+        "version": "demo_linear_v1",
+        "assessmentPlanKnown": true,
+        "verified": false,
+        "label": "Demonstration assessment plan; not an actual syllabus",
+        "categories": {
+          "quizzes": {
+            "weight": 0.4,
+            "aggregation": "POOLED_POINTS",
+            "assessments": {
+              "quiz_1": {
+                "possiblePoints": 20,
+                "title": "Quiz 1"
+              },
+              "quiz_2": {
+                "possiblePoints": 20,
+                "title": "Quiz 2"
+              }
+            }
+          },
+          "exams": {
+            "weight": 0.6,
+            "aggregation": "EQUAL_ITEMS",
+            "assessments": {
+              "midterm": {
+                "possiblePoints": 100,
+                "title": "Midterm"
+              },
+              "final": {
+                "possiblePoints": 100,
+                "title": "Final"
+              }
+            }
+          }
+        }
+      }
+    },
+    "it103": {
+      "courseId": "it103",
+      "title": "Database Foundations",
+      "units": 3,
+      "topicQuery": "Relational database",
+      "moduleId": "database_basics",
+      "prerequisiteCourseIds": {
+        "it101": true
+      },
+      "prerequisitesKnown": true,
+      "ruleKind": "ALL_OF",
+      "gradePlan": {
+        "version": "demo_linear_v1",
+        "assessmentPlanKnown": true,
+        "verified": false,
+        "label": "Demonstration assessment plan; not an actual syllabus",
+        "categories": {
+          "quizzes": {
+            "weight": 0.4,
+            "aggregation": "POOLED_POINTS",
+            "assessments": {
+              "quiz_1": {
+                "possiblePoints": 20,
+                "title": "Quiz 1"
+              },
+              "quiz_2": {
+                "possiblePoints": 20,
+                "title": "Quiz 2"
+              }
+            }
+          },
+          "exams": {
+            "weight": 0.6,
+            "aggregation": "EQUAL_ITEMS",
+            "assessments": {
+              "midterm": {
+                "possiblePoints": 100,
+                "title": "Midterm"
+              },
+              "final": {
+                "possiblePoints": 100,
+                "title": "Final"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "modules": {
+    "programming_basics": {
+      "moduleId": "programming_basics",
+      "courseId": "it101",
+      "version": 1,
+      "title": "Algorithms and programming",
+      "approved": false,
+      "approvalStatus": "DEMONSTRATION_ONLY",
+      "author": "StudyPath project team",
+      "source": "Original demonstration text; external readings are supplemental.",
+      "sections": {
+        "0": {
+          "title": "An ordered plan",
+          "body": "An algorithm describes a finite sequence of steps for solving a defined problem. Start by identifying inputs, expected outputs, and a way to check whether the result is correct."
+        },
+        "1": {
+          "title": "Try a small example",
+          "body": "To calculate an average, add the observed values and divide their sum by the number of values. Before dividing, check that at least one value exists. This check prevents division by zero."
+        }
+      },
+      "practice": {
+        "q1": {
+          "prompt": "What should be checked before dividing a sum by a count?",
+          "options": {
+            "a": "The count is greater than zero",
+            "b": "The sum is always zero",
+            "c": "The values are sorted"
+          },
+          "answerId": "a"
+        },
+        "q2": {
+          "prompt": "What describes an algorithm?",
+          "options": {
+            "a": "Any image",
+            "b": "A finite ordered sequence of steps",
+            "c": "Only a programming language"
+          },
+          "answerId": "b"
+        }
+      }
+    },
+    "data_structures": {
+      "moduleId": "data_structures",
+      "courseId": "it102",
+      "version": 1,
+      "title": "Choosing a data structure",
+      "approved": false,
+      "approvalStatus": "DEMONSTRATION_ONLY",
+      "author": "StudyPath project team",
+      "source": "Original demonstration text; external readings are supplemental.",
+      "sections": {
+        "0": {
+          "title": "Organize values",
+          "body": "A data structure organizes data so that a program can use it. Arrays provide indexed positions. A stack follows last in, first out. A queue follows first in, first out."
+        },
+        "1": {
+          "title": "Match the operation",
+          "body": "Choose a structure by the operations the program needs. A queue can represent a line of tasks waiting to be handled. A stack can represent a history in which the latest action is undone first."
+        }
+      },
+      "practice": {
+        "q1": {
+          "prompt": "Which structure commonly processes the earliest arriving item first?",
+          "options": {
+            "a": "Stack",
+            "b": "Queue",
+            "c": "Unordered set"
+          },
+          "answerId": "b"
+        },
+        "q2": {
+          "prompt": "Which structure follows last in, first out?",
+          "options": {
+            "a": "Stack",
+            "b": "Queue",
+            "c": "Table"
+          },
+          "answerId": "a"
+        }
+      }
+    },
+    "database_basics": {
+      "moduleId": "database_basics",
+      "courseId": "it103",
+      "version": 1,
+      "title": "Keys and related records",
+      "approved": false,
+      "approvalStatus": "DEMONSTRATION_ONLY",
+      "author": "StudyPath project team",
+      "source": "Original demonstration text; external readings are supplemental.",
+      "sections": {
+        "0": {
+          "title": "Identify a record",
+          "body": "A relational database organizes records into tables. A primary key uniquely identifies a record within a table. Reusing a person's name as the only key can fail because different people may have the same name."
+        },
+        "1": {
+          "title": "Connect records",
+          "body": "A foreign key represents a relationship to a record in another table. A course record and a student's course attempt are distinct concepts: the course describes what is taught, while the attempt describes one student's participation."
+        }
+      },
+      "practice": {
+        "q1": {
+          "prompt": "What uniquely identifies a record in a table?",
+          "options": {
+            "a": "A primary key",
+            "b": "Any display name",
+            "c": "The row's color"
+          },
+          "answerId": "a"
+        },
+        "q2": {
+          "prompt": "Why keep a course separate from a student's attempt?",
+          "options": {
+            "a": "They describe different things",
+            "b": "They must always share every field",
+            "c": "Students cannot repeat a course"
+          },
+          "answerId": "a"
+        }
+      }
+    }
+  },
+  "demonstrationPolicy": {
+    "approved": false,
+    "label": "Demonstration only; no official grade conversion",
+    "rounding": "NONE",
+    "retakePolicy": "UNVERIFIED",
+    "eligibilityDecisionsEnabled": false,
+    "gradePlanVersion": "demo_linear_v1",
+    "verified": false
+  }
+}

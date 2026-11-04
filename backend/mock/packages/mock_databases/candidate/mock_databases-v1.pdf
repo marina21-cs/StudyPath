@@ -1,0 +1,79 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [4 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 2438 >>
+stream
+BT /F1 9.5 Tf 14 TL 44 796 Td
+(MOCK - Reading a Small Data Table) Tj T*
+(SYNTHETIC LOCAL DEMO - NOT INSTITUTIONAL CONTENT OR APPROVAL) Tj T*
+() Tj T*
+(Objective: Identify a primary key and count rows that satisfy a stated equality) Tj T*
+(condition in a small table.) Tj T*
+() Tj T*
+(MOCK ORIGINAL LESSON. A table organizes records as rows and attributes as columns. A) Tj T*
+(primary key distinguishes each row and must be unique and present. Filtering selects) Tj T*
+(matching rows; it does not rewrite the original table.) Tj T*
+() Tj T*
+(WORKED EXAMPLE) Tj T*
+(Consider rows \(id=1, subject=computing\), \(id=2, subject=math\), \(id=3,) Tj T*
+(subject=computing\), \(id=4, subject=art\). The condition subject = computing selects) Tj T*
+(rows 1 and 3, so COUNT\(*\) for that filtered set is 2. The table still has four) Tj T*
+(stored rows.) Tj T*
+() Tj T*
+(CHECK AND CORRECTION) Tj T*
+(Which property is required of the id column when it is the primary key?) Tj T*
+(Uniqueness and presence are essential for primary-key identity; the values need not) Tj T*
+(be consecutive.) Tj T*
+() Tj T*
+(Read a condition one row at a time. Mark matching rows, then count those marks.) Tj T*
+(COUNT\(*\) counts matching rows in this example, whereas reading a column value) Tj T*
+(reports data from a row. A SELECT filter does not delete nonmatching rows.) Tj T*
+() Tj T*
+(INDEPENDENT APPLICATION) Tj T*
+(Rows have subjects computing, math, computing and art. How many satisfy subject =) Tj T*
+(computing?) Tj T*
+(The first and third rows match. Two matching rows are returned; the stored table is) Tj T*
+(unchanged.) Tj T*
+() Tj T*
+(GLOSSARY) Tj T*
+(Row: One record in a table.) Tj T*
+(Column: A named attribute represented across the rows of a table.) Tj T*
+(Primary key: A unique, present column or column set that identifies a row.) Tj T*
+(Filter: A condition used to choose matching rows for a query result.) Tj T*
+() Tj T*
+(Separate storage from a query result. A key identifies rows, a condition selects) Tj T*
+(them, and a count reports how many matched. The original rows remain unchanged by) Tj T*
+(this read-only selection.) Tj T*
+() Tj T*
+(Original mock fixture. No real learner data, school policy, signatures or) Tj T*
+(redistribution review.) Tj T*
+(Version 1. Accessible lesson text and authored checks are included separately in) Tj T*
+(this package.) Tj T*
+ET
+BT /F1 8 Tf 44 28 Td (MOCK ONLY - mock_databases v1 - page 1/1) Tj ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000210 00000 n 
+0000000336 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+2825
+%%EOF

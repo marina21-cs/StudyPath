@@ -1,0 +1,7 @@
+<resources>
+<color name="sp_navigation_background">#FFFFFF</color><color name="sp_navigation_inactive">@color/sp_muted</color><color name="sp_navigation_selected">@color/sp_action</color><color name="sp_navigation_ripple">#187C0E44</color>
+<style name="Widget.StudyPath.FloatingActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator"><item name="android:width">64dp</item><item name="android:height">32dp</item><item name="marginHorizontal">4dp</item><item name="android:color">@color/sp_navigation_selected</item><item name="shapeAppearance">@style/ShapeAppearance.StudyPath.NavigationCircle</item></style>
+<style name="ShapeAppearance.StudyPath.NavigationCircle" parent="ShapeAppearance.Material3.Corner.Medium"><item name="cornerFamily">rounded</item><item name="cornerSize">50%</item></style>
+<style name="TextAppearance.StudyPath.Navigation" parent="TextAppearance.Material3.LabelMedium"><item name="android:fontFamily">@font/geist</item><item name="fontFamily">@font/geist</item><item name="android:textSize">11sp</item></style>
+<style name="ThemeOverlay.StudyPath.Navigation" parent=""><item name="motionDurationMedium4">220</item></style>
+</resources>

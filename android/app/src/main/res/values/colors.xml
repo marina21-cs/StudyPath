@@ -1,0 +1,9 @@
+<resources>
+    <color name="sp_background">#FFFFFF</color><color name="sp_cream">#F2DACE</color><color name="sp_card">#FFFFFF</color>
+    <color name="sp_action">#7C0E44</color><color name="sp_action_edge">#4F092C</color>
+    <color name="sp_rose">#AA5E7A</color><color name="sp_blush">#D49A9A</color>
+    <color name="sp_ink">#171717</color><color name="sp_muted">#626262</color>
+    <color name="sp_outline">#AA5E7A</color><color name="sp_disabled_text">#492C39</color>
+    <color name="sp_yellow">#F7C150</color><color name="sp_orange">@color/sp_action</color>
+    <color name="sp_coral">@color/sp_action</color><color name="sp_blue">@color/sp_action</color><color name="sp_green">#216547</color>
+</resources>

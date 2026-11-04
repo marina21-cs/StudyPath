@@ -1,0 +1,12 @@
+# Copy to firebase.properties for your own environment. Never put Admin SDK credentials here.
+# Defaults use the local Auth and Realtime Database emulators with synthetic data.
+firebaseUseEmulators=true
+firebaseProjectId=demo-studypath
+firebaseEmulatorHost=10.0.2.2
+firebaseDatabaseUrl=https://demo-studypath-default-rtdb.firebaseio.com
+
+# For cloud mode, register com.studypath.app in your Firebase project and provide
+# its client configuration, then set firebaseUseEmulators=false.
+# firebaseApiKey=YOUR_FIREBASE_ANDROID_API_KEY
+# firebaseAppId=YOUR_FIREBASE_ANDROID_APP_ID
+# studyPathUserAgent=StudyPath/0.1 (https://YOUR-PROJECT-URL; TEAM-CONTACT)

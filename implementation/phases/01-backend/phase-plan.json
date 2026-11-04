@@ -1,0 +1,105 @@
+{
+  "scope": "Separately testable StudyPath backend stages",
+  "automatedStages": [
+    "B01",
+    "B02",
+    "B03",
+    "B04",
+    "B05",
+    "B06"
+  ],
+  "phases": [
+    {
+      "id": "B01",
+      "folder": "01-foundation-catalog",
+      "name": "Local environment and catalog",
+      "npmStage": "foundation",
+      "firebaseTests": 3,
+      "jvmClasses": [],
+      "jvmTests": 0
+    },
+    {
+      "id": "B02",
+      "folder": "02-authentication-sessions",
+      "name": "Authentication, UID ownership and client guards",
+      "npmStage": "auth",
+      "firebaseTests": 4,
+      "jvmClasses": [
+        "com.studypath.app.data.AuthRequestFenceTest",
+        "com.studypath.app.data.SessionGateTest"
+      ],
+      "jvmTests": 13
+    },
+    {
+      "id": "B03",
+      "folder": "03-records-security",
+      "name": "Record schemas, CRUD and atomic writes",
+      "npmStage": "records",
+      "firebaseTests": 6,
+      "jvmClasses": [],
+      "jvmTests": 0
+    },
+    {
+      "id": "B04",
+      "folder": "04-api-saved-readings",
+      "name": "Public API and immutable saved readings",
+      "npmStage": "readings",
+      "firebaseTests": 3,
+      "jvmClasses": [
+        "com.studypath.app.data.MediaWikiClientTest"
+      ],
+      "jvmTests": 28
+    },
+    {
+      "id": "B05",
+      "folder": "05-modules-practice",
+      "name": "Versioned module progress and practice",
+      "npmStage": "study",
+      "firebaseTests": 2,
+      "jvmClasses": [],
+      "jvmTests": 0
+    },
+    {
+      "id": "B06",
+      "folder": "06-academic-logic",
+      "name": "Grades, scenarios, GWA and prerequisites",
+      "npmStage": "academics",
+      "firebaseTests": 7,
+      "jvmClasses": [
+        "com.studypath.app.domain.GradeEngineTest",
+        "com.studypath.app.domain.GwaEngineTest",
+        "com.studypath.app.domain.PrerequisiteEvaluatorTest"
+      ],
+      "jvmTests": 39
+    },
+    {
+      "id": "B07",
+      "folder": "07-offline-reminders",
+      "name": "Offline reconciliation, lifecycle and reminders",
+      "npmStage": null,
+      "firebaseTests": 0,
+      "jvmClasses": [],
+      "jvmTests": 0,
+      "manualGate": true
+    },
+    {
+      "id": "B08",
+      "folder": "08-integration-cloud",
+      "name": "Final backend regression and cloud acceptance",
+      "npmStage": "all",
+      "firebaseTests": 25,
+      "jvmClasses": [
+        "com.studypath.app.data.AuthRequestFenceTest",
+        "com.studypath.app.data.SessionGateTest",
+        "com.studypath.app.data.MediaWikiClientTest",
+        "com.studypath.app.domain.GradeEngineTest",
+        "com.studypath.app.domain.GwaEngineTest",
+        "com.studypath.app.domain.PrerequisiteEvaluatorTest",
+        "com.studypath.app.domain.ReminderDeliveryGateTest",
+        "com.studypath.app.domain.ReminderSchedulePolicyTest"
+      ],
+      "jvmTests": 89,
+      "manualGate": true
+    }
+  ]
+}

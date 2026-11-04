@@ -1,0 +1,438 @@
+{
+  "schemaVersion": 1,
+  "curriculumVersion": "mock_computing_v1",
+  "title": "MOCK Computing Learning Lab",
+  "approved": false,
+  "approvalStatus": "DEMONSTRATION_ONLY",
+  "notice": "SYNTHETIC LOCAL DEMO ONLY. No real institution, reviewer approval, learner data or course grades.",
+  "courses": {
+    "mock101": {
+      "courseId": "mock101",
+      "title": "MOCK - Tracing a Small Program",
+      "units": 3,
+      "topicQuery": "input process output",
+      "moduleId": "mock_programming",
+      "prerequisitesKnown": true,
+      "ruleKind": "NONE",
+      "prerequisiteExpression": {
+        "schemaVersion": 1,
+        "expression": {
+          "kind": "NONE"
+        }
+      },
+      "gradePlan": {
+        "version": "mock_linear_v1",
+        "assessmentPlanKnown": true,
+        "verified": true,
+        "label": "MOCK ONLY: 40% pooled quizzes + 60% equal exams; no actual syllabus approval",
+        "overrideKeys": {
+          "override_205197024335ce4adb2c7d0208cebbee2da0418017da8c84": true,
+          "override_5f18498bc0fb763427d3542d12b941ca80f75f184b4e7d6b": true,
+          "override_0baab8962b2d8cbc38e74723ab771cb7c1e346bb0d39c03a": true,
+          "override_fdec86eb06ca52fabfc0c1b6bb18b1e16c92876a6f8e48c7": true
+        },
+        "categories": {
+          "quizzes": {
+            "weight": 0.4,
+            "aggregation": "POOLED_POINTS",
+            "assessments": {
+              "quiz_1": {
+                "title": "MOCK Quiz 1",
+                "possiblePoints": 20
+              },
+              "quiz_2": {
+                "title": "MOCK Quiz 2",
+                "possiblePoints": 20
+              }
+            }
+          },
+          "exams": {
+            "weight": 0.6,
+            "aggregation": "EQUAL_ITEMS",
+            "assessments": {
+              "midterm": {
+                "title": "MOCK Midterm",
+                "possiblePoints": 100
+              },
+              "final": {
+                "title": "MOCK Final",
+                "possiblePoints": 100
+              }
+            }
+          }
+        }
+      }
+    },
+    "mock102": {
+      "courseId": "mock102",
+      "title": "MOCK - Choosing a Stack or Queue",
+      "units": 3,
+      "topicQuery": "stack queue",
+      "moduleId": "mock_data_structures",
+      "prerequisitesKnown": true,
+      "ruleKind": "ALL_OF",
+      "prerequisiteExpression": {
+        "schemaVersion": 1,
+        "expression": {
+          "kind": "COURSE",
+          "courseId": "mock101"
+        }
+      },
+      "gradePlan": {
+        "version": "mock_linear_v1",
+        "assessmentPlanKnown": true,
+        "verified": true,
+        "label": "MOCK ONLY: 40% pooled quizzes + 60% equal exams; no actual syllabus approval",
+        "overrideKeys": {
+          "override_205197024335ce4adb2c7d0208cebbee2da0418017da8c84": true,
+          "override_5f18498bc0fb763427d3542d12b941ca80f75f184b4e7d6b": true,
+          "override_0baab8962b2d8cbc38e74723ab771cb7c1e346bb0d39c03a": true,
+          "override_fdec86eb06ca52fabfc0c1b6bb18b1e16c92876a6f8e48c7": true
+        },
+        "categories": {
+          "quizzes": {
+            "weight": 0.4,
+            "aggregation": "POOLED_POINTS",
+            "assessments": {
+              "quiz_1": {
+                "title": "MOCK Quiz 1",
+                "possiblePoints": 20
+              },
+              "quiz_2": {
+                "title": "MOCK Quiz 2",
+                "possiblePoints": 20
+              }
+            }
+          },
+          "exams": {
+            "weight": 0.6,
+            "aggregation": "EQUAL_ITEMS",
+            "assessments": {
+              "midterm": {
+                "title": "MOCK Midterm",
+                "possiblePoints": 100
+              },
+              "final": {
+                "title": "MOCK Final",
+                "possiblePoints": 100
+              }
+            }
+          }
+        }
+      }
+    },
+    "mock103": {
+      "courseId": "mock103",
+      "title": "MOCK - Reading a Small Data Table",
+      "units": 3,
+      "topicQuery": "relational table",
+      "moduleId": "mock_databases",
+      "prerequisitesKnown": true,
+      "ruleKind": "ALL_OF",
+      "prerequisiteExpression": {
+        "schemaVersion": 1,
+        "expression": {
+          "kind": "COURSE",
+          "courseId": "mock102"
+        }
+      },
+      "gradePlan": {
+        "version": "mock_linear_v1",
+        "assessmentPlanKnown": true,
+        "verified": true,
+        "label": "MOCK ONLY: 40% pooled quizzes + 60% equal exams; no actual syllabus approval",
+        "overrideKeys": {
+          "override_205197024335ce4adb2c7d0208cebbee2da0418017da8c84": true,
+          "override_5f18498bc0fb763427d3542d12b941ca80f75f184b4e7d6b": true,
+          "override_0baab8962b2d8cbc38e74723ab771cb7c1e346bb0d39c03a": true,
+          "override_fdec86eb06ca52fabfc0c1b6bb18b1e16c92876a6f8e48c7": true
+        },
+        "categories": {
+          "quizzes": {
+            "weight": 0.4,
+            "aggregation": "POOLED_POINTS",
+            "assessments": {
+              "quiz_1": {
+                "title": "MOCK Quiz 1",
+                "possiblePoints": 20
+              },
+              "quiz_2": {
+                "title": "MOCK Quiz 2",
+                "possiblePoints": 20
+              }
+            }
+          },
+          "exams": {
+            "weight": 0.6,
+            "aggregation": "EQUAL_ITEMS",
+            "assessments": {
+              "midterm": {
+                "title": "MOCK Midterm",
+                "possiblePoints": 100
+              },
+              "final": {
+                "title": "MOCK Final",
+                "possiblePoints": 100
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "learnerPreferenceOptions": {
+    "mock_computing_v1": {
+      "schemaVersion": 1,
+      "curriculumVersion": "mock_computing_v1",
+      "levelId": "mock_college",
+      "subjectIds": {
+        "computing": true
+      },
+      "approved": true,
+      "approvalStatus": "APPROVED"
+    }
+  },
+  "academicPolicies": {
+    "mock_computing_v1": {
+      "schemaVersion": 1,
+      "curriculumVersion": "mock_computing_v1",
+      "levelId": "mock_college",
+      "educationSector": "HIGHER_EDUCATION",
+      "subjectIds": {
+        "computing": true
+      },
+      "approvalStatus": "APPROVED",
+      "approvalRef": "MOCK_ONLY_ACADEMIC_POLICY_V1",
+      "reviewer": "MOCK FIXTURE - NO HUMAN REVIEW",
+      "reviewedAt": 1793318400000,
+      "sourceRef": "MOCK_ORIGINAL_POLICY_NOT_A_SYLLABUS",
+      "contextRef": "mock_computing_v1",
+      "revision": 1,
+      "validFrom": 1,
+      "validUntil": 1893456000000,
+      "capabilities": {
+        "SCORES": true,
+        "SCENARIOS": true,
+        "GWA": true,
+        "PREREQUISITES": true
+      },
+      "capabilityApprovalRefs": {
+        "SCORES": "MOCK_ONLY_SCORES_V1",
+        "SCENARIOS": "MOCK_ONLY_SCENARIOS_V1",
+        "GWA": "MOCK_ONLY_GWA_V1",
+        "PREREQUISITES": "MOCK_ONLY_PREREQUISITES_V1"
+      },
+      "gwaPolicy": {
+        "scaleId": "mock_5point",
+        "minimumGrade": 1,
+        "maximumGrade": 5,
+        "attemptInclusion": "EXPLICIT",
+        "retakePolicyRef": "MOCK_EXPLICIT_RETAKE_CHOICE",
+        "exclusionPolicyRef": "MOCK_EXPLICIT_INCLUDE_EXCLUDE",
+        "roundingMode": "HALF_UP",
+        "roundingScale": 2
+      },
+      "coursePlans": {
+        "mock101": {
+          "subjectId": "computing",
+          "planVersion": "mock_linear_v1"
+        },
+        "mock102": {
+          "subjectId": "computing",
+          "planVersion": "mock_linear_v1"
+        },
+        "mock103": {
+          "subjectId": "computing",
+          "planVersion": "mock_linear_v1"
+        }
+      }
+    }
+  },
+  "moduleIndex": {
+    "mock_computing_v1": {
+      "mock_programming": {
+        "v1": {
+          "schemaVersion": 1,
+          "moduleId": "mock_programming",
+          "version": 1,
+          "title": "MOCK - Tracing a Small Program",
+          "visibility": "PUBLIC",
+          "applicability": {
+            "curriculumVersion": "mock_computing_v1",
+            "levelId": "mock_college",
+            "subjectId": "computing"
+          },
+          "source": {
+            "title": "MOCK - Tracing a Small Program - original synthetic teaching",
+            "reference": "mock://studypath/mock_programming/v1",
+            "locator": "Original mock lesson and complete companion PDF, version 1",
+            "author": "StudyPath synthetic fixture author",
+            "version": "mock-1"
+          },
+          "review": {
+            "status": "APPROVED",
+            "reviewer": "MOCK FIXTURE - NO HUMAN REVIEW",
+            "reviewedOn": "2026-10-30",
+            "approvalReference": "MOCK_ONLY_mock_programming_v1",
+            "permissionReference": "MOCK_ORIGINAL_TEXT_NO_REAL_RIGHTS_REVIEW",
+            "adaptationAllowed": true,
+            "redistributionAllowed": true
+          },
+          "textBytes": 7138,
+          "assetBytes": 3064,
+          "packageSha256": "49725a432908b46bb3c480e627ac4f571d9cc5f64c6cc5887f517cb191d84f73"
+        }
+      },
+      "mock_data_structures": {
+        "v1": {
+          "schemaVersion": 1,
+          "moduleId": "mock_data_structures",
+          "version": 1,
+          "title": "MOCK - Choosing a Stack or Queue",
+          "visibility": "PUBLIC",
+          "applicability": {
+            "curriculumVersion": "mock_computing_v1",
+            "levelId": "mock_college",
+            "subjectId": "computing"
+          },
+          "source": {
+            "title": "MOCK - Choosing a Stack or Queue - original synthetic teaching",
+            "reference": "mock://studypath/mock_data_structures/v1",
+            "locator": "Original mock lesson and complete companion PDF, version 1",
+            "author": "StudyPath synthetic fixture author",
+            "version": "mock-1"
+          },
+          "review": {
+            "status": "APPROVED",
+            "reviewer": "MOCK FIXTURE - NO HUMAN REVIEW",
+            "reviewedOn": "2026-10-30",
+            "approvalReference": "MOCK_ONLY_mock_data_structures_v1",
+            "permissionReference": "MOCK_ORIGINAL_TEXT_NO_REAL_RIGHTS_REVIEW",
+            "adaptationAllowed": true,
+            "redistributionAllowed": true
+          },
+          "textBytes": 6920,
+          "assetBytes": 3216,
+          "packageSha256": "11559e2db7baefdf22415d19429be7cd5fe9769d90923e5dad1fb6638678f2af"
+        }
+      },
+      "mock_databases": {
+        "v1": {
+          "schemaVersion": 1,
+          "moduleId": "mock_databases",
+          "version": 1,
+          "title": "MOCK - Reading a Small Data Table",
+          "visibility": "PUBLIC",
+          "applicability": {
+            "curriculumVersion": "mock_computing_v1",
+            "levelId": "mock_college",
+            "subjectId": "computing"
+          },
+          "source": {
+            "title": "MOCK - Reading a Small Data Table - original synthetic teaching",
+            "reference": "mock://studypath/mock_databases/v1",
+            "locator": "Original mock lesson and complete companion PDF, version 1",
+            "author": "StudyPath synthetic fixture author",
+            "version": "mock-1"
+          },
+          "review": {
+            "status": "APPROVED",
+            "reviewer": "MOCK FIXTURE - NO HUMAN REVIEW",
+            "reviewedOn": "2026-10-30",
+            "approvalReference": "MOCK_ONLY_mock_databases_v1",
+            "permissionReference": "MOCK_ORIGINAL_TEXT_NO_REAL_RIGHTS_REVIEW",
+            "adaptationAllowed": true,
+            "redistributionAllowed": true
+          },
+          "textBytes": 7121,
+          "assetBytes": 3009,
+          "packageSha256": "d31c9e913bef4a727d371bfd3140ea3022cab6413f79f93864390faaf2ee3a18"
+        }
+      }
+    }
+  },
+  "modulePackages": {
+    "mock_computing_v1": {
+      "mock_programming": {
+        "v1": {
+          "schemaVersion": 1,
+          "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"mock_programming\",\"version\":1,\"title\":\"MOCK - Tracing a Small Program\",\"applicability\":{\"curriculumVersion\":\"mock_computing_v1\",\"levelId\":\"mock_college\",\"subjectId\":\"computing\",\"classIds\":[]},\"source\":{\"title\":\"MOCK - Tracing a Small Program - original synthetic teaching\",\"reference\":\"mock://studypath/mock_programming/v1\",\"locator\":\"Original mock lesson and complete companion PDF, version 1\",\"author\":\"StudyPath synthetic fixture author\",\"version\":\"mock-1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"MOCK FIXTURE - NO HUMAN REVIEW\",\"reviewedOn\":\"2026-10-30\",\"approvalReference\":\"MOCK_ONLY_mock_programming_v1\",\"permissionReference\":\"MOCK_ORIGINAL_TEXT_NO_REAL_RIGHTS_REVIEW\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"objective_1\",\"description\":\"Trace an input, two sequential assignments and an output, preserving the order of updates.\"}],\"concepts\":[{\"id\":\"program_trace\",\"keywords\":[\"input process output\",\"variable assignment\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"objective_1\"],\"stepIds\":[\"goal\",\"example\",\"guided\",\"bridge\",\"ordering\",\"independent\",\"summary\"],\"questionIds\":[\"guided\",\"ordering\",\"independent\"],\"reviewQuestionIds\":[\"review_1\",\"review_2\"],\"conceptIds\":[\"program_trace\"]}],\"questions\":[{\"id\":\"guided\",\"objectiveId\":\"objective_1\",\"conceptIds\":[\"program_trace\"],\"format\":\"selected_response\"},{\"id\":\"ordering\",\"objectiveId\":\"objective_1\",\"conceptIds\":[\"program_trace\"],\"format\":\"ordering\"},{\"id\":\"independent\",\"objectiveId\":\"objective_1\",\"conceptIds\":[\"program_trace\"],\"format\":\"bounded_response\"},{\"id\":\"review_1\",\"objectiveId\":\"objective_1\",\"conceptIds\":[\"program_trace\"],\"format\":\"bounded_response\"},{\"id\":\"review_2\",\"objectiveId\":\"objective_1\",\"conceptIds\":[\"program_trace\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":4625,\"sha256\":\"44912ecea3066c5dcf83b6c8c59d97ee2e318fd6be856fe6820f360eedbb0794\"},\"assets\":[{\"id\":\"companion_pdf\",\"file\":\"mock_programming-v1.pdf\",\"kind\":\"PDF\",\"bytes\":3064,\"sha256\":\"10ac18ee51a98be02e883bac94b611e017cd4db2c76eec7488c0bfb03928d720\",\"url\":\"https://mock-assets.example.org/studypath/mock_programming-v1.pdf\"}],\"assetPolicy\":{\"reference\":\"MOCK_PUBLIC_ASSET_BUDGET_V1\",\"approvalReference\":\"MOCK_ONLY_mock_programming_v1\",\"reviewer\":\"MOCK FIXTURE - NO HUMAN REVIEW\",\"reviewedOn\":\"2026-10-30\",\"access\":\"PUBLIC_PREPUBLISHED\",\"origins\":[\"https://mock-assets.example.org\"],\"maxCount\":1,\"maxFileBytes\":1048576,\"maxTotalBytes\":1048576,\"mimeTypes\":[\"application/pdf\"]}}",
+          "textJson": "{\"schemaVersion\":1,\"moduleId\":\"mock_programming\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"MOCK - Tracing a Small Program\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal and explanation\",\"body\":\"MOCK ORIGINAL LESSON. A variable is a named place for a current value. Input supplies a value, processing changes or combines values, and output reports a result. Read instructions from top to bottom. An assignment replaces the old value; it does not keep every earlier value.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"Start with count = 2. First run count = count + 3, so count becomes 5. Then run count = count * 2, so count becomes 10. Displaying count outputs 10. Reversing the two assignments would produce 7, so their order matters.\"},{\"id\":\"guided\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Apply the explanation, then inspect the corrective feedback.\",\"questionId\":\"guided\"},{\"id\":\"bridge\",\"kind\":\"READING\",\"title\":\"Explain the rule\",\"body\":\"Before continuing, separate the current value from the instruction. If count is 4, the instruction count = count + 2 replaces it with 6. Only the next instruction sees that updated 6. Writing the value after every line prevents using the original input twice.\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Trace the order\",\"body\":\"Arrange the steps using the labeled movement controls.\",\"questionId\":\"ordering\"},{\"id\":\"independent\",\"kind\":\"CHECK\",\"title\":\"Independent application\",\"body\":\"Use the rule in this new small example.\",\"questionId\":\"independent\"},{\"id\":\"summary\",\"kind\":\"READING\",\"title\":\"Summary and later review\",\"body\":\"To trace a sequence independently, record each new value in order, then report the last value at the output instruction. Practice results here are demonstration study data, not a course grade.\"}]}],\"questions\":[{\"id\":\"guided\",\"format\":\"selected_response\",\"prompt\":\"Which instruction is processing rather than input or output?\",\"options\":[{\"id\":\"compute\",\"text\":\"total = price * quantity\",\"feedback\":\"This combines two values to compute a new value.\"},{\"id\":\"read\",\"text\":\"Read quantity from the keyboard\",\"feedback\":\"Reading supplies input; it does not perform the multiplication.\"},{\"id\":\"display\",\"text\":\"Display total\",\"feedback\":\"Displaying reports the result after processing.\"}],\"answer\":[\"compute\"],\"hint\":\"Look for the instruction that calculates a new value.\",\"explanation\":\"Multiplication transforms the supplied values. Reading and displaying belong to the input and output stages.\"},{\"id\":\"ordering\",\"format\":\"ordering\",\"prompt\":\"Order the steps to read a count, add three, then report it.\",\"options\":[{\"id\":\"input\",\"text\":\"Read count\",\"feedback\":\"The value must be available before the assignment uses it.\"},{\"id\":\"process\",\"text\":\"count = count + 3\",\"feedback\":\"Update the input before displaying the result.\"},{\"id\":\"output\",\"text\":\"Display count\",\"feedback\":\"Report the updated value after processing.\"}],\"answer\":[\"input\",\"process\",\"output\"],\"hint\":\"Supply a value, transform it, then report it.\",\"explanation\":\"This ordering makes each instruction use a value that has already been supplied or computed.\"},{\"id\":\"independent\",\"format\":\"bounded_response\",\"prompt\":\"Start count = 4. Run count = count + 2, then count = count * 3. What value is displayed?\",\"responseType\":\"numeric\",\"unit\":\"value\",\"target\":18,\"tolerance\":0,\"hint\":\"Write the value after the addition before applying the multiplication.\",\"explanation\":\"The addition gives 6; the next line multiplies that 6 by 3 to give 18.\"},{\"id\":\"review_1\",\"format\":\"bounded_response\",\"prompt\":\"In the input-process-output cycle, name the stage that calculates a changed value.\",\"responseType\":\"short\",\"unit\":\"\",\"acceptedAnswers\":[\"process\",\"processing\"],\"caseSensitive\":false,\"hint\":\"It is the middle stage.\",\"explanation\":\"Processing performs the calculation; input supplies values and output reports them.\"},{\"id\":\"review_2\",\"format\":\"bounded_response\",\"prompt\":\"A new run starts count = 1, adds 4, then doubles the current count. What is its output?\",\"responseType\":\"numeric\",\"unit\":\"value\",\"target\":10,\"tolerance\":0,\"hint\":\"Use the updated value 5 for the final step.\",\"explanation\":\"One plus four gives five; doubling five gives ten.\"}],\"glossary\":[{\"term\":\"Input\",\"definition\":\"A value supplied to a program before a calculation uses it.\"},{\"term\":\"Variable\",\"definition\":\"A name associated with a current value that assignments may replace.\"},{\"term\":\"Assignment\",\"definition\":\"An instruction that stores a calculated or supplied value in a variable.\"},{\"term\":\"Output\",\"definition\":\"A value or message that the program reports.\"}]}"
+        }
+      },
+      "mock_data_structures": {
+        "v1": {
+          "schemaVersion": 1,
+          "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"mock_data_structures\",\"version\":1,\"title\":\"MOCK - Choosing a Stack or Queue\",\"applicability\":{\"curriculumVersion\":\"mock_computing_v1\",\"levelId\":\"mock_college\",\"subjectId\":\"computing\",\"classIds\":[]},\"source\":{\"title\":\"MOCK - Choosing a Stack or Queue - original synthetic teaching\",\"reference\":\"mock://studypath/mock_data_structures/v1\",\"locator\":\"Original mock lesson and complete companion PDF, version 1\",\"author\":\"StudyPath synthetic fixture author\",\"version\":\"mock-1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"MOCK FIXTURE - NO HUMAN REVIEW\",\"reviewedOn\":\"2026-10-30\",\"approvalReference\":\"MOCK_ONLY_mock_data_structures_v1\",\"permissionReference\":\"MOCK_ORIGINAL_TEXT_NO_REAL_RIGHTS_REVIEW\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"objective_1\",\"description\":\"Apply last-in-first-out and first-in-first-out rules to a short sequence of stored items.\"}],\"concepts\":[{\"id\":\"removal_order\",\"keywords\":[\"stack queue\",\"LIFO FIFO\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"objective_1\"],\"stepIds\":[\"goal\",\"example\",\"guided\",\"bridge\",\"ordering\",\"independent\",\"summary\"],\"questionIds\":[\"guided\",\"ordering\",\"independent\"],\"reviewQuestionIds\":[\"review_1\",\"review_2\"],\"conceptIds\":[\"removal_order\"]}],\"questions\":[{\"id\":\"guided\",\"objectiveId\":\"objective_1\",\"conceptIds\":[\"removal_order\"],\"format\":\"selected_response\"},{\"id\":\"ordering\",\"objectiveId\":\"objective_1\",\"conceptIds\":[\"removal_order\"],\"format\":\"ordering\"},{\"id\":\"independent\",\"objectiveId\":\"objective_1\",\"conceptIds\":[\"removal_order\"],\"format\":\"bounded_response\"},{\"id\":\"review_1\",\"objectiveId\":\"objective_1\",\"conceptIds\":[\"removal_order\"],\"format\":\"bounded_response\"},{\"id\":\"review_2\",\"objectiveId\":\"objective_1\",\"conceptIds\":[\"removal_order\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":4399,\"sha256\":\"f4183eeddd8194ad76685f32ac7a530e6b3a682d584c94878af73921800eaedf\"},\"assets\":[{\"id\":\"companion_pdf\",\"file\":\"mock_data_structures-v1.pdf\",\"kind\":\"PDF\",\"bytes\":3216,\"sha256\":\"dc564cf318af292973921e0fccf7edd94f0e96f9c1868134e6f95d9f8abe86c5\",\"url\":\"https://mock-assets.example.org/studypath/mock_data_structures-v1.pdf\"}],\"assetPolicy\":{\"reference\":\"MOCK_PUBLIC_ASSET_BUDGET_V1\",\"approvalReference\":\"MOCK_ONLY_mock_data_structures_v1\",\"reviewer\":\"MOCK FIXTURE - NO HUMAN REVIEW\",\"reviewedOn\":\"2026-10-30\",\"access\":\"PUBLIC_PREPUBLISHED\",\"origins\":[\"https://mock-assets.example.org\"],\"maxCount\":1,\"maxFileBytes\":1048576,\"maxTotalBytes\":1048576,\"mimeTypes\":[\"application/pdf\"]}}",
+          "textJson": "{\"schemaVersion\":1,\"moduleId\":\"mock_data_structures\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"MOCK - Choosing a Stack or Queue\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal and explanation\",\"body\":\"MOCK ORIGINAL LESSON. A stack removes the most recently added item first: last in, first out (LIFO). A queue removes the earliest waiting item first: first in, first out (FIFO). The same stored items can therefore leave in different orders.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"Add A, then B, then C. In a stack, the next removal returns C because it was added last. In a queue, the next removal returns A because it has waited longest. Both structures then contain two items; their removal rule, rather than their item count, distinguishes them.\"},{\"id\":\"guided\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Apply the explanation, then inspect the corrective feedback.\",\"questionId\":\"guided\"},{\"id\":\"bridge\",\"kind\":\"READING\",\"title\":\"Explain the rule\",\"body\":\"Keep order and count separate. Enqueue adds one item at the back; dequeue removes one item from the front. After four additions and two valid removals from a previously empty queue, two items remain. A removal from an empty structure is outside this example and must be handled explicitly in real software.\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Trace the order\",\"body\":\"Arrange the steps using the labeled movement controls.\",\"questionId\":\"ordering\"},{\"id\":\"independent\",\"kind\":\"CHECK\",\"title\":\"Independent application\",\"body\":\"Use the rule in this new small example.\",\"questionId\":\"independent\"},{\"id\":\"summary\",\"kind\":\"READING\",\"title\":\"Summary and later review\",\"body\":\"Choose the structure from the required removal rule, then trace its operations. Stack means latest first; queue means earliest first. State empty-structure behavior separately rather than guessing.\"}]}],\"questions\":[{\"id\":\"guided\",\"format\":\"selected_response\",\"prompt\":\"An undo history should return the most recent action first. Which structure matches that rule?\",\"options\":[{\"id\":\"stack\",\"text\":\"Stack\",\"feedback\":\"The latest action is the last item added, matching LIFO.\"},{\"id\":\"queue\",\"text\":\"Queue\",\"feedback\":\"FIFO would return the earliest action, rather than the latest one.\"}],\"answer\":[\"stack\"],\"hint\":\"Undo the last action before earlier actions.\",\"explanation\":\"A stack returns the latest stored action first. This is a rule-selection example, not a full undo implementation.\"},{\"id\":\"ordering\",\"format\":\"ordering\",\"prompt\":\"Order the next three removals from a queue that received A, then B, then C.\",\"options\":[{\"id\":\"a\",\"text\":\"Remove A\",\"feedback\":\"A entered first, so FIFO removes it first.\"},{\"id\":\"b\",\"text\":\"Remove B\",\"feedback\":\"B entered after A and before C.\"},{\"id\":\"c\",\"text\":\"Remove C\",\"feedback\":\"C entered last and waits until the earlier items leave.\"}],\"answer\":[\"a\",\"b\",\"c\"],\"hint\":\"Follow the arrival order.\",\"explanation\":\"FIFO preserves the arrival order for these removals: A, B, C.\"},{\"id\":\"independent\",\"format\":\"bounded_response\",\"prompt\":\"An empty queue receives four items, then performs two valid removals. How many items remain?\",\"responseType\":\"numeric\",\"unit\":\"items\",\"target\":2,\"tolerance\":0,\"hint\":\"Each addition increases the count by one; each removal decreases it by one.\",\"explanation\":\"Four additions produce four items. Two removals leave 4 - 2 = 2 items.\"},{\"id\":\"review_1\",\"format\":\"bounded_response\",\"prompt\":\"Name the structure that removes the most recently added item first.\",\"responseType\":\"short\",\"unit\":\"\",\"acceptedAnswers\":[\"stack\"],\"caseSensitive\":false,\"hint\":\"Its removal rule is LIFO.\",\"explanation\":\"A stack follows last in, first out.\"},{\"id\":\"review_2\",\"format\":\"bounded_response\",\"prompt\":\"A queue receives D, E and F, then removes D. How many items remain?\",\"responseType\":\"numeric\",\"unit\":\"items\",\"target\":2,\"tolerance\":0,\"hint\":\"One item leaves the three-item queue.\",\"explanation\":\"E and F remain, so the count is two.\"}],\"glossary\":[{\"term\":\"Stack\",\"definition\":\"A structure whose next removal returns the most recently added remaining item.\"},{\"term\":\"Queue\",\"definition\":\"A structure whose next removal returns the earliest added remaining item.\"},{\"term\":\"FIFO\",\"definition\":\"First in, first out: the earliest waiting item leaves first.\"},{\"term\":\"LIFO\",\"definition\":\"Last in, first out: the most recently added item leaves first.\"}]}"
+        }
+      },
+      "mock_databases": {
+        "v1": {
+          "schemaVersion": 1,
+          "manifestJson": "{\"schemaVersion\":1,\"moduleId\":\"mock_databases\",\"version\":1,\"title\":\"MOCK - Reading a Small Data Table\",\"applicability\":{\"curriculumVersion\":\"mock_computing_v1\",\"levelId\":\"mock_college\",\"subjectId\":\"computing\",\"classIds\":[]},\"source\":{\"title\":\"MOCK - Reading a Small Data Table - original synthetic teaching\",\"reference\":\"mock://studypath/mock_databases/v1\",\"locator\":\"Original mock lesson and complete companion PDF, version 1\",\"author\":\"StudyPath synthetic fixture author\",\"version\":\"mock-1\"},\"review\":{\"status\":\"APPROVED\",\"reviewer\":\"MOCK FIXTURE - NO HUMAN REVIEW\",\"reviewedOn\":\"2026-10-30\",\"approvalReference\":\"MOCK_ONLY_mock_databases_v1\",\"permissionReference\":\"MOCK_ORIGINAL_TEXT_NO_REAL_RIGHTS_REVIEW\",\"adaptationAllowed\":true,\"redistributionAllowed\":true},\"objectives\":[{\"id\":\"objective_1\",\"description\":\"Identify a primary key and count rows that satisfy a stated equality condition in a small table.\"}],\"concepts\":[{\"id\":\"table_filter\",\"keywords\":[\"relational table\",\"primary key WHERE\"]}],\"lessons\":[{\"id\":\"lesson_1\",\"objectiveIds\":[\"objective_1\"],\"stepIds\":[\"goal\",\"example\",\"guided\",\"bridge\",\"ordering\",\"independent\",\"summary\"],\"questionIds\":[\"guided\",\"ordering\",\"independent\"],\"reviewQuestionIds\":[\"review_1\",\"review_2\"],\"conceptIds\":[\"table_filter\"]}],\"questions\":[{\"id\":\"guided\",\"objectiveId\":\"objective_1\",\"conceptIds\":[\"table_filter\"],\"format\":\"selected_response\"},{\"id\":\"ordering\",\"objectiveId\":\"objective_1\",\"conceptIds\":[\"table_filter\"],\"format\":\"ordering\"},{\"id\":\"independent\",\"objectiveId\":\"objective_1\",\"conceptIds\":[\"table_filter\"],\"format\":\"bounded_response\"},{\"id\":\"review_1\",\"objectiveId\":\"objective_1\",\"conceptIds\":[\"table_filter\"],\"format\":\"bounded_response\"},{\"id\":\"review_2\",\"objectiveId\":\"objective_1\",\"conceptIds\":[\"table_filter\"],\"format\":\"bounded_response\"}],\"text\":{\"file\":\"module.json\",\"bytes\":4621,\"sha256\":\"d42a89a87811af72f4668c433641b2f1fd79b012a01506e64917c581ba8e629a\"},\"assets\":[{\"id\":\"companion_pdf\",\"file\":\"mock_databases-v1.pdf\",\"kind\":\"PDF\",\"bytes\":3009,\"sha256\":\"9a1e9f0f321e9f782a2ca7f605cef67a37aad8733498919ad1142e53d0c5f056\",\"url\":\"https://mock-assets.example.org/studypath/mock_databases-v1.pdf\"}],\"assetPolicy\":{\"reference\":\"MOCK_PUBLIC_ASSET_BUDGET_V1\",\"approvalReference\":\"MOCK_ONLY_mock_databases_v1\",\"reviewer\":\"MOCK FIXTURE - NO HUMAN REVIEW\",\"reviewedOn\":\"2026-10-30\",\"access\":\"PUBLIC_PREPUBLISHED\",\"origins\":[\"https://mock-assets.example.org\"],\"maxCount\":1,\"maxFileBytes\":1048576,\"maxTotalBytes\":1048576,\"mimeTypes\":[\"application/pdf\"]}}",
+          "textJson": "{\"schemaVersion\":1,\"moduleId\":\"mock_databases\",\"version\":1,\"lessons\":[{\"id\":\"lesson_1\",\"title\":\"MOCK - Reading a Small Data Table\",\"steps\":[{\"id\":\"goal\",\"kind\":\"READING\",\"title\":\"Goal and explanation\",\"body\":\"MOCK ORIGINAL LESSON. A table organizes records as rows and attributes as columns. A primary key distinguishes each row and must be unique and present. Filtering selects matching rows; it does not rewrite the original table.\"},{\"id\":\"example\",\"kind\":\"EXAMPLE\",\"title\":\"Worked example\",\"body\":\"Consider rows (id=1, subject=computing), (id=2, subject=math), (id=3, subject=computing), (id=4, subject=art). The condition subject = computing selects rows 1 and 3, so COUNT(*) for that filtered set is 2. The table still has four stored rows.\"},{\"id\":\"guided\",\"kind\":\"CHECK\",\"title\":\"Guided check\",\"body\":\"Apply the explanation, then inspect the corrective feedback.\",\"questionId\":\"guided\"},{\"id\":\"bridge\",\"kind\":\"READING\",\"title\":\"Explain the rule\",\"body\":\"Read a condition one row at a time. Mark matching rows, then count those marks. COUNT(*) counts matching rows in this example, whereas reading a column value reports data from a row. A SELECT filter does not delete nonmatching rows.\"},{\"id\":\"ordering\",\"kind\":\"CHECK\",\"title\":\"Trace the order\",\"body\":\"Arrange the steps using the labeled movement controls.\",\"questionId\":\"ordering\"},{\"id\":\"independent\",\"kind\":\"CHECK\",\"title\":\"Independent application\",\"body\":\"Use the rule in this new small example.\",\"questionId\":\"independent\"},{\"id\":\"summary\",\"kind\":\"READING\",\"title\":\"Summary and later review\",\"body\":\"Separate storage from a query result. A key identifies rows, a condition selects them, and a count reports how many matched. The original rows remain unchanged by this read-only selection.\"}]}],\"questions\":[{\"id\":\"guided\",\"format\":\"selected_response\",\"prompt\":\"Which property is required of the id column when it is the primary key?\",\"options\":[{\"id\":\"unique\",\"text\":\"Every row has a unique, present id\",\"feedback\":\"This lets the key identify one row without ambiguity.\"},{\"id\":\"duplicate\",\"text\":\"All rows share the same id\",\"feedback\":\"A shared value cannot distinguish one row from another.\"},{\"id\":\"blank\",\"text\":\"The id may be absent for every row\",\"feedback\":\"An absent value cannot provide a primary-key identity.\"}],\"answer\":[\"unique\"],\"hint\":\"A key should identify exactly one row.\",\"explanation\":\"Uniqueness and presence are essential for primary-key identity; the values need not be consecutive.\"},{\"id\":\"ordering\",\"format\":\"ordering\",\"prompt\":\"Order the demonstration operations for a new table.\",\"options\":[{\"id\":\"create\",\"text\":\"Create the table with its column definitions\",\"feedback\":\"The table must exist before rows can be inserted.\"},{\"id\":\"insert\",\"text\":\"Insert the four example rows\",\"feedback\":\"Add rows before expecting the example query to find them.\"},{\"id\":\"select\",\"text\":\"Select rows whose subject is computing\",\"feedback\":\"Run the query after the example rows have been added.\"}],\"answer\":[\"create\",\"insert\",\"select\"],\"hint\":\"Define storage, add data, then inspect it.\",\"explanation\":\"This demonstration creates a structure, fills it, then reads matching rows. It makes no claim about concurrent database transactions.\"},{\"id\":\"independent\",\"format\":\"bounded_response\",\"prompt\":\"Rows have subjects computing, math, computing and art. How many satisfy subject = computing?\",\"responseType\":\"numeric\",\"unit\":\"rows\",\"target\":2,\"tolerance\":0,\"hint\":\"Count the two rows with the exact named subject.\",\"explanation\":\"The first and third rows match. Two matching rows are returned; the stored table is unchanged.\"},{\"id\":\"review_1\",\"format\":\"bounded_response\",\"prompt\":\"What two-word term names a column or column set used to identify each row uniquely?\",\"responseType\":\"short\",\"unit\":\"\",\"acceptedAnswers\":[\"primary key\",\"primary_key\"],\"caseSensitive\":false,\"hint\":\"It is the main key used for row identity.\",\"explanation\":\"A primary key provides a unique, present identity for each row.\"},{\"id\":\"review_2\",\"format\":\"bounded_response\",\"prompt\":\"Rows have ids 11, 12, 13 and 14. How many satisfy id > 12?\",\"responseType\":\"numeric\",\"unit\":\"rows\",\"target\":2,\"tolerance\":0,\"hint\":\"Only values strictly greater than 12 match.\",\"explanation\":\"Ids 13 and 14 match, so the count is two.\"}],\"glossary\":[{\"term\":\"Row\",\"definition\":\"One record in a table.\"},{\"term\":\"Column\",\"definition\":\"A named attribute represented across the rows of a table.\"},{\"term\":\"Primary key\",\"definition\":\"A unique, present column or column set that identifies a row.\"},{\"term\":\"Filter\",\"definition\":\"A condition used to choose matching rows for a query result.\"}]}"
+        }
+      }
+    }
+  },
+  "modulePublicationHistory": {
+    "mock_computing_v1": {
+      "mock_programming": {
+        "v1": {
+          "schemaVersion": 1,
+          "moduleId": "mock_programming",
+          "version": 1,
+          "curriculumVersion": "mock_computing_v1",
+          "packageSha256": "49725a432908b46bb3c480e627ac4f571d9cc5f64c6cc5887f517cb191d84f73",
+          "manifestSha256": "b7a096c993ab0e2c3f80c4d5b32348b2e822f76a728d8ccb67410b7caa0d8e5f",
+          "approvalSha256": "fc06b165b848211fbd18e74e6a80c37491b468bc608298dc0b9b828a2e346dea",
+          "summarySha256": "b353261d08de976cbaeca0e02bb40999131c2c4b8890b0c4241c677bc75a3dd4",
+          "payloadSha256": "cc3c106349738916cbe10867d4d0dc76951fbe1a1386c655f1cc680178b8e9f0",
+          "evidenceMode": "SYNTHETIC_LOCAL_ONLY",
+          "publishedBy": "mock_fixture_author",
+          "publishedAt": 1793318400001
+        }
+      },
+      "mock_data_structures": {
+        "v1": {
+          "schemaVersion": 1,
+          "moduleId": "mock_data_structures",
+          "version": 1,
+          "curriculumVersion": "mock_computing_v1",
+          "packageSha256": "11559e2db7baefdf22415d19429be7cd5fe9769d90923e5dad1fb6638678f2af",
+          "manifestSha256": "4af56b0a6c5238c265bbb36fa9a2737524bf196b3fce9f138ed1b06c172925b3",
+          "approvalSha256": "ddb574e24e7fb370de3cea27b51d1e3d3a057c6688a52ceff67b080f666d94d2",
+          "summarySha256": "5a9b9a752dd8774eef2cdbd73a6d29fe7f45d213671b8b3c5ffc4957b4a26a87",
+          "payloadSha256": "b80e5b14c8e01ee230ee13b176eae304b5e609fcb6214e5d1e07a356e15e69a3",
+          "evidenceMode": "SYNTHETIC_LOCAL_ONLY",
+          "publishedBy": "mock_fixture_author",
+          "publishedAt": 1793318400001
+        }
+      },
+      "mock_databases": {
+        "v1": {
+          "schemaVersion": 1,
+          "moduleId": "mock_databases",
+          "version": 1,
+          "curriculumVersion": "mock_computing_v1",
+          "packageSha256": "d31c9e913bef4a727d371bfd3140ea3022cab6413f79f93864390faaf2ee3a18",
+          "manifestSha256": "908011c245bba3ec717c7c829d877d656f307ded9687b4a08d856f33b8d6f17f",
+          "approvalSha256": "7c9d7f5c5862744a363172402ceac4ff7589baf8aeb3c28a843f18238dc47f40",
+          "summarySha256": "8c3c3f4f784f07a804988e4052344888451d5794abfb97b7822efb1249f44aca",
+          "payloadSha256": "90a1b601b5e78c066b7f36287c897a054f9d14faa7a295e05d85de348990ff7c",
+          "evidenceMode": "SYNTHETIC_LOCAL_ONLY",
+          "publishedBy": "mock_fixture_author",
+          "publishedAt": 1793318400001
+        }
+      }
+    }
+  },
+  "sharingLessonKeys": {
+    "mock_computing_v1": {
+      "mock_programming:v1:lesson_1": "49725a432908b46bb3c480e627ac4f571d9cc5f64c6cc5887f517cb191d84f73",
+      "mock_data_structures:v1:lesson_1": "11559e2db7baefdf22415d19429be7cd5fe9769d90923e5dad1fb6638678f2af",
+      "mock_databases:v1:lesson_1": "d31c9e913bef4a727d371bfd3140ea3022cab6413f79f93864390faaf2ee3a18"
+    }
+  }
+}

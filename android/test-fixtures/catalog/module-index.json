@@ -1,0 +1,273 @@
+{
+  "purpose": "SYNTHETIC TEST ONLY; fabricated review metadata; never publish as approved content",
+  "expected": [
+    "all_classes:v1",
+    "fixture_module:v2",
+    "fixture_module:v1"
+  ],
+  "catalog": {
+    "learnerPreferenceOptions": {
+      "fixture_v1": {
+        "schemaVersion": 1,
+        "curriculumVersion": "fixture_v1",
+        "levelId": "fixture_level",
+        "subjectIds": {
+          "fixture_subject": true
+        },
+        "approved": true,
+        "approvalStatus": "APPROVED"
+      }
+    },
+    "moduleIndex": {
+      "fixture_v1": {
+        "fixture_module": {
+          "v1": {
+            "schemaVersion": 1,
+            "moduleId": "fixture_module",
+            "version": 1,
+            "title": "Synthetic fixture",
+            "visibility": "PUBLIC",
+            "applicability": {
+              "curriculumVersion": "fixture_v1",
+              "levelId": "fixture_level",
+              "subjectId": "fixture_subject",
+              "classIds": {
+                "0": true
+              }
+            },
+            "source": {
+              "title": "Synthetic test source",
+              "reference": "https://example.invalid/test",
+              "locator": "Test only",
+              "author": "Test author",
+              "version": "fixture_v1"
+            },
+            "review": {
+              "status": "APPROVED",
+              "reviewer": "TEST ONLY",
+              "reviewedOn": "2026-10-26",
+              "approvalReference": "TEST ONLY",
+              "permissionReference": "TEST ONLY",
+              "adaptationAllowed": true,
+              "redistributionAllowed": true
+            },
+            "textBytes": 1262,
+            "assetBytes": 0,
+            "packageSha256": "50f85102109e249fe8f007aee71f0f6a5d158c67ca2b5a6363887a0dd79a388c"
+          },
+          "v2": {
+            "schemaVersion": 1,
+            "moduleId": "fixture_module",
+            "version": 2,
+            "title": "Synthetic fixture",
+            "visibility": "PUBLIC",
+            "applicability": {
+              "curriculumVersion": "fixture_v1",
+              "levelId": "fixture_level",
+              "subjectId": "fixture_subject",
+              "classIds": {
+                "0": true
+              }
+            },
+            "source": {
+              "title": "Synthetic test source",
+              "reference": "https://example.invalid/test",
+              "locator": "Test only",
+              "author": "Test author",
+              "version": "fixture_v1"
+            },
+            "review": {
+              "status": "APPROVED",
+              "reviewer": "TEST ONLY",
+              "reviewedOn": "2026-10-26",
+              "approvalReference": "TEST ONLY",
+              "permissionReference": "TEST ONLY",
+              "adaptationAllowed": true,
+              "redistributionAllowed": true
+            },
+            "textBytes": 1262,
+            "assetBytes": 0,
+            "packageSha256": "07dbf0a5938bf2d7efde39d923118c4a783366197a5c43f3a6781a7495ee268b"
+          }
+        },
+        "all_classes": {
+          "v1": {
+            "schemaVersion": 1,
+            "moduleId": "all_classes",
+            "version": 1,
+            "title": "Synthetic fixture",
+            "visibility": "PUBLIC",
+            "applicability": {
+              "curriculumVersion": "fixture_v1",
+              "levelId": "fixture_level",
+              "subjectId": "fixture_subject"
+            },
+            "source": {
+              "title": "Synthetic test source",
+              "reference": "https://example.invalid/test",
+              "locator": "Test only",
+              "author": "Test author",
+              "version": "fixture_v1"
+            },
+            "review": {
+              "status": "APPROVED",
+              "reviewer": "TEST ONLY",
+              "reviewedOn": "2026-10-26",
+              "approvalReference": "TEST ONLY",
+              "permissionReference": "TEST ONLY",
+              "adaptationAllowed": true,
+              "redistributionAllowed": true
+            },
+            "textBytes": 1253,
+            "assetBytes": 0,
+            "packageSha256": "5beeeeb994dad7c4627298e8efa10435aad7c42dab571898640cb9d1084cc9bd"
+          }
+        },
+        "wrong_level": {
+          "v1": {
+            "schemaVersion": 1,
+            "moduleId": "wrong_level",
+            "version": 1,
+            "title": "Synthetic fixture",
+            "visibility": "PUBLIC",
+            "applicability": {
+              "curriculumVersion": "fixture_v1",
+              "levelId": "other",
+              "subjectId": "fixture_subject",
+              "classIds": {
+                "0": true
+              }
+            },
+            "source": {
+              "title": "Synthetic test source",
+              "reference": "https://example.invalid/test",
+              "locator": "Test only",
+              "author": "Test author",
+              "version": "fixture_v1"
+            },
+            "review": {
+              "status": "APPROVED",
+              "reviewer": "TEST ONLY",
+              "reviewedOn": "2026-10-26",
+              "approvalReference": "TEST ONLY",
+              "permissionReference": "TEST ONLY",
+              "adaptationAllowed": true,
+              "redistributionAllowed": true
+            },
+            "textBytes": 1248,
+            "assetBytes": 0,
+            "packageSha256": "b9f490205a35ab8f4dd157ca9f762b9889618c63a94bd6a97679efd98e0afad6"
+          }
+        },
+        "wrong_subject": {
+          "v1": {
+            "schemaVersion": 1,
+            "moduleId": "wrong_subject",
+            "version": 1,
+            "title": "Synthetic fixture",
+            "visibility": "PUBLIC",
+            "applicability": {
+              "curriculumVersion": "fixture_v1",
+              "levelId": "fixture_level",
+              "subjectId": "other",
+              "classIds": {
+                "0": true
+              }
+            },
+            "source": {
+              "title": "Synthetic test source",
+              "reference": "https://example.invalid/test",
+              "locator": "Test only",
+              "author": "Test author",
+              "version": "fixture_v1"
+            },
+            "review": {
+              "status": "APPROVED",
+              "reviewer": "TEST ONLY",
+              "reviewedOn": "2026-10-26",
+              "approvalReference": "TEST ONLY",
+              "permissionReference": "TEST ONLY",
+              "adaptationAllowed": true,
+              "redistributionAllowed": true
+            },
+            "textBytes": 1250,
+            "assetBytes": 0,
+            "packageSha256": "f9574af8a90ac852ff9d84f0582a725fbb17aae7426abaf783d6e6417e8393cf"
+          }
+        },
+        "wrong_class": {
+          "v1": {
+            "schemaVersion": 1,
+            "moduleId": "wrong_class",
+            "version": 1,
+            "title": "Synthetic fixture",
+            "visibility": "PUBLIC",
+            "applicability": {
+              "curriculumVersion": "fixture_v1",
+              "levelId": "fixture_level",
+              "subjectId": "fixture_subject",
+              "classIds": {
+                "other": true
+              }
+            },
+            "source": {
+              "title": "Synthetic test source",
+              "reference": "https://example.invalid/test",
+              "locator": "Test only",
+              "author": "Test author",
+              "version": "fixture_v1"
+            },
+            "review": {
+              "status": "APPROVED",
+              "reviewer": "TEST ONLY",
+              "reviewedOn": "2026-10-26",
+              "approvalReference": "TEST ONLY",
+              "permissionReference": "TEST ONLY",
+              "adaptationAllowed": true,
+              "redistributionAllowed": true
+            },
+            "textBytes": 1260,
+            "assetBytes": 0,
+            "packageSha256": "eb6cc35919c22286f201d6770221691a81064cbce3fc01e6245c535cfd76eaa9"
+          }
+        },
+        "unreviewed": {
+          "v1": {
+            "schemaVersion": 1,
+            "moduleId": "unreviewed",
+            "version": 1,
+            "title": "Synthetic fixture",
+            "visibility": "PUBLIC",
+            "applicability": {
+              "curriculumVersion": "fixture_v1",
+              "levelId": "fixture_level",
+              "subjectId": "fixture_subject",
+              "classIds": {
+                "0": true
+              }
+            },
+            "source": {
+              "title": "Synthetic test source",
+              "reference": "https://example.invalid/test",
+              "locator": "Test only",
+              "author": "Test author",
+              "version": "fixture_v1"
+            },
+            "review": {
+              "status": "DEMONSTRATION_ONLY",
+              "reviewer": "TEST ONLY",
+              "reviewedOn": "2026-10-26",
+              "approvalReference": "TEST ONLY",
+              "permissionReference": "TEST ONLY",
+              "adaptationAllowed": true,
+              "redistributionAllowed": true
+            },
+            "textBytes": 1254,
+            "assetBytes": 0,
+            "packageSha256": "7d7c822d4bf7adef7fcb14d2a0cac3d809f2bc6dd55574ec102b01bffcc1c914"
+          }
+        }
+      }
+    }
+  }
+}

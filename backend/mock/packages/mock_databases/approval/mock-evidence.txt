@@ -1,0 +1,3 @@
+SYNTHETIC LOCAL DEMO ONLY. No real institution, reviewer approval, learner data or course grades.
+Original authored mock module: mock_databases, version 1.
+All approval/rights fields are fabricated fixture flags, not signatures.

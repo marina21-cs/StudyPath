@@ -1,0 +1,578 @@
+package com.studypath.app
+
+import android.app.Activity
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Rect
+import android.os.SystemClock
+import android.os.ParcelFileDescriptor
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.EditText
+import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.Espresso.closeSoftKeyboard
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.replaceText
+import androidx.test.espresso.action.ViewActions.scrollTo
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.isEnabled
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
+import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.espresso.matcher.ViewMatchers.withTagValue
+import androidx.test.espresso.matcher.ViewMatchers.hasSibling
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
+import androidx.test.runner.lifecycle.Stage
+import com.studypath.app.ui.MainActivity
+import com.studypath.app.ui.auth.LoginActivity
+import com.studypath.app.ui.auth.RegisterActivity
+import com.studypath.app.ui.auth.EmailVerificationActivity
+import com.studypath.app.ui.auth.WelcomeActivity
+import com.google.android.gms.tasks.Tasks
+import com.google.firebase.auth.EmailAuthProvider
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import okhttp3.HttpUrl.Companion.toHttpUrl
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
+import org.json.JSONArray
+import org.hamcrest.Matchers.containsString
+import org.hamcrest.Matchers.not
+import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.`is`
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
+import org.junit.Test
+import org.junit.runner.RunWith
+import java.io.File
+import java.util.UUID
+import java.util.concurrent.TimeUnit
+import java.security.MessageDigest
+
+/**
+ * Real local Firebase Auth/RTDB smoke test. The default run has no network API dependency.
+ * Pass -e verifyLiveReading true to additionally verify the real Wikipedia-to-saved-reading flow.
+ * Prerequisites: fresh app data, running local Auth/RTDB emulators, seeded demonstration catalog.
+ * The synthetic user is intentionally disposable. Never run this against a cloud Firebase project.
+ */
+@RunWith(AndroidJUnit4::class)
+class StudyPathSmokeTest {
+    private val instrumentation = InstrumentationRegistry.getInstrumentation()
+    private val app get() = ApplicationProvider.getApplicationContext<StudyPathApplication>()
+    private var cleanupUid: String? = null
+    private var cleanupCreatedAt: Long? = null
+    private var cleanupStartedAt = 0L
+    private var cleanupProfile: String? = null
+    private var signupSubmitted = false
+    private var cleanupStep = "not-started"
+    private var flowStage = "guards"
+    private var lastAwaitFailure: String? = null
+    private var timeoutCaptureFailure: String? = null
+    private val cleanupClient = OkHttpClient.Builder().followRedirects(false).followSslRedirects(false)
+        .connectTimeout(10, TimeUnit.SECONDS).readTimeout(15, TimeUnit.SECONDS).callTimeout(20, TimeUnit.SECONDS).build()
+
+    @Test
+    fun registerBrowseSeededCatalogLogoutAndSignInToBoundWorkspace() {
+        assertTrue("Smoke tests are restricted to the local Firebase emulator configuration", BuildConfig.USE_FIREBASE_EMULATORS)
+        assertEquals("demo-studypath", BuildConfig.FIREBASE_PROJECT_ID)
+        assertEquals("https://demo-studypath-default-rtdb.firebaseio.com", BuildConfig.FIREBASE_DATABASE_URL)
+        val avd = ParcelFileDescriptor.AutoCloseInputStream(instrumentation.uiAutomation
+            .executeShellCommand("getprop ro.boot.qemu.avd_name")).use { it.readBytes().toString(Charsets.UTF_8).trim() }
+        assertEquals("Never register or clean the persistent preview", "StudyPath_Lite_Test", avd)
+        assertNull("Install with fresh app data before running this smoke test", app.graph.repository.boundUid())
+        assertNull(app.graph.repository.currentSession())
+        assertNull(FirebaseAuth.getInstance().currentUser)
+        val email = "smoke_${UUID.randomUUID().toString().replace("-", "")}@studypath.invalid"
+        val password = "LocalSmoke123!"
+        cleanupStartedAt = System.currentTimeMillis()
+        var flowFailure: String? = null
+        var flowFailureLocation: String? = null
+        var cleanup = JSONObject().put("status", "NOT_ATTEMPTED")
+        try {
+        ActivityScenario.launch(WelcomeActivity::class.java).use {
+            awaitActivity(WelcomeActivity::class.java)
+            await("Welcome sign-up action must finish checking the fresh workspace") {
+                mainThreadValue { resumedActivity(WelcomeActivity::class.java)?.findViewById<View>(R.id.signUpButton)?.isEnabled == true }
+            }
+            onView(withId(R.id.signUpButton)).check(matches(isCompletelyDisplayed()))
+            onView(withId(R.id.loginButton)).check(matches(isCompletelyDisplayed()))
+            captureScreen("00-welcome")
+            onView(withId(R.id.signUpButton)).perform(scrollTo(), click())
+            awaitActivity(RegisterActivity::class.java)
+            captureScreen("01-register-empty")
+            onView(withId(R.id.emailInput)).perform(scrollTo(), replaceText(email))
+            onView(withId(R.id.passwordInput)).perform(scrollTo(), replaceText(password))
+            closeSoftKeyboard()
+            signupSubmitted = true
+            onView(withId(R.id.createButton)).perform(scrollTo(), click())
+
+            awaitActivity(EmailVerificationActivity::class.java)
+            val createdUser = requireSmokeOwner(email, capture = true)
+            val initial = smokeTree(smokeToken(createdUser)).body
+            cleanupProfile = canonical(JSONObject(initial).getJSONObject("profile"))
+            onView(withId(R.id.continueStudyingButton)).perform(scrollTo(), click())
+            awaitActivity(MainActivity::class.java)
+            leaveLoadedPreferences()
+            awaitTag("study_heading")
+            onView(withTagValue(`is`("study_heading" as Any))).check(matches(isDisplayed()))
+            captureScreen("02-study-home")
+            val firstSession = app.graph.repository.currentSession()
+            assertNotNull("UI registration must create a real Firebase-backed repository session", firstSession)
+            assertEquals(email, firstSession!!.email)
+            assertEquals(firstSession.uid, app.graph.repository.boundUid())
+
+            tapNavigation(R.id.nav_saved)
+            awaitTag("saved_lessons_tab")
+            onView(withTagValue(`is`("saved_lessons_tab" as Any))).perform(scrollTo(), click())
+            awaitText("0 ready offline")
+            assertTrue("Saved must not expose legacy demonstration lessons", mainThreadValue {
+                currentRoot()?.let { !containsText(it) { value -> value == "Algorithms and programming" } } == true
+            })
+            captureScreen("03-study-shelf")
+
+            flowStage = "planner-catalog-and-policy"
+            tapNavigation(R.id.nav_planner)
+            awaitText("Programming Foundations")
+            awaitText("Planning unavailable")
+            onView(withText("Planning unavailable")).perform(scrollTo()).check(matches(isDisplayed()))
+            assertTrue("The demonstration catalog must not expose score or target controls", mainThreadValue {
+                currentRoot()?.let { root -> !containsText(root) { value -> value == "Add scores" || value == "Set a target" } } == true
+            })
+            captureScreen("04-planner")
+            flowStage = "planner-to-supported-preferences"
+            awaitText("Change learning preferences")
+            onView(withText("Change learning preferences")).perform(scrollTo(), click())
+            awaitTag("learner_preferences")
+            onView(withTagValue(`is`("preference_heading" as Any))).perform(scrollTo()).check(matches(isDisplayed()))
+            assertEquals("Opening preferences must retain the original workspace", firstSession.uid, app.graph.repository.boundUid())
+            captureScreen("04b-planner-policy-preferences")
+            androidx.test.espresso.Espresso.pressBack()
+            awaitText("Planning unavailable")
+            onView(withText("Planning unavailable")).perform(scrollTo()).check(matches(isDisplayed()))
+
+            tapNavigation(R.id.nav_account)
+            awaitTag("profile_name")
+            onView(withTagValue(`is`("profile_name" as Any))).check(matches(isDisplayed()))
+            captureScreen("05-account")
+            onView(withTagValue(`is`("account_section_Study reminders" as Any))).perform(scrollTo(), click())
+            onView(withTagValue(`is`("profile_reminders_action" as Any))).perform(scrollTo(), click())
+            onView(withText(containsString("Reminders are off until you add one from a lesson or saved reading"))).check(matches(isDisplayed()))
+            onView(withText("Got it")).perform(click())
+            onView(withTagValue(`is`("account_section_Your study & account" as Any))).perform(scrollTo(), click())
+            onView(withTagValue(`is`("profile_account_action" as Any))).perform(scrollTo(), click())
+            onView(withText(containsString(email))).check(matches(isDisplayed()))
+            onView(withTagValue(`is`("profile_account_signout" as Any))).perform(scrollTo(), click())
+            onView(withTagValue(`is`("profile_confirm_signout" as Any))).perform(scrollTo(), click())
+
+            awaitActivity(LoginActivity::class.java)
+            awaitText("Welcome back.")
+            await("The repository must end its signed-in session") { app.graph.repository.currentSession() == null }
+            assertEquals("Logout must retain the original installation binding", firstSession.uid, app.graph.repository.boundUid())
+            onView(withId(R.id.accountDetailsButton)).perform(scrollTo(), click())
+            onView(withId(R.id.accountNotice)).perform(scrollTo())
+                .check(matches(withText(containsString("original account"))))
+            onView(withId(R.id.registerButton)).perform(scrollTo()).check(matches(not(isEnabled())))
+            captureScreen("06-login-bound-workspace")
+
+            await("Sign-in controls must finish checking the logged-out workspace") {
+                mainThreadValue { resumedActivity(LoginActivity::class.java)?.findViewById<View>(R.id.signInButton)?.isEnabled == true }
+            }
+            onView(withId(R.id.emailInput)).perform(scrollTo(), replaceText(email))
+            onView(withId(R.id.passwordInput)).perform(scrollTo(), replaceText(password))
+            closeSoftKeyboard()
+            onView(withId(R.id.signInButton)).perform(scrollTo(), click())
+
+            awaitActivity(MainActivity::class.java)
+            leaveLoadedPreferences()
+            awaitTag("study_heading")
+            assertEquals("Same-account sign-in must restore the bound UID", firstSession.uid, app.graph.repository.currentSession()?.uid)
+            assertEquals(email, app.graph.repository.currentSession()?.email)
+            tapNavigation(R.id.nav_saved)
+            awaitTag("saved_lessons_tab")
+            onView(withTagValue(`is`("saved_lessons_tab" as Any))).perform(scrollTo(), click())
+            awaitText("0 ready offline")
+            if (InstrumentationRegistry.getArguments().getString("verifyLiveReading") == "true") {
+                verifyLiveReading()
+            }
+        }
+        } catch (error: Throwable) {
+            flowFailure = error.javaClass.simpleName
+            flowFailureLocation = error.stackTrace.firstOrNull { it.className == javaClass.name }
+                ?.let { "${it.fileName}:${it.lineNumber}" }
+        } finally {
+            try { cleanup = cleanSmokeOwner(email, password) }
+            catch (error: Throwable) { cleanup = JSONObject().put("status", "FAILED_CLOSED")
+                .put("step", cleanupStep).put("failureType", error.javaClass.simpleName) }
+            val passed = flowFailure == null && cleanup.optString("status") == "CONFIRMED"
+            File(app.getExternalFilesDir(null), "baseline-owned-cleanup.json").writeText(JSONObject()
+                .put("status", if (passed) "PASSED" else "FAILED").put("localFirebaseOnly", true)
+                .put("uidSha256", cleanupUid?.let(::smokeDigest) ?: JSONObject.NULL)
+                .put("emailSha256", smokeDigest(email)).put("flowFailureType", flowFailure ?: JSONObject.NULL)
+                .put("flowFailureStage", if (flowFailure == null) JSONObject.NULL else flowStage)
+                .put("flowFailureLocation", flowFailureLocation ?: JSONObject.NULL)
+                .put("flowAwaitFailure", lastAwaitFailure ?: JSONObject.NULL)
+                .put("timeoutCaptureFailureType", timeoutCaptureFailure ?: JSONObject.NULL)
+                .put("cleanup", cleanup).toString(2))
+            if (!passed) throw AssertionError("Baseline failed at $flowStage (${flowFailure ?: "cleanup"}); " +
+                "cleanup=${cleanup.optString("status")}; inspect baseline-owned-cleanup.json")
+        }
+    }
+
+    private fun requireSmokeOwner(email: String, capture: Boolean = false): FirebaseUser {
+        val user = FirebaseAuth.getInstance().currentUser ?: throw AssertionError("Owned smoke account unavailable")
+        assertTrue("Only the generated smoke address is owned", email.startsWith("smoke_") &&
+            email.endsWith("@studypath.invalid") && user.email == email && !user.isAnonymous)
+        val created = user.metadata?.creationTimestamp ?: throw AssertionError("Creation identity unavailable")
+        assertTrue(created in (cleanupStartedAt - 120_000)..(System.currentTimeMillis() + 60_000))
+        if (cleanupUid == null) { assertTrue("Only signup may capture ownership", capture); cleanupUid = user.uid; cleanupCreatedAt = created }
+        assertEquals(cleanupUid, user.uid); assertEquals(cleanupCreatedAt, created)
+        assertEquals(cleanupUid, app.graph.repository.boundUid())
+        return user
+    }
+
+    private fun smokeToken(user: FirebaseUser): String {
+        val result = Tasks.await(user.getIdToken(true), 30, TimeUnit.SECONDS)
+        assertEquals(cleanupUid, result.claims["sub"])
+        return result.token ?: throw AssertionError("Fresh owned token unavailable")
+    }
+
+    private fun cleanSmokeOwner(email: String, password: String): JSONObject {
+        cleanupStep = "require-captured-identity"
+        val auth = FirebaseAuth.getInstance()
+        if (cleanupUid == null) return if (!signupSubmitted && auth.currentUser == null)
+            JSONObject().put("status", "CONFIRMED").put("accountCreated", false)
+        else JSONObject().put("status", "FAILED_CLOSED").put("reason", "Signup identity was not captured; nothing deleted")
+        if (auth.currentUser == null) Tasks.await(auth.signInWithEmailAndPassword(email, password), 30, TimeUnit.SECONDS)
+        var user = requireSmokeOwner(email)
+        Tasks.await(user.reload(), 30, TimeUnit.SECONDS); user = requireSmokeOwner(email)
+        Tasks.await(user.reauthenticate(EmailAuthProvider.getCredential(email, password)), 30, TimeUnit.SECONDS)
+        val token = smokeToken(user)
+        cleanupStep = "verify-server-identity"
+        val lookup = smokeAuth("lookup", token)
+        assertEquals(200, lookup.code)
+        val identities = JSONObject(lookup.body).getJSONArray("users")
+        assertEquals(1, identities.length())
+        val identity = identities.getJSONObject(0)
+        assertEquals(cleanupUid, identity.getString("localId")); assertEquals(email, identity.getString("email"))
+        assertEquals(cleanupCreatedAt, identity.getString("createdAt").toLong())
+        mainThreadValue { app.graph.repository.logout() }
+        assertNull(app.graph.repository.currentSession())
+        cleanupStep = "validate-baseline-only-tree"
+        val snapshot = smokeTree(token, etag = true)
+        if (snapshot.body != "null") {
+            val tree = JSONObject(snapshot.body)
+            val live = InstrumentationRegistry.getArguments().getString("verifyLiveReading") == "true"
+            val allowed = setOf("profile") + if (live) setOf("readingShelfVersion", "savedReadings", "savedReadingSlots", "readingAnnotations") else emptySet()
+            assertTrue("Unexpected private collections stop cleanup", keys(tree).all { it in allowed })
+            assertEquals("Changed profile stops cleanup", cleanupProfile, canonical(tree.getJSONObject("profile")))
+            val readings = tree.optJSONObject("savedReadings")
+            if (readings != null) {
+                assertEquals("Baseline only saves one selected reading", 1, readings.length())
+                val id = keys(readings).single(); val reading = readings.getJSONObject(id)
+                assertEquals(setOf("pageId", "pageKey", "title", "excerpt", "sourceUrl", "revisionId", "revisionUrl",
+                    "revisionTimestamp", "licenseTitle", "licenseUrl", "attribution", "modificationNotice", "retrievedAt", "savedAt"), keys(reading))
+                assertEquals("Computer programming", reading.getString("title"))
+                assertEquals("Computer_programming", reading.getString("pageKey"))
+                assertEquals("wiki_${reading.getLong("pageId")}_${reading.getLong("revisionId")}", id)
+                assertEquals(1, tree.getInt("readingShelfVersion"))
+                val slots = tree.getJSONObject("savedReadingSlots")
+                assertEquals(setOf("s00"), keys(slots)); assertEquals(id, slots.getString("s00"))
+                tree.optJSONObject("readingAnnotations")?.let { annotations ->
+                    assertEquals(setOf(id), keys(annotations))
+                    val note = annotations.getJSONObject(id)
+                    assertEquals(setOf("snapshotRevisionId", "excerptLength", "note", "position", "editId", "modifiedAt"), keys(note))
+                    assertEquals("", note.getString("note"))
+                    assertEquals(reading.getLong("revisionId"), note.getLong("snapshotRevisionId"))
+                    assertEquals(reading.getString("excerpt").length, note.getInt("excerptLength"))
+                    assertTrue(note.getInt("position") in 0..note.getInt("excerptLength"))
+                }
+            } else assertEquals("No orphan reading metadata may be deleted", setOf("profile"), keys(tree))
+            assertNotNull(snapshot.etag)
+            cleanupStep = "conditional-exact-tree-deletion"
+            assertEquals(200, smokeTree(token, method = "DELETE", ifMatch = snapshot.etag).code)
+        }
+        assertEquals("Owned tree must be absent on fresh readback", "null", smokeTree(token).body)
+        cleanupStep = "delete-exact-auth-account"
+        assertEquals(200, smokeAuth("delete", token).code)
+        val absent = smokeAuth("lookup", token)
+        assertEquals(400, absent.code)
+        assertEquals("USER_NOT_FOUND", JSONObject(absent.body).getJSONObject("error").getString("message"))
+        assertNull(auth.currentUser)
+        return JSONObject().put("status", "CONFIRMED").put("exactOwnedTreeDeletedAndReadBack", true)
+            .put("authDeletedAndLookupDenied", true).put("originalBindingRetained", app.graph.repository.boundUid() == cleanupUid)
+    }
+
+    private data class SmokeResponse(val code: Int, val body: String, val etag: String?)
+    private fun smokeTree(token: String, method: String = "GET", etag: Boolean = false, ifMatch: String? = null): SmokeResponse {
+        assertTrue(BuildConfig.USE_FIREBASE_EMULATORS && BuildConfig.FIREBASE_PROJECT_ID == "demo-studypath")
+        val uid = cleanupUid ?: throw AssertionError("No captured cleanup UID")
+        val url = "http://${BuildConfig.FIREBASE_EMULATOR_HOST}:9000".toHttpUrl().newBuilder()
+            .addPathSegment("users").addPathSegment("$uid.json").addQueryParameter("ns", "demo-studypath-default-rtdb")
+            .addQueryParameter("auth", token).build()
+        val request = Request.Builder().url(url).header("Cache-Control", "no-cache, no-store")
+        if (etag) request.header("X-Firebase-ETag", "true")
+        if (ifMatch != null) request.header("if-match", ifMatch)
+        return smokeExecute(request.method(method, null).build()).also { if (method == "GET") assertEquals(200, it.code) }
+    }
+    private fun smokeAuth(action: String, token: String): SmokeResponse {
+        assertTrue(BuildConfig.USE_FIREBASE_EMULATORS && BuildConfig.FIREBASE_PROJECT_ID == "demo-studypath")
+        assertTrue(action == "lookup" || action == "delete")
+        val url = "http://${BuildConfig.FIREBASE_EMULATOR_HOST}:9099/identitytoolkit.googleapis.com/v1/accounts:$action"
+            .toHttpUrl().newBuilder().addQueryParameter("key", BuildConfig.FIREBASE_API_KEY).build()
+        return smokeExecute(Request.Builder().url(url).post(JSONObject().put("idToken", token).toString()
+            .toRequestBody("application/json".toMediaType())).build())
+    }
+    private fun smokeExecute(request: Request): SmokeResponse = cleanupClient.newCall(request).execute().use { response ->
+        val body = response.body ?: throw AssertionError("Cleanup response unavailable")
+        assertTrue(body.contentLength() <= 262_144)
+        val source = body.source(); source.request(262_145)
+        assertTrue("Cleanup response exceeds bound", source.buffer.size <= 262_144)
+        SmokeResponse(response.code, source.buffer.readByteArray().toString(Charsets.UTF_8), response.header("ETag"))
+    }
+    private fun keys(value: JSONObject) = value.keys().asSequence().toSet()
+    private fun canonical(value: JSONObject): String = keys(value).sorted().joinToString("|", "{", "}") { key ->
+        val item = value.get(key); "$key:${if (item is JSONObject) canonical(item) else item}" }
+    private fun smokeDigest(value: String) = MessageDigest.getInstance("SHA-256").digest(value.toByteArray()).joinToString("") { "%02x".format(it) }
+
+    private fun verifyLiveReading() {
+        tapNavigation(R.id.nav_study)
+        awaitTag("reading_search_query")
+        onView(withTagValue(`is`("reading_search_query" as Any))).perform(scrollTo(), replaceText("Computer programming"))
+        closeSoftKeyboard()
+        onView(withTagValue(`is`("reading_search_submit" as Any))).perform(scrollTo(), click())
+        awaitText("Read excerpt →")
+        onView(allOf(withText("Read excerpt →"), hasSibling(withText("Computer programming"))))
+            .perform(scrollTo(), click())
+        awaitTag("reading_excerpt")
+        onView(withText("Wikipedia · Supplemental excerpt")).perform(scrollTo()).check(matches(isDisplayed()))
+        captureScreen("07-live-reading")
+        onView(withTagValue(`is`("reading_save_place" as Any))).perform(scrollTo(), click())
+        await("Excerpt and its saved place must each receive confirmation") {
+            mainThreadValue {
+                val root = currentRoot() ?: return@mainThreadValue false
+                (root.findViewWithTag<TextView>("reading_copy_status")?.text?.toString() == "Excerpt · sync confirmed") &&
+                    (root.findViewWithTag<TextView>("reading_position_status")?.text?.startsWith("Place · sync confirmed") == true)
+            }
+        }
+        onView(withTagValue(`is`("reading_source" as Any))).perform(scrollTo(), click())
+        onView(withText("Open article revision")).perform(scrollTo()).check(matches(isCompletelyDisplayed()))
+        onView(withText("Open license")).perform(scrollTo()).check(matches(isCompletelyDisplayed()))
+        captureScreen("08-reading-attribution")
+        onView(withText("Close")).perform(click())
+        pressBack()
+        tapNavigation(R.id.nav_saved)
+        awaitTag("saved_readings_tab")
+        onView(withTagValue(`is`("saved_readings_tab" as Any))).perform(scrollTo(), click())
+        awaitText("Computer programming")
+        onView(allOf(withText("Resume reading →"), hasSibling(withText("Computer programming"))))
+            .perform(scrollTo(), click())
+        awaitTag("reading_excerpt")
+        assertTrue("Reopened reading must retain its excerpt", mainThreadValue {
+            currentRoot()?.findViewWithTag<TextView>("reading_excerpt")?.text?.isNotBlank() == true
+        })
+        onView(withTagValue(`is`("reading_copy_status" as Any))).perform(scrollTo()).check(matches(isDisplayed()))
+        captureScreen("09-saved-reading")
+    }
+
+    private fun leaveLoadedPreferences() {
+        closeSoftKeyboard()
+        val ownerId = app.graph.repository.currentSession()?.uid
+        if (ownerId != null && app.getSharedPreferences("optional_onboarding", android.content.Context.MODE_PRIVATE)
+                .getBoolean("skipped_$ownerId", false)) {
+            awaitTag("study_heading")
+            return
+        }
+        await("Saved preferences and curriculum status must finish loading and layout before leaving") {
+            mainThreadValue {
+                val owner = resumedActivity(MainActivity::class.java) ?: return@mainThreadValue false
+                val root = owner.window.decorView
+                val preferences = root.findViewWithTag<View>("learner_preferences") ?: return@mainThreadValue false
+                val load = root.findViewWithTag<View>("preference_load_status") ?: return@mainThreadValue false
+                val catalog = root.findViewWithTag<TextView>("preference_catalog_status") ?: return@mainThreadValue false
+                val later = root.findViewWithTag<View>("preference_later") ?: return@mainThreadValue false
+                val catalogText = catalog.text.toString()
+                currentRoot() === root && load.visibility == View.GONE && catalogText.isNotBlank() &&
+                    !catalogText.startsWith("Loading curricula") && !catalogText.startsWith("Checking curricula") &&
+                    later.isAttachedToWindow && later.isLaidOut && later.isShown && later.isEnabled && later.width > 0 && later.height > 0 &&
+                    !later.isLayoutRequested && !preferences.isLayoutRequested && !root.isLayoutRequested
+            }
+        }
+        onView(withTagValue(`is`("preference_display_name" as Any)))
+            .perform(scrollTo(), replaceText("Focus learner"))
+        closeSoftKeyboard()
+        captureScreen("01b-compact-study-level")
+        onView(withTagValue(`is`("preference_next" as Any))).perform(scrollTo(), click())
+        await("Only the subjects step is visible after advancing") {
+            mainThreadValue {
+                val root = currentRoot() ?: return@mainThreadValue false
+                root.findViewWithTag<View>("preference_profile_step")?.visibility == View.GONE &&
+                    root.findViewWithTag<View>("preference_subject_step")?.let { it.isShown && it.alpha == 1f && it.translationX == 0f } == true
+            }
+        }
+        captureScreen("01c-compact-subjects")
+        onView(withTagValue(`is`("preference_back" as Any))).perform(scrollTo(), click())
+        onView(withTagValue(`is`("preference_display_name" as Any)))
+            .perform(scrollTo()).check(matches(withText("Focus learner")))
+        assertEquals(View.GONE, mainThreadValue { currentRoot()!!.findViewWithTag<View>("preference_subject_step").visibility })
+        onView(withTagValue(`is`("preference_later" as Any))).perform(scrollTo())
+            .check(matches(isCompletelyDisplayed())).perform(click())
+    }
+
+    private fun tapNavigation(id: Int) {
+        await("Navigation item must finish becoming visible") {
+            mainThreadValue {
+                val view = currentRoot()?.findViewById<View>(id)
+                val visible = Rect()
+                view != null && view.isShown && view.width > 0 && view.height > 0 &&
+                    view.getGlobalVisibleRect(visible) &&
+                    visible.width().toLong() * visible.height() >= view.width.toLong() * view.height * 9 / 10
+            }
+        }
+        onView(withId(id)).perform(click())
+    }
+
+    /** Screenshots contain empty auth forms or a disposable synthetic account, never passwords. */
+    private fun captureScreen(name: String) {
+        flowStage = "after-$name"
+        instrumentation.waitForIdleSync()
+        val bitmap = instrumentation.uiAutomation.takeScreenshot()
+        assertNotNull("The device must provide a screenshot for $name", bitmap)
+        val directory = File(app.getExternalFilesDir(null), "smoke-screenshots").apply { mkdirs() }
+        File(directory, "$name.png").outputStream().use { stream ->
+            assertTrue("Screenshot PNG must be written for $name", bitmap!!.compress(Bitmap.CompressFormat.PNG, 100, stream))
+        }
+        bitmap!!.recycle()
+        // UTP uninstalls the disposable app after a run. Preserve only these diagnostic PNGs
+        // outside its app-private directory until the host pulls them from this read-only AVD.
+        shell("mkdir -p /sdcard/Pictures/StudyPathSmoke")
+        shell("cp ${File(directory, "$name.png").absolutePath} /sdcard/Pictures/StudyPathSmoke/$name.png")
+    }
+
+    private fun shell(command: String) {
+        ParcelFileDescriptor.AutoCloseInputStream(instrumentation.uiAutomation.executeShellCommand(command))
+            .use { it.readBytes() }
+    }
+
+    private fun awaitActivity(type: Class<out Activity>) = await("${type.simpleName} must become resumed") {
+        mainThreadValue { resumedActivity(type) != null }
+    }
+
+    private fun awaitTag(tag: String) = await("UI must render $tag") {
+        mainThreadValue { currentRoot()?.findViewWithTag<View>(tag)?.isAttachedToWindow == true }
+    }
+
+    private fun awaitText(text: String) = await("UI must render '$text'") {
+        mainThreadValue { currentRoot()?.let { containsText(it) { value -> value == text } } == true }
+    }
+
+    private fun awaitTextContaining(text: String) = await("UI must render text containing '$text'") {
+        mainThreadValue { currentRoot()?.let { containsText(it) { value -> value.contains(text) } } == true }
+    }
+
+    /** Test-thread polling is bounded and yields; every condition reads live UI/repository state. */
+    private fun await(description: String, timeoutMillis: Long = 90_000L, condition: () -> Boolean) {
+        val deadline = SystemClock.elapsedRealtime() + timeoutMillis
+        do {
+            instrumentation.waitForIdleSync()
+            if (condition()) return
+            SystemClock.sleep(50L)
+        } while (SystemClock.elapsedRealtime() < deadline)
+        lastAwaitFailure = redact(description)
+        try { captureTimeout(description, timeoutMillis) }
+        catch (error: Exception) { timeoutCaptureFailure = error.javaClass.simpleName }
+        throw AssertionError("Timed out after ${timeoutMillis}ms: $description. Ensure both Firebase emulators are running and the catalog is seeded.")
+    }
+
+    /** Capture before ActivityScenario closes; edit fields and account identifiers never enter artifacts. */
+    private fun captureTimeout(description: String, timeoutMillis: Long) {
+        val redactions = mutableListOf<Rect>()
+        val receipt = mainThreadValue {
+            val activities = ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(Stage.RESUMED)
+            val nodes = JSONArray()
+            fun visit(view: View, depth: Int) {
+                if (nodes.length() >= 600) return
+                val bounds = Rect()
+                val visible = view.getGlobalVisibleRect(bounds)
+                val text = (view as? TextView)?.text?.toString().orEmpty()
+                val descriptionText = view.contentDescription?.toString().orEmpty()
+                if (visible && (view is EditText || redact(text) != text || redact(descriptionText) != descriptionText))
+                    redactions += Rect(bounds)
+                nodes.put(JSONObject().put("depth", depth).put("class", view.javaClass.name)
+                    .put("id", if (view.id == View.NO_ID) JSONObject.NULL else runCatching { view.resources.getResourceEntryName(view.id) }.getOrDefault("unknown"))
+                    .put("tag", view.tag?.toString()?.let(::redact) ?: JSONObject.NULL)
+                    .put("visibility", view.visibility).put("shown", view.isShown).put("enabled", view.isEnabled)
+                    .put("attached", view.isAttachedToWindow).put("laidOut", view.isLaidOut)
+                    .put("width", view.width).put("height", view.height)
+                    .put("visibleBounds", if (visible) bounds.toShortString() else JSONObject.NULL)
+                    .put("text", if (view is EditText) "[input redacted]" else redact(text).take(500))
+                    .put("contentDescription", redact(descriptionText).take(500)))
+                if (view is ViewGroup) for (index in 0 until view.childCount) visit(view.getChildAt(index), depth + 1)
+            }
+            activities.forEach { visit(it.window.decorView, 0) }
+            JSONObject().put("expectedWait", redact(description)).put("timeoutMillis", timeoutMillis)
+                .put("flowStage", flowStage).put("capturedAtDeviceMillis", System.currentTimeMillis())
+                .put("resumedActivities", JSONArray(activities.map { it.javaClass.name }))
+                .put("fragments", JSONArray(activities.filterIsInstance<androidx.fragment.app.FragmentActivity>()
+                    .flatMap { it.supportFragmentManager.fragments }.map { it.javaClass.name }))
+                .put("repositorySessionPresent", app.graph.repository.currentSession() != null)
+                .put("originalBindingRetained", cleanupUid != null && app.graph.repository.boundUid() == cleanupUid)
+                .put("viewNodeLimit", 600).put("viewTree", nodes)
+        }
+        val directory = File(app.getExternalFilesDir(null), "smoke-timeout-diagnostics").apply { mkdirs() }
+        val bitmap = instrumentation.uiAutomation.takeScreenshot()
+        if (bitmap != null) {
+            val safe = requireNotNull(bitmap.copy(Bitmap.Config.ARGB_8888, true)) { "A mutable diagnostic screenshot is unavailable" }
+            bitmap.recycle()
+            try {
+                val canvas = Canvas(safe)
+                val paint = Paint().apply { color = Color.BLACK }
+                redactions.forEach { canvas.drawRect(it, paint) }
+                File(directory, "timeout.png").outputStream().use { safe.compress(Bitmap.CompressFormat.PNG, 100, it) }
+                receipt.put("screenshot", "timeout.png").put("redactedViewCount", redactions.size)
+            } finally { safe.recycle() }
+        } else receipt.put("screenshot", JSONObject.NULL)
+        File(directory, "timeout.json").writeText(receipt.toString(2))
+        shell("mkdir -p /sdcard/Pictures/StudyPathSmoke")
+        shell("cp ${File(directory, "timeout.json").absolutePath} /sdcard/Pictures/StudyPathSmoke/timeout.json")
+        if (File(directory, "timeout.png").isFile)
+            shell("cp ${File(directory, "timeout.png").absolutePath} /sdcard/Pictures/StudyPathSmoke/timeout.png")
+    }
+
+    private fun redact(value: String): String {
+        val withoutEmails = value.replace(Regex("[A-Za-z0-9._%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,}"), "[email redacted]")
+        return cleanupUid?.takeIf { it.isNotBlank() }?.let { withoutEmails.replace(it, "[uid redacted]") } ?: withoutEmails
+    }
+
+    private fun <T> mainThreadValue(block: () -> T): T {
+        var result: T? = null
+        instrumentation.runOnMainSync { result = block() }
+        @Suppress("UNCHECKED_CAST")
+        return result as T
+    }
+
+    private fun resumedActivity(type: Class<out Activity>): Activity? =
+        ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(Stage.RESUMED).firstOrNull { type.isInstance(it) }
+
+    private fun currentRoot(): View? = ActivityLifecycleMonitorRegistry.getInstance()
+        .getActivitiesInStage(Stage.RESUMED).firstOrNull()?.window?.decorView
+
+    private fun containsText(view: View, predicate: (String) -> Boolean): Boolean {
+        if (view is TextView && predicate(view.text.toString())) return true
+        return view is ViewGroup && (0 until view.childCount).any { containsText(view.getChildAt(it), predicate) }
+    }
+}
