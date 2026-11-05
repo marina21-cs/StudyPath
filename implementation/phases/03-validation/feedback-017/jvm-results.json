@@ -1,0 +1,9 @@
+{
+  "command": "./android/gradlew -p android :app:testDebugUnitTest :app:assembleDebug :app:assembleDebugAndroidTest --max-workers=2 --console=plain",
+  "exitCode": 0,
+  "suites": 56,
+  "tests": 504,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0
+}

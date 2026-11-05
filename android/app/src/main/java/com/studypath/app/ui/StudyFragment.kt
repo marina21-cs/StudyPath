@@ -76,24 +76,30 @@ class StudyFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val content = requireContext().column()
         val hero = requireContext().column(0).apply { tag = "study_hero" }
-        hero.giraffe("wave", 72)
-        hero.label("What do you want to understand?", 24f).apply { tag = "study_heading" }
+        val greeting = requireContext().column(0).apply { orientation = LinearLayout.HORIZONTAL; gravity = android.view.Gravity.CENTER_VERTICAL }
+        hero.addView(greeting)
+        greeting.label("Your study space", 26f).apply { tag = "study_heading"; layoutParams = LinearLayout.LayoutParams(0, -2, 1f) }
+        greeting.addView(android.widget.ImageView(requireContext()).apply { setImageResource(R.drawable.giraffe_mascot); importantForAccessibility=View.IMPORTANT_FOR_ACCESSIBILITY_NO }, LinearLayout.LayoutParams(requireContext().dp(56),requireContext().dp(72)))
         content.addView(hero)
-        content.addView(requireContext().column(0).apply { tag = "study_continue" })
         content.label("", 14f).apply { tag = "reading_context_label"; visibility = View.GONE }
-        val query = content.field("Search Wikipedia").apply { tag = "reading_search_query"; setText(model.state.value.query); imeOptions = EditorInfo.IME_ACTION_SEARCH; setSingleLine(true); id = View.generateViewId() }
+        val searchRow = requireContext().column(0).apply { orientation=LinearLayout.HORIZONTAL; gravity=android.view.Gravity.CENTER_VERTICAL }
+        content.addView(searchRow)
+        val query = searchRow.field("Search Wikipedia").apply { tag = "reading_search_query"; setText(model.state.value.query); imeOptions = EditorInfo.IME_ACTION_SEARCH; setSingleLine(true); id = View.generateViewId() }
         generateSequence(query.parent) { it.parent }.filterIsInstance<com.google.android.material.textfield.TextInputLayout>().firstOrNull()?.apply {
+            layoutParams=LinearLayout.LayoutParams(0,-2,1f)
             endIconMode = com.google.android.material.textfield.TextInputLayout.END_ICON_CLEAR_TEXT
             setEndIconContentDescription("Clear search")
             setEndIconOnClickListener { content.findViewWithTag<View>("reading_search_clear")?.performClick() }
         }
         val graph = (requireActivity().application as StudyPathApplication).graph
         val api = graph.readings
-        val search = content.action("Find readings →") { model.search(api, query.text.toString(), graph.repository) }.apply { tag = "reading_search_submit" }
+        val search = searchRow.action("→") { model.search(api, query.text.toString(), graph.repository) }.apply { tag = "reading_search_submit"; contentDescription="Find readings";layoutParams=LinearLayout.LayoutParams(context.dp(56),context.dp(56)).apply{marginStart=context.dp(8)} }
         query.setOnEditorActionListener { _, actionId, _ -> if (actionId == EditorInfo.IME_ACTION_SEARCH) { search.performClick(); true } else false }
         content.action("Back to my study", model::clearSearch).apply {
             tag = "reading_search_clear"; quietAction(); isVisible = model.state.value.submitted
         }
+        content.addView(requireContext().column(0).apply { tag = "study_continue" })
+        content.addView(requireContext().column(0).apply { tag = "study_subjects" })
         val topics = requireContext().column(0).apply { tag = "study_browse_body" }
         val wikiLane = requireContext().column(0).also { topics.addView(it); it.label("Browse topics", 20f) }
         val topicRow = com.google.android.material.chip.ChipGroup(requireContext()).apply { isSingleLine = false; chipSpacingHorizontal = context.dp(8) }
@@ -101,27 +107,38 @@ class StudyFragment : Fragment() {
             val chip = MaterialButton(requireContext(), null, com.google.android.material.R.attr.materialButtonOutlinedStyle).apply {
                 text = title; isAllCaps = false; textSize = 14f; minHeight = requireContext().dp(48)
                 cornerRadius = requireContext().dp(16); setTextColor(requireContext().tint(R.color.sp_ink))
-                strokeColor = ColorStateList.valueOf(requireContext().tint(R.color.sp_outline))
+                strokeWidth = 0
+                backgroundTintList = ColorStateList.valueOf(requireContext().tint(if (title == "Programming") R.color.sp_lilac else if (title == "Databases") R.color.sp_mint else R.color.sp_peach))
                 contentDescription = "Search $topic"
                 setOnClickListener { query.setText(topic); model.search(api, topic, graph.repository) }
             }
             topicRow.addView(chip, ViewGroup.LayoutParams(-2, -2))
         }
         wikiLane.addView(topicRow)
-        content.action("My subjects · PDFs & lessons") {
-            (requireActivity() as MainActivity).openDetails(PersonalWorkspaceFragment.lessons())
-        }.apply { tag = "study_personal_workspace"; quietAction() }
-        content.action("Browse topics & lessons  ↓") { topics.requestRectangleOnScreen(android.graphics.Rect(0, 0, topics.width, requireContext().dp(120)), true) }.apply { tag = "study_browse"; quietAction() }
+        content.compactAction("All subjects") {
+            (requireActivity() as MainActivity).openDetails(SubjectsFragment())
+        }.apply { tag = "study_personal_workspace" }
         content.addView(topics)
         val results = requireContext().column(0).apply { tag = "search_results" }
         content.addView(results)
         wikiLane.addView(requireContext().column(0).apply { tag = "reading_starters" })
-        topics.label("Download course lessons", 20f)
+        topics.label("Course lessons", 20f)
+        topics.compactAction("Browse course packs") { (requireActivity() as MainActivity).openDetails(CoursePacksFragment()) }.tag = "study_course_packs"
         topics.addView(requireContext().column(0).apply { tag = "featured_module" })
         return requireContext().scrolling(content)
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val content = (view as android.widget.ScrollView).getChildAt(0) as LinearLayout
+        val subjectPanel = content.findViewWithTag<LinearLayout>("study_subjects")
+        watchPersonal({ data ->
+            subjectPanel.removeAllViews()
+            if (data.subjects.isNotEmpty()) {
+                subjectPanel.label("My subjects", 18f)
+                data.subjects.take(3).forEach { subject -> subjectPanel.subjectRow(subject, data) {
+                    (requireActivity() as MainActivity).openDetails(PersonalWorkspaceFragment.open(subject.id, "lessons"))
+                } }
+            }
+        }, { subjectPanel.label("Your subjects could not be loaded.", 14f) })
         val results = content.findViewWithTag<LinearLayout>("search_results")
         val resume = content.findViewWithTag<LinearLayout>("study_continue")
         val featured = content.findViewWithTag<LinearLayout>("featured_module")
@@ -138,6 +155,7 @@ class StudyFragment : Fragment() {
             requireContext().getSystemService(android.view.inputmethod.InputMethodManager::class.java)
                 ?.hideSoftInputFromWindow(query.windowToken, 0)
         }
+        arguments?.getString("subjectQuery")?.let { topic -> if (!model.state.value.submitted) { query.setText(topic); model.search(graph.readings, topic, graph.repository) } }
         if (requestedContext != null) {
             contextLabel.visibility = View.VISIBLE
             contextLabel.text = "Checking related reading context…"
@@ -163,7 +181,7 @@ class StudyFragment : Fragment() {
             (requireActivity() as MainActivity).openDetails(ReadingFragment.forPage(page))
         }.start()
         LessonLibrarySection(featured, viewLifecycleOwner, graph.repository,
-            editPreferences = { (requireActivity() as MainActivity).openDetails(LearnerPreferencesFragment.editing()) },
+            editPreferences = { (requireActivity() as MainActivity).openDetails(CoursePacksFragment()) },
             openLesson = { key -> (requireActivity() as MainActivity).openDetails(InteractiveLessonFragment.forPackage(key)) },
         ).start()
         viewLifecycleOwner.lifecycleScope.launch {
@@ -179,7 +197,7 @@ class StudyFragment : Fragment() {
                         val readingUpdated = latest?.let { (saved, local) -> local?.annotation?.modifiedAt ?: saved.savedAt } ?: Long.MIN_VALUE
                         val continueLesson = lesson != null && lesson.updatedAt > readingUpdated
                         content.findViewWithTag<android.widget.TextView>("study_heading").text =
-                            if (latest == null && lesson == null) "What do you want to understand?" else "Let’s pick it up."
+                            if (latest == null && lesson == null) "Your study space" else "Let’s pick it up."
                         if (continueLesson) {
                             val savedLesson = requireNotNull(lesson)
                             val card = resume.card("Continue learning", "").apply {
@@ -205,7 +223,12 @@ class StudyFragment : Fragment() {
                             }
                             card.label(saved.title, 20f)
                             card.label(readingCopyStatus(local), 12f)
-                            card.studyMetadata("Saved place", readingPositionLabel(local?.annotation?.position ?: 0, saved.excerpt.length), "Material", "Wikipedia excerpt")
+                            (card.parent as com.google.android.material.card.MaterialCardView).setCardBackgroundColor(requireContext().tint(R.color.sp_yellow))
+                            card.addView(android.widget.ProgressBar(requireContext(),null,android.R.attr.progressBarStyleHorizontal).apply {
+                                max=100;progress=if(saved.excerpt.isEmpty())0 else (((local?.annotation?.position ?: 0).toDouble()/saved.excerpt.length)*100).toInt().coerceIn(0,100)
+                                progressTintList=ColorStateList.valueOf(context.tint(R.color.sp_action))
+                            },LinearLayout.LayoutParams(-1,requireContext().dp(12)).apply{topMargin=requireContext().dp(10);bottomMargin=requireContext().dp(8)})
+                            card.label(readingPositionLabel(local?.annotation?.position ?: 0, saved.excerpt.length) + " · Wikipedia excerpt", 14f)
                             card.action("Continue reading →") {
                                 (requireActivity() as MainActivity).openDetails(ReadingFragment.forSaved(saved.id))
                             }.tag = "study_continue_reading"
@@ -216,8 +239,8 @@ class StudyFragment : Fragment() {
                     results.removeAllViews()
                     clear.isVisible = state.submitted
                     resume.isVisible = !state.submitted
+                    subjectPanel.isVisible = !state.submitted
                     content.findViewWithTag<View>("study_hero").isVisible = !state.submitted
-                    content.findViewWithTag<View>("study_browse").isVisible = !state.submitted
                     content.findViewWithTag<View>("study_browse_body").isVisible = !state.submitted
                     featured.visibility = if (state.submitted) View.GONE else View.VISIBLE
                     starters.visibility = if (state.submitted) View.GONE else View.VISIBLE
@@ -234,6 +257,7 @@ class StudyFragment : Fragment() {
         }
     }
     companion object {
+        fun forSubject(title: String) = StudyFragment().apply { arguments = Bundle().apply { putString("subjectQuery", title.take(120)) } }
         fun forContext(contextId: String) = StudyFragment().apply {
             arguments = Bundle().apply { putString("readingContextId", contextId) }
         }

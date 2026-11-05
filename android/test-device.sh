@@ -6,9 +6,10 @@ studyPathAndroid="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 studyPathRoot="$(cd -- "$studyPathAndroid/.." && pwd)"
 studyPathSerial=""
 studyPathLive=false
+studyPathPersonal=false
 usage() {
     cat <<'USAGE'
-Usage: android/test-device.sh [device-serial] [--live-api]
+Usage: android/test-device.sh [device-serial] [--live-api] [--personal-workspace]
 
 Build and run StudyPathSmokeTest on the running StudyPath_Lite_Test AVD.
 Start that isolated AVD with -read-only and start/seed the local demo-studypath
@@ -18,6 +19,7 @@ uninstalls packages, or restarts an AVD. After a smoke run, close and relaunch t
 disposable read-only AVD for the next run; retain a separate AVD for manual work.
 
 --live-api additionally tests the live Wikipedia reading/save/reopen flow.
+--personal-workspace includes subjects, PDFs, native Tide tiles and COR crop/OCR/review.
 Overrides: STUDYPATH_ADB, STUDYPATH_GRADLE (executable paths).
 Evidence: implementation/phases/03-validation/lite-emulator/test-results/latest/
 USAGE
@@ -25,6 +27,7 @@ USAGE
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --live-api) studyPathLive=true ;;
+        --personal-workspace) studyPathPersonal=true ;;
         --help|-h) usage; exit 0 ;;
         -*) usage >&2; exit 2 ;;
         *)
@@ -102,7 +105,7 @@ result = {
     "dataCleared": False,
     "packagesUninstalled": False,
     "limits": [
-        "Core smoke flow only; --live-api adds Wikipedia reading/save/reopen checks.",
+        "Core smoke; --live-api adds Wikipedia. --personal-workspace adds native workspace, COR, grades, GWA, scenarios, graph and linked PDF checks.",
         "This is not acceptance of notifications, accessibility, extended offline recovery, or cloud setup.",
         "Screenshots are diagnostic captures; verify visible content before assigning detailed captions."
     ]
@@ -195,6 +198,7 @@ check_fresh_install
 studyPathStage=instrumentation
 studyPathTestArgs=(-e class com.studypath.app.StudyPathSmokeTest)
 if [[ "$studyPathLive" == true ]]; then studyPathTestArgs+=(-e verifyLiveReading true); fi
+if [[ "$studyPathPersonal" == true ]]; then studyPathTestArgs+=(-e verifyPersonalWorkspace true); fi
 echo "Running StudyPathSmokeTest on $studyPathSerial (live API: $studyPathLive)."
 studyPathInstrumentExit=0
 adb_device shell am instrument -w -r "${studyPathTestArgs[@]}" \
@@ -211,6 +215,7 @@ fi
 studyPathStage=screenshots
 studyPathScreens=(00-welcome 01-register-empty 02-study-home 03-study-shelf 04-planner 04b-planner-policy-preferences 05-account 06-login-bound-workspace)
 if [[ "$studyPathLive" == true ]]; then studyPathScreens+=(07-live-reading 08-reading-attribution 09-saved-reading); fi
+if [[ "$studyPathPersonal" == true ]]; then studyPathScreens+=(tide-01-cor-crop tide-02-cor-review tide-03-material-search tide-04-subject-tiles feedback-01-native-grades feedback-02-native-gwa feedback-03-native-scenario feedback-04-native-map feedback-05-native-map-list feedback-06-linked-offline-pdf); fi
 studyPathScreensComplete=true
 for studyPathScreen in "${studyPathScreens[@]}"; do
     studyPathRemote="/sdcard/Pictures/StudyPathSmoke/$studyPathScreen.png"

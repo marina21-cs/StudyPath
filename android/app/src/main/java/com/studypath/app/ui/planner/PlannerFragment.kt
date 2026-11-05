@@ -65,7 +65,7 @@ class PlannerFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        selectedCourseId = savedInstanceState?.getString("courseId")
+        selectedCourseId = savedInstanceState?.getString("courseId") ?: arguments?.getString("courseId")
         targetText = savedInstanceState?.getString("target") ?: "75"
         plannerMode = savedInstanceState?.getString("plannerMode") ?: "scores"
         selectedScenarioId = savedInstanceState?.getString("scenarioId")
@@ -74,13 +74,26 @@ class PlannerFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val page = requireContext().column()
-        page.label("Plan your next step", 24f)
-        page.action("My subjects & tasks") {
+        val toolsOnly = arguments?.getBoolean("toolsOnly") == true
+        if (!toolsOnly) {
+            val greeting = requireContext().column(0).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
+            val words = requireContext().column(0); words.label("Your semester", 12f); words.label("Make room for progress.", 26f)
+            greeting.addView(words, LinearLayout.LayoutParams(0,-2,1f))
+            greeting.addView(android.widget.ImageView(requireContext()).apply { setImageResource(R.drawable.giraffe_mascot); contentDescription="StudyPath giraffe" },LinearLayout.LayoutParams(context?.dp(58) ?: 58,requireContext().dp(72)))
+            page.addView(greeting)
+            page.academicToolkit { mode -> (requireActivity() as MainActivity).openDetails(PersonalAcademicFragment.open(mode)) }
+        }
+        page.label(if (toolsOnly) "Reviewed course tools" else "Your semester", 20f)
+        val actions = requireContext().column(0).apply { orientation = LinearLayout.HORIZONTAL; isBaselineAligned = false }
+        page.addView(actions)
+        actions.compactAction("Subjects") {
             (requireActivity() as MainActivity).openDetails(PersonalWorkspaceFragment())
-        }.tag = "planner_personal_workspace"
-        page.label("Add subjects, set dates and track tasks.", 14f)
+        }.apply { tag = "planner_personal_workspace"; layoutParams = LinearLayout.LayoutParams(0, -1, 1f).apply { marginEnd = context.dp(8) } }
+        actions.compactAction("Import COR") { (requireActivity() as MainActivity).openDetails(CorImportFragment()) }
+            .apply { tag = "planner_import_cor"; layoutParams = LinearLayout.LayoutParams(0, -1, 1f) }
         page.addView(requireContext().column(0).apply { tag = "personal_planner_summary" })
-        page.label("Course grade tools", 20f)
+        page.label("Reviewed school grade tools", 20f)
+        page.compactAction("Browse course packs") { (requireActivity() as MainActivity).openDetails(CoursePacksFragment()) }.tag = "planner_course_packs"
         loading = page.label("Loading courses…", 14f)
         coursePicker = Spinner(requireContext()).also { picker ->
             picker.minimumHeight = requireContext().dp(48)
@@ -102,15 +115,31 @@ class PlannerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val summary = view.findViewWithTag<LinearLayout>("personal_planner_summary")
-        try {
-            val personal = personalStore().read()
-            val upcoming = personal.tasks.filterNot { it.done }.sortedBy { it.due.ifEmpty { "9999" } }.take(5)
-            if (upcoming.isEmpty()) summary.label("No tasks yet. Add one in My subjects & tasks.", 14f)
-            upcoming.forEach { task ->
-                val subject = personal.subjects.firstOrNull { it.id == task.subjectId }?.title.orEmpty()
-                summary.card(task.title, listOf(subject, task.due).filter { it.isNotBlank() }.joinToString(" · "))
+        watchPersonal({ personal ->
+            summary.removeAllViews()
+            val remaining = personal.tasks.count { !it.done }
+            val overview = summary.card("${personal.subjects.size} subjects · $remaining to do", "${personal.materials.size} materials saved")
+            (overview.parent as com.google.android.material.card.MaterialCardView).setCardBackgroundColor(requireContext().tint(R.color.sp_yellow))
+            for (index in 0 until overview.childCount) (overview.getChildAt(index) as? android.widget.TextView)?.setTextColor(requireContext().tint(R.color.sp_ink))
+            summary.label("Subjects & grades", 18f)
+            if (personal.subjects.isEmpty()) summary.label("Add a subject or import your COR to start.", 14f)
+            personal.subjects.take(20).forEach { subject ->
+                summary.workspaceRow(subject.title, listOfNotNull(subject.code?.ifBlank { null }, subject.grade?.ifBlank { null }?.let { "Grade $it" }, "${personal.tasks.count { it.subjectId == subject.id && !it.done }} to do").joinToString(" · "), subjectIcon(subject.categoryLabel()), subjectColor(subject.categoryLabel())) {
+                    (requireActivity() as MainActivity).openDetails(PersonalWorkspaceFragment.open(subject.id))
+                }.tag = "planner_subject_${subject.id}"
+                summary.compactAction("${subject.title} · Grades →") { (requireActivity() as MainActivity).openDetails(PersonalAcademicFragment.open("grades", subject.id)) }
             }
-        } catch (_: Exception) { summary.label("Open My subjects to retry your saved tasks.", 14f) }
+            if (personal.subjects.size > 20) summary.compactAction("All subjects") { (requireActivity() as MainActivity).openDetails(PersonalWorkspaceFragment()) }
+            summary.label("Up next", 18f)
+            val upcoming = personal.tasks.filterNot { it.done }.sortedBy { it.due.ifEmpty { "9999" } }.take(5)
+            if (upcoming.isEmpty()) summary.label("You're all caught up.", 14f)
+            upcoming.forEach { task ->
+                val subject = personal.subjects.first { it.id == task.subjectId }
+                summary.workspaceRow(task.title, listOf(subject.title, task.due).filter { it.isNotBlank() }.joinToString(" · "), com.studypath.app.R.drawable.ic_plan, subjectColor(subject.categoryLabel())) {
+                    (requireActivity() as MainActivity).openDetails(PersonalWorkspaceFragment.open(subject.id))
+                }
+            }
+        }, { summary.removeAllViews(); summary.label("Open My subjects to retry your saved tasks.", 14f) })
         sessionUid = repository.currentSession()?.uid
         observe()
     }
@@ -176,13 +205,13 @@ class PlannerFragment : Fragment() {
         val body = content ?: return
         if (!sessionActive()) { body.removeAllViews(); return }
         body.removeAllViews()
+        modePicker(body)
         val course = data.courses.firstOrNull { it.id == selectedCourseId } ?: run {
             body.card("No course pack yet", "Grade tools need a reviewed course pack.").tag = "planner_policy_unavailable"
-            body.action("Choose course pack") { (requireActivity() as MainActivity).openDetails(LearnerPreferencesFragment.editing()) }
+            body.compactAction("Use my subjects") { (requireActivity() as MainActivity).openDetails(PersonalWorkspaceFragment()) }
             body.action("Browse readings") { (requireActivity() as MainActivity).goToStudy() }.quietAction()
             return
         }
-        modePicker(body)
         if (plannerMode == "roadmap") {
             val map = requireContext().column(0)
             val gwa = requireContext().column(0)

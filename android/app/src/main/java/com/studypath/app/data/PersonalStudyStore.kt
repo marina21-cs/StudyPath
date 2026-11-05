@@ -8,8 +8,16 @@ import java.nio.file.StandardCopyOption
 import java.security.MessageDigest
 import java.time.LocalDate
 import java.util.UUID
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 
-data class PersonalSubject(val id: String, val title: String)
+data class PersonalSubject(val id: String, val title: String, val category: String? = null,
+    val code: String? = null, val units: Double? = null, val grade: String? = null,
+    val prerequisiteIds: List<String>? = null,
+    val gradeDraft: com.studypath.app.domain.PersonalGradeDraft? = null, val catalogCourseId: String? = null) {
+    fun categoryLabel() = category?.takeIf { it in CATEGORIES } ?: "General"
+    companion object { val CATEGORIES = listOf("General", "Mathematics", "Science", "Technology", "Languages", "Humanities") }
+}
 data class PersonalTask(val id: String, val subjectId: String, val title: String, val due: String = "", val done: Boolean = false)
 data class PersonalMaterial(val id: String, val subjectId: String, val title: String, val text: String = "", val question: String = "", val answer: String = "", val pdf: Boolean = false)
 data class PersonalWorkspace(val subjects: List<PersonalSubject> = emptyList(), val tasks: List<PersonalTask> = emptyList(), val materials: List<PersonalMaterial> = emptyList())
@@ -27,6 +35,8 @@ class PersonalStudyStore(root: File, uid: String) {
             validate(result); result
         }
     }
+    /** Every screen reads the same UID-owned file after a successful atomic commit. */
+    fun observe(): Flow<PersonalWorkspace> = revision.map { read() }.distinctUntilChanged().flowOn(Dispatchers.IO)
     fun update(transform: (PersonalWorkspace) -> PersonalWorkspace): PersonalWorkspace = synchronized(lock) {
         val value = transform(read()); validate(value)
         val bytes = Gson().toJson(value).toByteArray(Charsets.UTF_8)
@@ -34,12 +44,23 @@ class PersonalStudyStore(root: File, uid: String) {
         val temp = File(directory, "workspace.tmp")
         FileOutputStream(temp).use { it.write(bytes); it.fd.sync() }
         Files.move(temp.toPath(), record.toPath(), StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING)
+        revision.value = revision.value + 1
         value
     }
     fun pdf(id: String): File { require(validId(id)); return File(directory, "$id.pdf") }
+    fun commitPdf(temp: File, material: PersonalMaterial) = synchronized(lock) {
+        require(material.pdf && temp.isFile && temp.length() in 1..MAX_PDF_BYTES)
+        require(directory.listFiles().orEmpty().filter { it.extension == "pdf" }.sumOf { it.length() } + temp.length() <= MAX_TOTAL_PDF_BYTES) { "PDF storage is full. Remove an unused PDF first." }
+        require(read().subjects.any { it.id == material.subjectId }) { "This subject was removed. Choose another subject." }
+        val destination = pdf(material.id)
+        require(!destination.exists())
+        check(temp.renameTo(destination)) { "Could not save the PDF. Retry the download." }
+        try { update { it.copy(materials = it.materials + material) } }
+        catch (error: Exception) { destination.delete(); throw error }
+    }
     fun removeSubject(id: String) = synchronized(lock) {
         val removed = read().materials.filter { it.subjectId == id && it.pdf }
-        update { it.copy(subjects = it.subjects.filterNot { row -> row.id == id }, tasks = it.tasks.filterNot { row -> row.subjectId == id }, materials = it.materials.filterNot { row -> row.subjectId == id }) }
+        update { it.copy(subjects = it.subjects.filterNot { row -> row.id == id }.map { row -> if (id in row.prerequisiteIds.orEmpty()) row.copy(prerequisiteIds = row.prerequisiteIds.orEmpty().filterNot { key -> key == id }) else row }, tasks = it.tasks.filterNot { row -> row.subjectId == id }, materials = it.materials.filterNot { row -> row.subjectId == id }) }
         removed.forEach { pdf(it.id).delete() }
     }
     fun removeMaterial(id: String) = synchronized(lock) {
@@ -47,6 +68,7 @@ class PersonalStudyStore(root: File, uid: String) {
     }
     companion object {
         private val lock = Any()
+        private val revision = MutableStateFlow(0L)
         const val MAX_PDF_BYTES = 25L * 1024 * 1024
         const val MAX_TOTAL_PDF_BYTES = 250L * 1024 * 1024
         private const val MAX_JSON = 3_000_000
@@ -57,6 +79,24 @@ class PersonalStudyStore(root: File, uid: String) {
             val subjects = value.subjects.map { it.id }.toSet()
             require(subjects.size == value.subjects.size && value.tasks.map { it.id }.distinct().size == value.tasks.size && value.materials.map { it.id }.distinct().size == value.materials.size)
             value.subjects.forEach { require(validId(it.id) && it.title.isNotBlank() && it.title.length <= 80) { "Use a subject name of 1–80 characters." } }
+            value.subjects.forEach {
+                it.gradeDraft?.validate()
+                require(it.catalogCourseId == null || it.catalogCourseId.matches(Regex("[A-Za-z0-9_-]{1,100}")))
+                require(it.category == null || it.category in PersonalSubject.CATEGORIES) { "Choose a subject category." }
+                require(it.code.orEmpty().length <= 24 && it.grade.orEmpty().length <= 16) { "Keep course codes and recorded grades short." }
+                require(it.units == null || (it.units.isFinite() && it.units > 0 && it.units <= 30)) { "Units must be greater than 0 and at most 30." }
+                val prerequisites = it.prerequisiteIds.orEmpty()
+                require(prerequisites.size <= 20 && prerequisites.distinct().size == prerequisites.size && prerequisites.all { id -> id in subjects && id != it.id }) { "Choose other existing subjects as prerequisites." }
+            }
+            val visiting = mutableSetOf<String>(); val visited = mutableSetOf<String>()
+            val byId = value.subjects.associateBy { it.id }
+            fun visit(id: String) {
+                if (id in visited) return
+                require(visiting.add(id)) { "Prerequisites cannot form a circular chain." }
+                byId.getValue(id).prerequisiteIds.orEmpty().forEach(::visit)
+                visiting.remove(id); visited.add(id)
+            }
+            subjects.forEach(::visit)
             value.tasks.forEach {
                 require(validId(it.id) && it.subjectId in subjects && it.title.isNotBlank() && it.title.length <= 160) { "Enter a task name of 1–160 characters and choose a subject." }
                 require(it.due.isEmpty() || runCatching { LocalDate.parse(it.due).toString() == it.due }.getOrDefault(false)) { "Choose a valid date." }

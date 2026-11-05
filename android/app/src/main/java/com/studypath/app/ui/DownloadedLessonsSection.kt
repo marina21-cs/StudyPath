@@ -67,7 +67,7 @@ internal class DownloadedLessonsSection(
         val unfinished = packages.downloaded.filterNot { it.ready }
         content.label("${ready.size} ready offline", 14f)
         if (packages.downloaded.isEmpty()) {
-            content.card("A little learning, anywhere.", "Download a lesson from Study to learn offline.")
+            content.compactAction("Find course lessons") { (content.context as? MainActivity)?.openDetails(CoursePacksFragment()) }
             return
         }
         val pending = content.context.column(0)

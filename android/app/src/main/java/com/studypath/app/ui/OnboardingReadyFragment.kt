@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 class OnboardingReadyFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, state: Bundle?): View {
         val content = requireContext().column(24).apply { tag = "onboarding_ready" }
-        val mascot = GiraffeMascotView(requireContext()).apply { importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO }
+        val mascot = GiraffeMascotView(requireContext()).apply { tag = "ready_mascot"; importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO }
         content.addView(mascot, LinearLayout.LayoutParams(-1, requireContext().dp(128)))
         mascot.play(GiraffeMascotView.Pose.WAVE)
         content.label("Ready to explore?", 28f).apply { gravity = Gravity.CENTER; tag = "ready_heading" }

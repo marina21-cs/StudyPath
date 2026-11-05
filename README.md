@@ -2,13 +2,13 @@
 
 A native Android study companion for discovering references, saving readings offline, working through lessons, and planning academic progress.
 
-**[Download StudyPath 0.1.3 APK](https://github.com/marina21-cs/StudyPath/releases/download/v0.1.3/StudyPath.apk)** · [Release notes](https://github.com/marina21-cs/StudyPath/releases/tag/v0.1.3) · [All releases](https://github.com/marina21-cs/StudyPath/releases)
+**[Download StudyPath 0.1.6 APK](https://github.com/marina21-cs/StudyPath/releases/download/v0.1.6/StudyPath.apk)** · [Release notes](https://github.com/marina21-cs/StudyPath/releases/tag/v0.1.6) · [All releases](https://github.com/marina21-cs/StudyPath/releases)
 
-> **Testing prerelease:** Personal Workspace, version **0.1.3 (4)**, published 4 November 2026. Requires **Android 8.0 or newer**. This is a signed debug APK for evaluation. Personal subjects, tasks, study cards, and PDF imports work without published course lessons. The hosted course catalog is currently empty.
+> **Testing prerelease:** Tide Play, version **0.1.6 (7)**, prepared 5 November 2026. Requires **Android 8.0 or newer**. This is a signed debug APK for evaluation. Tide colors, expressive subject tiles, giraffe guidance, and reviewed COR scanning work alongside personal subjects, tasks, study cards and PDFs. The hosted course catalog is currently empty.
 
 <p>
-  <img src="docs/images/welcome.png" width="240" alt="StudyPath welcome screen with the giraffe mascot and Get started button">
-  <img src="docs/images/personal-workspace.png" width="240" alt="StudyPath personal workspace with subjects, tasks, lessons, and PDF imports">
+  <img src="docs/images/tide-study.png" width="240" alt="Tide Study screen with the giraffe greeting and colorful topic chips">
+  <img src="docs/images/tide-subjects.png" width="240" alt="Tide subject library with colorful native tiles">
 </p>
 
 ## Install the APK
@@ -23,13 +23,13 @@ When updating, keep your existing app data and original account. If Android repo
 To share the download, send this link:
 
 ```text
-https://github.com/marina21-cs/StudyPath/releases/download/v0.1.3/StudyPath.apk
+https://github.com/marina21-cs/StudyPath/releases/download/v0.1.6/StudyPath.apk
 ```
 
-The APK is **14,119,253 bytes** (about 13.5 MiB). Verify it with the [SHA-256 checksum](docs/releases/SHA256-v0.1.3.txt):
+The APK is **57,130,367 bytes** (about 54.5 MiB). Verify it with the [SHA-256 checksum](docs/releases/SHA256-v0.1.6.txt):
 
 ```text
-93793b8c73a1b1cfbbb752af0e373ae6985acc0a08c1edf9b3b62dab08dcc4fb
+ec26e3c29a2fb26abfe71febc5f96662620ab27c70773a03bebd9314dad0aa1f
 ```
 
 ## Features
@@ -37,6 +37,7 @@ The APK is **14,119,253 bytes** (about 13.5 MiB). Verify it with the [SHA-256 ch
 - **Discover:** search Wikipedia and read attributed references or paginated full-article text.
 - **Save:** keep reading snapshots, private notes, and reading position for offline access.
 - **Learn:** choose a study level and subjects; download available approved lessons with practice, explanations, and progress tracking.
+- **Import COR:** crop course names from PDFs/images, recognize text on-device, correct and review names, then find suggested readings or open a PDF/module web search.
 - **Organize:** create personal subjects, tasks, and study cards, and import PDFs for native offline reading.
 - **Plan:** see unfinished personal tasks; record scores, explore grade/GWA scenarios, and check prerequisites under the configured academic rules.
 - **Return:** organize study reminders and optional controlled family summaries.
@@ -47,7 +48,7 @@ Wikipedia references and demonstration lessons are separate from approved instru
 
 ## Current release status
 
-The 0.1.3 build has recorded evidence for **482 passing JVM tests** and an extended local native flow covering profile editing, personal tasks/cards, PDF import/viewing, and full-article pagination. The delivered cloud APK uses the same application source and signing identity as the tested candidate. These build-specific results do not establish every feature or cloud workflow. See the [release verification summary](docs/releases/v0.1.3.md) and [phone checklist](docs/releases/v0.1.3-phone-checklist.md).
+Release-specific build, native device and signing evidence is recorded in the [verification summary](docs/releases/v0.1.6.md). See the [phone checklist](docs/releases/v0.1.6-phone-checklist.md) and [Tide design contract](docs/design/tide-play.md). These checks do not establish every feature or production cloud workflow.
 
 The downloadable APK connects to the configured Firebase cloud backend. A source checkout defaults to local Firebase emulators. Published lessons are unavailable in the current cloud catalog. The original physical-phone issue, older cache recovery, broader accessibility, and final cloud acceptance remain open.
 

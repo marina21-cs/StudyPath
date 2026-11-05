@@ -31,19 +31,21 @@ class GiraffeMascotView @JvmOverloads constructor(context: Context, attrs: Attri
     private var pose = Pose.WAVE
     private var progress = 1f
     private var requested = false
+    private var requestedDuration: Long? = null
     private val motionObserver = object : ContentObserver(Handler(Looper.getMainLooper())) {
         override fun onChange(selfChange: Boolean) { if (!ValueAnimator.areAnimatorsEnabled()) settle() }
     }
     init { importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO }
 
-    fun play(pose: Pose) {
+    fun play(pose: Pose, durationMillis: Long? = null) {
+        requestedDuration = durationMillis
         animator?.cancel()
         this.pose = pose
         requested = true
         if (!isAttachedToWindow || windowVisibility != VISIBLE || !ValueAnimator.areAnimatorsEnabled()) { settle(); return }
         progress = 0f
         animator = ValueAnimator.ofFloat(0f, 1f).apply {
-            duration = when (pose) { Pose.SLEEP -> 1250L; Pose.WAKE -> 780L; Pose.WAVE -> 1050L }
+            duration = durationMillis?.coerceIn(200L, 1500L) ?: when (pose) { Pose.SLEEP -> 1250L; Pose.WAKE -> 780L; Pose.WAVE -> 1050L }
             interpolator = android.view.animation.LinearInterpolator()
             addUpdateListener { progress = it.animatedValue as Float; invalidate() }
             start()
@@ -53,7 +55,7 @@ class GiraffeMascotView @JvmOverloads constructor(context: Context, attrs: Attri
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         context.contentResolver.registerContentObserver(Settings.Global.getUriFor(Settings.Global.ANIMATOR_DURATION_SCALE), false, motionObserver)
-        if (requested) play(pose)
+        if (requested) play(pose, requestedDuration)
     }
     override fun onDetachedFromWindow() { settle(); context.contentResolver.unregisterContentObserver(motionObserver); super.onDetachedFromWindow() }
     override fun onWindowVisibilityChanged(visibility: Int) { super.onWindowVisibilityChanged(visibility); if (visibility != VISIBLE) settle() }
