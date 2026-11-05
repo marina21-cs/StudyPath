@@ -34,7 +34,7 @@ Subject names and icons remain the primary identifiers; color is supplementary. 
 | --- | --- |
 | Welcome | Prominent wake-up animation introducing the app. |
 | Onboarding ready | A welcoming wave before entering Study. |
-| Study heading | Small static greeting beside the heading. |
+| Study and Planner headings | Small static greeting beside the heading; never over the academic tiles. |
 | Empty subjects/materials | A compact helper beside guidance for the first useful action. |
 | Correct practice feedback | A 72 dp character inside the feedback card with a one-shot 320 ms wave. |
 | Reading, PDF, grades and privacy | Content-focused layouts without additional mascot decoration. |
@@ -46,3 +46,9 @@ The mascot is decorative for accessibility. It does not replace success/error te
 The original COR is processed on the phone. Users can drag crop corners or enter numeric percentages, switch PDF pages, and rotate the image. Recognition returns editable names; users remove headers, correct spelling and join wrapped names. Codes/units are not guessed. Confirmation adds selected subjects without overwriting existing ones.
 
 Only reviewed names are used for online discovery. Wikipedia results appear in the app; PDF/module search opens the browser. Results are supplemental, not institutional approval, and files are never downloaded automatically. Real COR layouts and device file providers remain part of phone testing.
+
+## Feedback extension · 0.1.7
+
+The selected slide-32 home and slides 35–40 inform the native hierarchy: search, yellow resume card, subject rows and topic colors; Planner starts with peach Grades, lilac GWA, mint What-if and sun Prerequisite map tiles. All four destinations are visible with an empty published catalog. Real records replace the slides’ illustrative numbers. The native graph uses focusable course buttons, connected arrows and an equivalent list. Grade and PDF screens stay mascot-free.
+
+See [the release and screen coverage](../releases/v0.1.7.md). Native layouts adapt to screen size and live content; the deck is not embedded as a WebView. Real professor approval and published lessons remain data dependencies rather than fabricated demo states.

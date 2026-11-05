@@ -115,6 +115,12 @@ class ReadingFragment : Fragment() {
             if (sourceRow.orientation == LinearLayout.HORIZONTAL) layoutParams = LinearLayout.LayoutParams(0, -2, 1f)
         }
         readingContext?.let { content.label("Related reading", 14f) }
+        if(savedId != null) content.compactAction("Open cleaned live copy") {
+            MaterialAlertDialogBuilder(requireContext()).setTitle("Open a fresh reading?")
+                .setMessage("The cleaned article opens separately. Your saved excerpt, notes and reading position are kept unchanged.")
+                .setPositiveButton("Open clean article") { _, _ -> (requireActivity() as MainActivity).openDetails(FullArticleFragment.open(reading.pageKey, reading.sourceUrl)) }
+                .setNegativeButton("Keep reading",null).show()
+        }
         content.action("Read full article") {
             (requireActivity() as MainActivity).openDetails(FullArticleFragment.open(reading.pageKey, reading.sourceUrl))
         }.quietAction().tag = "reading_full_article"

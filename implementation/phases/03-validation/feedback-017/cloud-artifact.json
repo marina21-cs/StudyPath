@@ -1,0 +1,19 @@
+{
+  "buildExitCode": 0,
+  "status": "BUILT_CLOUD_UNVERIFIED",
+  "emulatorMode": false,
+  "cloudVerified": false,
+  "deviceInstalled": false,
+  "sourceManifestMatchesTested": true,
+  "sourceFileCount": 299,
+  "package": "com.studypath.app",
+  "versionName": "0.1.7",
+  "versionCode": 8,
+  "signerSha256": "9d573838eb0968cd1e0f63a71f61d67f811a38cd4c52265407c1b28f33b79605",
+  "artifact": {
+    "sha256": "48e8959d3c25ee3f75c30f2323671a04ed00744172d2200b7ec35bff394c874c",
+    "bytes": 57203034
+  },
+  "signatureVerificationExitCode": 0,
+  "packageVerificationExitCode": 0
+}

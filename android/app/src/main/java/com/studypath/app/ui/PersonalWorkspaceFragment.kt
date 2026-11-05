@@ -167,6 +167,7 @@ class PersonalWorkspaceFragment : Fragment() {
             } else if (shelf == "grades") {
                 academicPanel(body, selected, data)
             } else {
+                body.action("Paste PDF link") { (requireActivity() as MainActivity).openDetails(PdfLinkFragment.open(selected.id)) }.tag = "personal_pdf_link"
                 body.action("Import PDF") {
                     pendingSubject = selected.id
                     runCatching { pdfPicker.launch(arrayOf("application/pdf")) }.onFailure { message("No file picker is available on this device.") }
@@ -236,6 +237,7 @@ class PersonalWorkspaceFragment : Fragment() {
         }.quietAction()
     }
     private fun academicPanel(body: LinearLayout, subject: PersonalSubject, data: PersonalWorkspace) {
+        body.action("Grades & scores →") { (requireActivity() as MainActivity).openDetails(PersonalAcademicFragment.open("grades", subject.id)) }
         val record = body.card("Recorded grade", subject.grade?.ifBlank { null } ?: "Not entered")
         record.label(listOfNotNull(subject.code?.ifBlank { null }, subject.units?.let { "$it units" }).joinToString(" · "), 14f)
         record.compactAction("Edit academic details") { academicEditor(subject, data) }.tag = "personal_edit_academics"

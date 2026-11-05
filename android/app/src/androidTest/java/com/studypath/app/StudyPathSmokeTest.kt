@@ -26,6 +26,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isEnabled
+import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -611,6 +612,78 @@ class StudyPathSmokeTest {
         assertTrue(mainThreadValue { currentRoot()!!.findViewWithTag<TextView>("full_article_text").text.toString() != firstPage })
         captureScreen("personal-07-full-article-page-two")
         pressBack()
+        // 0.1.7: actual native toolkit destinations, arithmetic, graph and URL review.
+        fun openAcademic(mode: String) {
+            instrumentation.runOnMainSync { (resumedActivity(MainActivity::class.java) as MainActivity).openDetails(com.studypath.app.ui.PersonalAcademicFragment.open(mode,subjectId)) }
+            awaitTag("academic_panel")
+            onView(withContentDescription("Back")).check(matches(isDisplayed()))
+            onView(withId(R.id.navigation)).check(matches(withEffectiveVisibility(androidx.test.espresso.matcher.ViewMatchers.Visibility.GONE)))
+        }
+        openAcademic("grades")
+        awaitText("Every score counts.")
+        tagged("academic_template").perform(scrollTo(),click())
+        tagged("academic_add_category").perform(scrollTo(),click())
+        onView(withHint("Category name")).perform(replaceText("Quizzes"))
+        onView(withHint("Weight (%)")).perform(replaceText("100"));closeSoftKeyboard()
+        onView(withText("Save")).perform(click())
+        assertEquals(1,store.read().subjects.first { it.id==subjectId }.gradeDraft!!.categories.size)
+        onView(withText("Back to scores")).perform(scrollTo(),click())
+        onView(withText("Add Quizzes score")).perform(scrollTo(),click())
+        onView(withHint("Assessment title")).perform(replaceText("Quiz 1"))
+        onView(withHint("Possible points")).perform(replaceText("20"))
+        onView(withHint("Earned points (blank = ungraded)")).perform(replaceText("16"));closeSoftKeyboard()
+        onView(withText("Save")).perform(click())
+        awaitText("80.00 / 100")
+        captureScreen("feedback-01-native-grades")
+        instrumentation.runOnMainSync { (resumedActivity(MainActivity::class.java) as MainActivity).recreate() }
+        awaitText("80.00 / 100")
+        pressBack()
+        openAcademic("gwa")
+        onView(withText("These grades use the same numeric scale")).perform(scrollTo(),click())
+        onView(withText("Physics\n3.0 units · Grade 1.75")).perform(scrollTo(),click())
+        awaitText("1.75")
+        captureScreen("feedback-02-native-gwa")
+        pressBack()
+        openAcademic("what-if")
+        onView(withHint("Weighted points already earned")).perform(replaceText("41"))
+        onView(withHint("Remaining exam weight (%)")).perform(replaceText("40"))
+        onView(withHint("Target overall (%)")).perform(replaceText("75"));closeSoftKeyboard()
+        onView(withText("Calculate scenario")).perform(scrollTo(),click())
+        awaitText("75.00 / 100")
+        captureScreen("feedback-03-native-scenario")
+        pressBack()
+        openAcademic("map")
+        awaitText("My course path")
+        captureScreen("feedback-04-native-map")
+        onView(withText("Map / accessible list")).perform(scrollTo(),click())
+        awaitTextContaining("Requires all: Calculus I")
+        captureScreen("feedback-05-native-map-list")
+        pressBack()
+        instrumentation.runOnMainSync { (resumedActivity(MainActivity::class.java) as MainActivity).openDetails(com.studypath.app.ui.PdfLinkFragment.open(subjectId)) }
+        awaitTag("pdf_url_input")
+        tagged("pdf_url_input").perform(replaceText("/Downloads/test.pdf"));closeSoftKeyboard()
+        onView(withText("Check link →")).perform(scrollTo(),click())
+        awaitText("Paste a complete HTTPS PDF link.")
+        tagged("pdf_url_input").perform(replaceText("https://127.0.0.1:1/unavailable.pdf"));closeSoftKeyboard()
+        onView(withText("Check link →")).perform(scrollTo(),click())
+        tagged("pdf_download").perform(scrollTo(),click())
+        awaitText("Download not completed")
+        onView(withText("Retry download")).check(matches(isDisplayed()))
+        assertTrue(store.read().materials.none { it.title=="Linked PDF" })
+        onView(withText("Edit link")).perform(scrollTo(),click())
+        tagged("pdf_url_input").perform(replaceText("https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"));closeSoftKeyboard()
+        onView(withText("Check link →")).perform(scrollTo(),click())
+        awaitText("Give it a home.")
+        tagged("pdf_download").perform(scrollTo(),click())
+        awaitText("Available offline")
+        val linked=store.read().materials.single { it.title=="Linked PDF" }
+        assertTrue(store.pdf(linked.id).isFile)
+        onView(withText("Open PDF")).perform(scrollTo(),click())
+        awaitTextContaining("Available offline")
+        captureScreen("feedback-06-linked-offline-pdf")
+        instrumentation.runOnMainSync { (resumedActivity(MainActivity::class.java) as MainActivity).recreate() }
+        awaitTextContaining("Available offline")
+        pressBack();pressBack()
         // Synthetic PDF validates the actual crop → bundled OCR → review → add flow.
         val scanFile=File(app.cacheDir,"synthetic-cor-scan.pdf")
         val scanPdf=android.graphics.pdf.PdfDocument()

@@ -32,7 +32,7 @@ Saved readings remain attributed excerpts of at most 8,000 characters. Full arti
 
 ## Verification status
 
-The current candidate is **0.1.6 (7)**; see its [release verification](../releases/v0.1.6.md) and [phone checklist](../releases/v0.1.6-phone-checklist.md). Tide adds semantic subject colors, raised blue actions, subject tiles and purposeful giraffe placements.
+The current candidate is **0.1.7 (8)**; see its [release verification and screen coverage](../releases/v0.1.7.md). The previous 0.1.6 evidence remains [here](../releases/v0.1.6.md). Tide adds semantic subject colors, raised blue actions, subject tiles and purposeful giraffe placements.
 
 The preceding **0.1.5 (6)** candidate: The focused subject-header follow-up passed 486 JVM tests, the extended native smoke (116.47 seconds, exit 0), source identity and signature checks. Actual Tasks and Grades screenshots were inspected. See [focused control evidence](../../implementation/phases/02-ui/20261104-connected-study/focused-subject-controls.md) and the [APK/screenshots](../../deliverables/StudyPath-Focused-Subjects-20261104/README.md). This verifies the changed flows, not all project acceptance gates or cross-device cloud sync.
 
@@ -62,3 +62,13 @@ The separate reading regression covers saved-reading resume, independent note/pl
 - [Shared subject cards](../../android/app/src/main/java/com/studypath/app/ui/SubjectCards.kt), [Saved materials](../../android/app/src/main/java/com/studypath/app/ui/SavedFragment.kt) and [Planner](../../android/app/src/main/java/com/studypath/app/ui/planner/PlannerFragment.kt).
 - [COR parser](../../android/app/src/main/java/com/studypath/app/data/CorImport.kt), [COR review](../../android/app/src/main/java/com/studypath/app/ui/CorImportFragment.kt) and [course-pack browser](../../android/app/src/main/java/com/studypath/app/ui/CoursePacksFragment.kt).
 - [Native PDF controls](../../android/app/src/main/java/com/studypath/app/ui/OfflinePdfView.kt).
+
+## Academic toolkit and PDF links · 0.1.7
+
+Planner exposes Grades & scores, GWA, What-if and Prerequisite map before the published-catalog section. Personal subjects hold optional grading drafts and an explicitly selected catalog course ID. Draft categories, aggregation and assessments persist atomically in the existing UID-owned local store. GradeEngine computes raw draft estimates; blank and zero are distinct, and excused items are excluded. Category weights must total 100% before preparing an external review copy. A shared copy never establishes professor approval; existing reviewed-policy tools keep their capability checks.
+
+GWA displays the included-course weighted arithmetic only after common-scale confirmation. The user chooses inclusion; school retake/exclusion decisions are not inferred. What-if inputs are separate assumptions and never update recorded scores. Personal prerequisite edges mean “requires all linked courses,” have a node detail view and an equivalent list, and do not infer official enrollment eligibility. Existing policy-bound academic tools retain AND/OR and approved-rule evaluation.
+
+Materials offers Paste PDF link alongside device import and study cards. The link flow validates HTTPS, reviews title/subject, streams with progress/cancel, checks redirects, limits files to 25 MiB/500 pages, validates the PDF header and native renderer, then atomically commits to private offline storage. Failed transfers show retry/edit controls and do not create ready items. Android Share accepts text URLs and readable PDF content URIs, then opens the same review flow. Signed-out users must sign in and share again. Transfers cancel when leaving their view; background resumption is not promised.
+
+Fresh Wikipedia reads remove infobox/sidebar/navigation/citation clutter while keeping article paragraphs, list text and one math representation. A saved excerpt offers Open cleaned live copy, preserving the original immutable excerpt, notes and position. This opens a separate online article; it does not silently rewrite a saved snapshot or claim full-article offline availability.

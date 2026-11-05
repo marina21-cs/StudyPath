@@ -103,17 +103,12 @@ class MediaWikiClient(
                     if (!LICENSE_URL.matches(licenseUrl)) invalid()
                     val html = json.requiredText("html", MAX_RESPONSE_BYTES)
                     val document = Jsoup.parse(html)
-                    document.select("script,style,form,iframe,frame,object,embed,video,audio,img,svg,canvas,input,button,textarea,noscript,.mw-editsection").remove()
                     val additionalNotices = document.select(".attribution,.license,.licensetpl").eachText()
                         .filter { it.isNotBlank() }.distinct().joinToString(" ")
                     val attribution = "Wikipedia contributors. $title. English Wikipedia." +
                         if (additionalNotices.isEmpty()) "" else " $additionalNotices"
                     if (attribution.length > 500) invalid("Additional attribution cannot fit in an offline snapshot. Open the original source.")
-                    val paragraphs = document.select("p")
-                    if (paragraphs.none { it.text().isNotBlank() }) invalid("This article has no suitable text excerpt. Open the original source.")
-                    val fullText = document.select("h2,h3,p,li").filter { element ->
-                        element.tagName() != "li" || element.select("p,li").size == 1
-                    }.map { it.text() }.filter { it.isNotBlank() }.joinToString("\n\n")
+                    val fullText = WikipediaBody.text(document)
                     val excerpt = if (full) fullText else ReadingPages.excerpt(fullText, MAX_EXCERPT_CHARACTERS)
                     if (excerpt.isBlank()) invalid("This article has no suitable text excerpt. Open the original source.")
                     val sourceKey = URLEncoder.encode(key, "UTF-8").replace("+", "%20")

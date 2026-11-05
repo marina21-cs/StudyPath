@@ -36,9 +36,17 @@ class MainActivity : AppCompatActivity() {
             try {
                 if (repository.resumeSession() == null) { returnToLogin(); return@launch }
                 setupContent()
+                val sharedLink = intent.getStringExtra("sharedPdfLink")
+                val sharedFile = intent.getStringExtra("sharedPdf")
+                if (savedInstanceState == null && (sharedLink != null || sharedFile != null)) {
+                    openDetails(PdfLinkFragment.open(url = sharedLink.orEmpty()).apply {
+                        sharedFile?.let { requireArguments().putString("sharedPdf", it) }
+                    })
+                    intent.removeExtra("sharedPdfLink"); intent.removeExtra("sharedPdf")
+                }
                 val requestedReminder = intent.getStringExtra("reminderId")
                 if (requestedReminder != null) { intent.removeExtra("reminderId"); openReminder(requestedReminder) }
-                if (savedInstanceState == null && requestedReminder == null) {
+                if (savedInstanceState == null && requestedReminder == null && sharedLink == null && sharedFile == null) {
                     binding.navigation.selectedItemId = R.id.nav_study
                     // A saved draft is a valid student choice even before matching lessons exist.
                     val preferences = withTimeoutOrNull(8000) {
@@ -145,12 +153,14 @@ class MainActivity : AppCompatActivity() {
         }
         fun updateChrome() {
             val current = supportFragmentManager.findFragmentById(R.id.main_content)
-            val detail = (current is StudyFragment && current.arguments?.containsKey("subjectQuery") == true) || current is CoursePacksFragment || current is CorImportFragment || current is CorScanFragment || current is SubjectsFragment || current is MaterialRecommendationsFragment || current is PersonalWorkspaceFragment || current is PersonalMaterialFragment || current is EditProfileFragment || current is FullArticleFragment || current is ReadingFragment || current is ModuleFragment || current is LearnerPreferencesFragment || current is InteractiveLessonFragment || current is OfflinePdfFragment || current is FamilySharingFragment || current is OnboardingReadyFragment
+            val detail = (current is StudyFragment && current.arguments?.containsKey("subjectQuery") == true) || current is PersonalAcademicFragment || current is PdfLinkFragment || current is CoursePacksFragment || current is CorImportFragment || current is CorScanFragment || current is SubjectsFragment || current is MaterialRecommendationsFragment || current is PersonalWorkspaceFragment || current is PersonalMaterialFragment || current is EditProfileFragment || current is FullArticleFragment || current is ReadingFragment || current is ModuleFragment || current is LearnerPreferencesFragment || current is InteractiveLessonFragment || current is OfflinePdfFragment || current is FamilySharingFragment || current is OnboardingReadyFragment
             binding.toolbar.navigationIcon = if (detail)
                 androidx.appcompat.content.res.AppCompatResources.getDrawable(this, androidx.appcompat.R.drawable.abc_ic_ab_back_material) else null
             binding.toolbar.navigationContentDescription = if (detail) "Back" else null
             binding.navigation.visibility = if (detail) View.GONE else View.VISIBLE
             binding.toolbar.title = when (current) {
+                is PersonalAcademicFragment -> "Academic toolkit"
+                is PdfLinkFragment -> "Add PDF link"
                 is CorImportFragment -> "Import COR"
                 is SubjectsFragment -> "My subjects"
                 is CorScanFragment -> "Scan COR"

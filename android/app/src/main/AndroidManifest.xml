@@ -7,6 +7,10 @@
         <activity android:name=".ui.auth.LoginActivity" android:exported="false" android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".ui.auth.RegisterActivity" android:exported="false" android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".ui.auth.EmailVerificationActivity" android:exported="false" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.ShareMaterialActivity" android:exported="true">
+            <intent-filter><action android:name="android.intent.action.SEND"/><category android:name="android.intent.category.DEFAULT"/><data android:mimeType="text/plain"/></intent-filter>
+            <intent-filter><action android:name="android.intent.action.SEND"/><category android:name="android.intent.category.DEFAULT"/><data android:mimeType="application/pdf"/></intent-filter>
+        </activity>
         <activity android:name=".ui.MainActivity" android:exported="false" android:windowSoftInputMode="adjustResize"/>
     </application>
 </manifest>

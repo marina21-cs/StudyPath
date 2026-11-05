@@ -13,7 +13,8 @@ import kotlinx.coroutines.flow.*
 
 data class PersonalSubject(val id: String, val title: String, val category: String? = null,
     val code: String? = null, val units: Double? = null, val grade: String? = null,
-    val prerequisiteIds: List<String>? = null) {
+    val prerequisiteIds: List<String>? = null,
+    val gradeDraft: com.studypath.app.domain.PersonalGradeDraft? = null, val catalogCourseId: String? = null) {
     fun categoryLabel() = category?.takeIf { it in CATEGORIES } ?: "General"
     companion object { val CATEGORIES = listOf("General", "Mathematics", "Science", "Technology", "Languages", "Humanities") }
 }
@@ -47,6 +48,16 @@ class PersonalStudyStore(root: File, uid: String) {
         value
     }
     fun pdf(id: String): File { require(validId(id)); return File(directory, "$id.pdf") }
+    fun commitPdf(temp: File, material: PersonalMaterial) = synchronized(lock) {
+        require(material.pdf && temp.isFile && temp.length() in 1..MAX_PDF_BYTES)
+        require(directory.listFiles().orEmpty().filter { it.extension == "pdf" }.sumOf { it.length() } + temp.length() <= MAX_TOTAL_PDF_BYTES) { "PDF storage is full. Remove an unused PDF first." }
+        require(read().subjects.any { it.id == material.subjectId }) { "This subject was removed. Choose another subject." }
+        val destination = pdf(material.id)
+        require(!destination.exists())
+        check(temp.renameTo(destination)) { "Could not save the PDF. Retry the download." }
+        try { update { it.copy(materials = it.materials + material) } }
+        catch (error: Exception) { destination.delete(); throw error }
+    }
     fun removeSubject(id: String) = synchronized(lock) {
         val removed = read().materials.filter { it.subjectId == id && it.pdf }
         update { it.copy(subjects = it.subjects.filterNot { row -> row.id == id }.map { row -> if (id in row.prerequisiteIds.orEmpty()) row.copy(prerequisiteIds = row.prerequisiteIds.orEmpty().filterNot { key -> key == id }) else row }, tasks = it.tasks.filterNot { row -> row.subjectId == id }, materials = it.materials.filterNot { row -> row.subjectId == id }) }
@@ -69,6 +80,8 @@ class PersonalStudyStore(root: File, uid: String) {
             require(subjects.size == value.subjects.size && value.tasks.map { it.id }.distinct().size == value.tasks.size && value.materials.map { it.id }.distinct().size == value.materials.size)
             value.subjects.forEach { require(validId(it.id) && it.title.isNotBlank() && it.title.length <= 80) { "Use a subject name of 1–80 characters." } }
             value.subjects.forEach {
+                it.gradeDraft?.validate()
+                require(it.catalogCourseId == null || it.catalogCourseId.matches(Regex("[A-Za-z0-9_-]{1,100}")))
                 require(it.category == null || it.category in PersonalSubject.CATEGORIES) { "Choose a subject category." }
                 require(it.code.orEmpty().length <= 24 && it.grade.orEmpty().length <= 16) { "Keep course codes and recorded grades short." }
                 require(it.units == null || (it.units.isFinite() && it.units > 0 && it.units <= 30)) { "Units must be greater than 0 and at most 30." }

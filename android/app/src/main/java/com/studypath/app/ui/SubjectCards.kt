@@ -73,3 +73,23 @@ internal fun LinearLayout.compactAction(title: String, action: () -> Unit) = thi
     setIconResource(R.drawable.ic_chevron_right); iconGravity = com.google.android.material.button.MaterialButton.ICON_GRAVITY_END
     iconSize = context.dp(18); setPadding(context.dp(14), context.dp(8), context.dp(14), context.dp(8))
 }
+
+/** Tide Play tiles: shared geometry and colors from the selected slide-32 design. */
+internal fun LinearLayout.academicToolkit(open: (String) -> Unit) {
+    val items = listOf(
+        arrayOf("Grades & scores", "Set up your template", "∑", "#FFC6A3", "grades"),
+        arrayOf("GWA", "See the calculation", "÷", "#D8CCFF", "gwa"),
+        arrayOf("What-if", "Explore a target", "↗", "#BCE8D4", "what-if"),
+        arrayOf("Prerequisite map", "See what connects", "⋈", "#FFD66B", "map"))
+    label("Your academic toolkit",18f)
+    items.chunked(2).forEach { pair ->
+        val row=context.column(0).apply{orientation=LinearLayout.HORIZONTAL;isBaselineAligned=false}
+        addView(row,LinearLayout.LayoutParams(-1,-2).apply{topMargin=context.dp(12)})
+        pair.forEachIndexed { index, item ->
+            val card=MaterialCardView(context).apply{radius=context.dp(23).toFloat();setCardBackgroundColor(Color.parseColor(item[3]));strokeWidth=0;cardElevation=context.dp(2).toFloat();isClickable=true;isFocusable=true;contentDescription="${item[0]}, ${item[1]}";tag="toolkit_${item[4]}";setOnClickListener{open(item[4])}}
+            val words=context.column(14).apply{minimumHeight=context.dp(148);importantForAccessibility=View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS}
+            words.label(item[2],28f);words.label(item[0],18f);words.label(item[1],12f);card.addView(words)
+            row.addView(card,LinearLayout.LayoutParams(0,-1,1f).apply{if(index==0)marginEnd=context.dp(12)})
+        }
+    }
+}

@@ -82,15 +82,18 @@ class StudyFragment : Fragment() {
         greeting.addView(android.widget.ImageView(requireContext()).apply { setImageResource(R.drawable.giraffe_mascot); importantForAccessibility=View.IMPORTANT_FOR_ACCESSIBILITY_NO }, LinearLayout.LayoutParams(requireContext().dp(56),requireContext().dp(72)))
         content.addView(hero)
         content.label("", 14f).apply { tag = "reading_context_label"; visibility = View.GONE }
-        val query = content.field("Search Wikipedia").apply { tag = "reading_search_query"; setText(model.state.value.query); imeOptions = EditorInfo.IME_ACTION_SEARCH; setSingleLine(true); id = View.generateViewId() }
+        val searchRow = requireContext().column(0).apply { orientation=LinearLayout.HORIZONTAL; gravity=android.view.Gravity.CENTER_VERTICAL }
+        content.addView(searchRow)
+        val query = searchRow.field("Search Wikipedia").apply { tag = "reading_search_query"; setText(model.state.value.query); imeOptions = EditorInfo.IME_ACTION_SEARCH; setSingleLine(true); id = View.generateViewId() }
         generateSequence(query.parent) { it.parent }.filterIsInstance<com.google.android.material.textfield.TextInputLayout>().firstOrNull()?.apply {
+            layoutParams=LinearLayout.LayoutParams(0,-2,1f)
             endIconMode = com.google.android.material.textfield.TextInputLayout.END_ICON_CLEAR_TEXT
             setEndIconContentDescription("Clear search")
             setEndIconOnClickListener { content.findViewWithTag<View>("reading_search_clear")?.performClick() }
         }
         val graph = (requireActivity().application as StudyPathApplication).graph
         val api = graph.readings
-        val search = content.action("Find readings →") { model.search(api, query.text.toString(), graph.repository) }.apply { tag = "reading_search_submit" }
+        val search = searchRow.action("→") { model.search(api, query.text.toString(), graph.repository) }.apply { tag = "reading_search_submit"; contentDescription="Find readings";layoutParams=LinearLayout.LayoutParams(context.dp(56),context.dp(56)).apply{marginStart=context.dp(8)} }
         query.setOnEditorActionListener { _, actionId, _ -> if (actionId == EditorInfo.IME_ACTION_SEARCH) { search.performClick(); true } else false }
         content.action("Back to my study", model::clearSearch).apply {
             tag = "reading_search_clear"; quietAction(); isVisible = model.state.value.submitted
@@ -221,6 +224,10 @@ class StudyFragment : Fragment() {
                             card.label(saved.title, 20f)
                             card.label(readingCopyStatus(local), 12f)
                             (card.parent as com.google.android.material.card.MaterialCardView).setCardBackgroundColor(requireContext().tint(R.color.sp_yellow))
+                            card.addView(android.widget.ProgressBar(requireContext(),null,android.R.attr.progressBarStyleHorizontal).apply {
+                                max=100;progress=if(saved.excerpt.isEmpty())0 else (((local?.annotation?.position ?: 0).toDouble()/saved.excerpt.length)*100).toInt().coerceIn(0,100)
+                                progressTintList=ColorStateList.valueOf(context.tint(R.color.sp_action))
+                            },LinearLayout.LayoutParams(-1,requireContext().dp(12)).apply{topMargin=requireContext().dp(10);bottomMargin=requireContext().dp(8)})
                             card.label(readingPositionLabel(local?.annotation?.position ?: 0, saved.excerpt.length) + " · Wikipedia excerpt", 14f)
                             card.action("Continue reading →") {
                                 (requireActivity() as MainActivity).openDetails(ReadingFragment.forSaved(saved.id))

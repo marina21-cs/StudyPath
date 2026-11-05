@@ -65,7 +65,7 @@ class PlannerFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        selectedCourseId = savedInstanceState?.getString("courseId")
+        selectedCourseId = savedInstanceState?.getString("courseId") ?: arguments?.getString("courseId")
         targetText = savedInstanceState?.getString("target") ?: "75"
         plannerMode = savedInstanceState?.getString("plannerMode") ?: "scores"
         selectedScenarioId = savedInstanceState?.getString("scenarioId")
@@ -74,7 +74,16 @@ class PlannerFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val page = requireContext().column()
-        page.label("Your semester", 24f)
+        val toolsOnly = arguments?.getBoolean("toolsOnly") == true
+        if (!toolsOnly) {
+            val greeting = requireContext().column(0).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
+            val words = requireContext().column(0); words.label("Your semester", 12f); words.label("Make room for progress.", 26f)
+            greeting.addView(words, LinearLayout.LayoutParams(0,-2,1f))
+            greeting.addView(android.widget.ImageView(requireContext()).apply { setImageResource(R.drawable.giraffe_mascot); contentDescription="StudyPath giraffe" },LinearLayout.LayoutParams(context?.dp(58) ?: 58,requireContext().dp(72)))
+            page.addView(greeting)
+            page.academicToolkit { mode -> (requireActivity() as MainActivity).openDetails(PersonalAcademicFragment.open(mode)) }
+        }
+        page.label(if (toolsOnly) "Reviewed course tools" else "Your semester", 20f)
         val actions = requireContext().column(0).apply { orientation = LinearLayout.HORIZONTAL; isBaselineAligned = false }
         page.addView(actions)
         actions.compactAction("Subjects") {
@@ -83,7 +92,7 @@ class PlannerFragment : Fragment() {
         actions.compactAction("Import COR") { (requireActivity() as MainActivity).openDetails(CorImportFragment()) }
             .apply { tag = "planner_import_cor"; layoutParams = LinearLayout.LayoutParams(0, -1, 1f) }
         page.addView(requireContext().column(0).apply { tag = "personal_planner_summary" })
-        page.label("School grade tools", 20f)
+        page.label("Reviewed school grade tools", 20f)
         page.compactAction("Browse course packs") { (requireActivity() as MainActivity).openDetails(CoursePacksFragment()) }.tag = "planner_course_packs"
         loading = page.label("Loading courses…", 14f)
         coursePicker = Spinner(requireContext()).also { picker ->
@@ -118,6 +127,7 @@ class PlannerFragment : Fragment() {
                 summary.workspaceRow(subject.title, listOfNotNull(subject.code?.ifBlank { null }, subject.grade?.ifBlank { null }?.let { "Grade $it" }, "${personal.tasks.count { it.subjectId == subject.id && !it.done }} to do").joinToString(" · "), subjectIcon(subject.categoryLabel()), subjectColor(subject.categoryLabel())) {
                     (requireActivity() as MainActivity).openDetails(PersonalWorkspaceFragment.open(subject.id))
                 }.tag = "planner_subject_${subject.id}"
+                summary.compactAction("${subject.title} · Grades →") { (requireActivity() as MainActivity).openDetails(PersonalAcademicFragment.open("grades", subject.id)) }
             }
             if (personal.subjects.size > 20) summary.compactAction("All subjects") { (requireActivity() as MainActivity).openDetails(PersonalWorkspaceFragment()) }
             summary.label("Up next", 18f)
@@ -195,13 +205,13 @@ class PlannerFragment : Fragment() {
         val body = content ?: return
         if (!sessionActive()) { body.removeAllViews(); return }
         body.removeAllViews()
+        modePicker(body)
         val course = data.courses.firstOrNull { it.id == selectedCourseId } ?: run {
             body.card("No course pack yet", "Grade tools need a reviewed course pack.").tag = "planner_policy_unavailable"
             body.compactAction("Use my subjects") { (requireActivity() as MainActivity).openDetails(PersonalWorkspaceFragment()) }
             body.action("Browse readings") { (requireActivity() as MainActivity).goToStudy() }.quietAction()
             return
         }
-        modePicker(body)
         if (plannerMode == "roadmap") {
             val map = requireContext().column(0)
             val gwa = requireContext().column(0)

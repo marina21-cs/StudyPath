@@ -105,7 +105,7 @@ result = {
     "dataCleared": False,
     "packagesUninstalled": False,
     "limits": [
-        "Core smoke flow only; --live-api adds Wikipedia reading/save/reopen checks.",
+        "Core smoke; --live-api adds Wikipedia. --personal-workspace adds native workspace, COR, grades, GWA, scenarios, graph and linked PDF checks.",
         "This is not acceptance of notifications, accessibility, extended offline recovery, or cloud setup.",
         "Screenshots are diagnostic captures; verify visible content before assigning detailed captions."
     ]
@@ -215,7 +215,7 @@ fi
 studyPathStage=screenshots
 studyPathScreens=(00-welcome 01-register-empty 02-study-home 03-study-shelf 04-planner 04b-planner-policy-preferences 05-account 06-login-bound-workspace)
 if [[ "$studyPathLive" == true ]]; then studyPathScreens+=(07-live-reading 08-reading-attribution 09-saved-reading); fi
-if [[ "$studyPathPersonal" == true ]]; then studyPathScreens+=(tide-01-cor-crop tide-02-cor-review tide-03-material-search tide-04-subject-tiles); fi
+if [[ "$studyPathPersonal" == true ]]; then studyPathScreens+=(tide-01-cor-crop tide-02-cor-review tide-03-material-search tide-04-subject-tiles feedback-01-native-grades feedback-02-native-gwa feedback-03-native-scenario feedback-04-native-map feedback-05-native-map-list feedback-06-linked-offline-pdf); fi
 studyPathScreensComplete=true
 for studyPathScreen in "${studyPathScreens[@]}"; do
     studyPathRemote="/sdcard/Pictures/StudyPathSmoke/$studyPathScreen.png"
