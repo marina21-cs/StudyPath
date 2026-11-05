@@ -102,7 +102,7 @@ class NativeReadingRevisionDeviceTest {
             observations.put("uid", session.uid).put("fixture", "Synthetic excerpt; no live Wikipedia call")
             ActivityScenario.launch(MainActivity::class.java).use { scenario ->
                 awaitTag("reading_search_query")
-                assertEquals("What do you want to understand?", text("study_heading"))
+                assertEquals("Your study space", text("study_heading"))
                 assertNull(main { currentRoot()?.findViewWithTag<View>("study_continue_reading") })
                 onView(withTagValue(equalTo<Any>("reading_search_submit"))).perform(scrollTo(), click())
                 await { visible("reading_search_clear") }

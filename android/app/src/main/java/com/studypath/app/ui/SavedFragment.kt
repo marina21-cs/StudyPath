@@ -34,17 +34,18 @@ class SavedFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val content = requireContext().column()
-        content.action("My subjects · PDFs & lessons") {
+        content.compactAction("Manage subjects") {
             (requireActivity() as MainActivity).openDetails(PersonalWorkspaceFragment.lessons())
-        }.quietAction().tag = "saved_personal_workspace"
+        }.tag = "saved_personal_workspace"
         val tabs = LinearLayout(requireContext()).apply {
             orientation = LinearLayout.HORIZONTAL
             isBaselineAligned = false
             gravity = android.view.Gravity.CENTER_VERTICAL
         }
         val readingTab = tabs.action("Readings") {}.apply { tag = "saved_readings_tab" }
-        val lessonTab = tabs.action("Lessons") {}.apply { tag = "saved_lessons_tab" }
+        val lessonTab = tabs.action("Materials") {}.apply { tag = "saved_lessons_tab" }
         listOf(readingTab, lessonTab).forEach {
+            it.quietAction()
             it.layoutParams = LinearLayout.LayoutParams(0, -2, 1f).apply { marginEnd = requireContext().dp(4) }
             it.isCheckable = true
         }
@@ -60,7 +61,7 @@ class SavedFragment : Fragment() {
             listOf(readingTab to "readings", lessonTab to "lessons").forEach { (button, key) ->
                 val selected = value == key
                 button.isChecked = selected
-                button.backgroundTintList = ColorStateList.valueOf(requireContext().tint(if (selected) R.color.sp_ink else android.R.color.white))
+                button.backgroundTintList = ColorStateList.valueOf(requireContext().tint(if (selected) R.color.sp_action else android.R.color.white))
                 button.setTextColor(requireContext().tint(if (selected) android.R.color.white else R.color.sp_ink))
                 androidx.core.view.ViewCompat.setStateDescription(button, if (selected) "Selected" else "Not selected")
             }
@@ -76,7 +77,29 @@ class SavedFragment : Fragment() {
         val readings = content.findViewWithTag<LinearLayout>("readings")
         val modules = content.findViewWithTag<LinearLayout>("modules")
         val repository = (requireActivity().application as StudyPathApplication).graph.repository
-        DownloadedLessonsSection(modules, viewLifecycleOwner, repository) { key ->
+        val personalMaterials = requireContext().column(0)
+        val approvedMaterials = requireContext().column(0)
+        modules.addView(personalMaterials); modules.addView(approvedMaterials)
+        watchPersonal({ data ->
+            personalMaterials.removeAllViews()
+            personalMaterials.label("Your materials", 20f)
+            content.findViewWithTag<MaterialButton>("saved_lessons_tab").text = "Materials"
+            if (data.materials.isEmpty()) {
+                personalMaterials.label("Import a PDF or create a study card.", 14f)
+                personalMaterials.compactAction("Add material") { (requireActivity() as MainActivity).openDetails(PersonalWorkspaceFragment.lessons()) }
+            }
+            data.subjects.filter { subject -> data.materials.any { it.subjectId == subject.id } }.forEach { subject ->
+                personalMaterials.label(subject.title, 18f)
+                data.materials.filter { it.subjectId == subject.id }.take(20).forEach { material ->
+                    personalMaterials.workspaceRow(material.title.replace('_',' '), if (material.pdf) "PDF · Offline" else "Study card", subjectIcon(subject.categoryLabel()), subjectColor(subject.categoryLabel())) {
+                        (requireActivity() as MainActivity).openDetails(PersonalMaterialFragment.open(material.id))
+                    }.tag = "saved_material_${material.id}"
+                }
+                if (data.materials.count { it.subjectId == subject.id } > 20) personalMaterials.compactAction("All ${subject.title} materials") { (requireActivity() as MainActivity).openDetails(PersonalWorkspaceFragment.open(subject.id, "lessons")) }
+            }
+            personalMaterials.label("Course downloads", 20f)
+        }, { personalMaterials.label("Could not open personal materials. Your files are kept.", 14f) })
+        DownloadedLessonsSection(approvedMaterials, viewLifecycleOwner, repository) { key ->
             (requireActivity() as MainActivity).openDetails(InteractiveLessonFragment.forPackage(key))
         }.start()
         viewLifecycleOwner.lifecycleScope.launch {

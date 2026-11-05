@@ -145,12 +145,17 @@ class MainActivity : AppCompatActivity() {
         }
         fun updateChrome() {
             val current = supportFragmentManager.findFragmentById(R.id.main_content)
-            val detail = current is PersonalWorkspaceFragment || current is PersonalMaterialFragment || current is EditProfileFragment || current is FullArticleFragment || current is ReadingFragment || current is ModuleFragment || current is LearnerPreferencesFragment || current is InteractiveLessonFragment || current is OfflinePdfFragment || current is FamilySharingFragment || current is OnboardingReadyFragment
+            val detail = (current is StudyFragment && current.arguments?.containsKey("subjectQuery") == true) || current is CoursePacksFragment || current is CorImportFragment || current is CorScanFragment || current is SubjectsFragment || current is MaterialRecommendationsFragment || current is PersonalWorkspaceFragment || current is PersonalMaterialFragment || current is EditProfileFragment || current is FullArticleFragment || current is ReadingFragment || current is ModuleFragment || current is LearnerPreferencesFragment || current is InteractiveLessonFragment || current is OfflinePdfFragment || current is FamilySharingFragment || current is OnboardingReadyFragment
             binding.toolbar.navigationIcon = if (detail)
                 androidx.appcompat.content.res.AppCompatResources.getDrawable(this, androidx.appcompat.R.drawable.abc_ic_ab_back_material) else null
             binding.toolbar.navigationContentDescription = if (detail) "Back" else null
             binding.navigation.visibility = if (detail) View.GONE else View.VISIBLE
             binding.toolbar.title = when (current) {
+                is CorImportFragment -> "Import COR"
+                is SubjectsFragment -> "My subjects"
+                is CorScanFragment -> "Scan COR"
+                is MaterialRecommendationsFragment -> "Find materials"
+                is CoursePacksFragment -> "Course packs"
                 is PersonalWorkspaceFragment -> "My subjects"
                 is PersonalMaterialFragment -> "My lesson"
                 is EditProfileFragment -> "Edit profile"

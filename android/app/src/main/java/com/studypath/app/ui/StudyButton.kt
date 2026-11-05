@@ -54,7 +54,7 @@ class StudyButton @JvmOverloads constructor(
             return
         }
         motion = ValueAnimator.ofFloat(faceOffset, target).apply {
-            duration = if (pressed) 80L else 140L
+            duration = if (pressed) 120L else 150L
             interpolator = PathInterpolator(.23f, 1f, .32f, 1f)
             addUpdateListener { faceOffset = it.animatedValue as Float; invalidate() }
             start()

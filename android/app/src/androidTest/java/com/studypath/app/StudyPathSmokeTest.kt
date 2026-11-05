@@ -1,5 +1,7 @@
 package com.studypath.app
 
+import kotlinx.coroutines.flow.first
+
 import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -213,6 +215,7 @@ class StudyPathSmokeTest {
             }
         }
         } catch (error: Throwable) {
+            runCatching { captureTimeout("Action failure at $flowStage", 0) }
             flowFailure = error.javaClass.simpleName
             flowFailureLocation = error.stackTrace.firstOrNull { it.className == javaClass.name }
                 ?.let { "${it.fileName}:${it.lineNumber}" }
@@ -361,14 +364,14 @@ class StudyPathSmokeTest {
         onView(allOf(withText("Read excerpt →"), hasSibling(withText("Computer programming"))))
             .perform(scrollTo(), click())
         awaitTag("reading_excerpt")
-        onView(withText("Wikipedia · Supplemental excerpt")).perform(scrollTo()).check(matches(isDisplayed()))
+        onView(withText("Wikipedia excerpt")).perform(scrollTo()).check(matches(isDisplayed()))
         captureScreen("07-live-reading")
         onView(withTagValue(`is`("reading_save_place" as Any))).perform(scrollTo(), click())
         await("Excerpt and its saved place must each receive confirmation") {
             mainThreadValue {
                 val root = currentRoot() ?: return@mainThreadValue false
-                (root.findViewWithTag<TextView>("reading_copy_status")?.text?.toString() == "Excerpt · sync confirmed") &&
-                    (root.findViewWithTag<TextView>("reading_position_status")?.text?.startsWith("Place · sync confirmed") == true)
+                (root.findViewWithTag<TextView>("reading_copy_status")?.text?.toString() == "Ready offline") &&
+                    (root.findViewWithTag<TextView>("reading_position_status")?.text?.startsWith("Place · saved ·") == true)
             }
         }
         onView(withTagValue(`is`("reading_source" as Any))).perform(scrollTo(), click())
@@ -417,6 +420,15 @@ class StudyPathSmokeTest {
         awaitTag("personal_add_task")
         assertEquals("Task and lesson tabs must align even when a label wraps", mainThreadValue { currentRoot()!!.findViewWithTag<View>("personal_tab_tasks").height },
             mainThreadValue { currentRoot()!!.findViewWithTag<View>("personal_tab_lessons").height })
+        tagged("personal_choose_subject").perform(scrollTo(), click())
+        onView(withText("Choose subject")).check(matches(isDisplayed()))
+        onView(withText("Physics")).inRoot(androidx.test.espresso.matcher.RootMatchers.isDialog()).perform(click())
+        tagged("personal_subject_options").perform(scrollTo(), click())
+        onView(withText("Add subject")).check(matches(isDisplayed()))
+        onView(withText("Edit subject")).perform(click())
+        onView(withHint("Subject name")).check(matches(withText("Physics")))
+        onView(withText("Cancel")).perform(click())
+        captureScreen("focused-01-subject-header")
         tagged("personal_add_task").perform(scrollTo(), click())
         onView(withHint("Task")).perform(replaceText("Read chapter two")); closeSoftKeyboard()
         onView(withText("Save")).perform(click())
@@ -471,6 +483,12 @@ class StudyPathSmokeTest {
         awaitText("Page 1 of 2 · Available offline")
         tagged("offline_pdf_next").perform(click())
         awaitText("Page 2 of 2 · Available offline")
+        tagged("offline_pdf_zoom").perform(click())
+        tagged("offline_pdf_jump").perform(click())
+        onView(withHint("Page number")).inRoot(androidx.test.espresso.matcher.RootMatchers.isDialog()).perform(click(), replaceText("1")); closeSoftKeyboard()
+        onView(withText("Go")).perform(click())
+        awaitText("Page 1 of 2 · Available offline")
+        tagged("offline_pdf_zoom").perform(click())
         captureScreen("personal-03-pdf-page-two")
         pressBack()
         // The manual workspace does not depend on a live database or a published course pack.
@@ -503,7 +521,86 @@ class StudyPathSmokeTest {
             awaitText("No course pack yet")
             tagged("planner_personal_workspace").perform(scrollTo()).check(matches(isDisplayed()))
             captureScreen("personal-06-empty-catalog-planner")
+            tagged("planner_course_packs").perform(scrollTo(), click())
+            awaitTag("course_packs_empty")
+            captureScreen("connected-01-course-packs")
+            tagged("course_packs_personal").perform(scrollTo(), click())
+            awaitTag("personal_tab_tasks")
+            pressBack(); pressBack()
         } finally { setCourses(original) }
+        // Exercise a published choice only in the isolated emulator; remove this owned fixture afterward.
+        val optionUrl = "http://127.0.0.1:9000/catalog/learnerPreferenceOptions/connected-test-pack.json?ns=demo-studypath-default-rtdb"
+        fun writeOption(body: String) {
+            cleanupClient.newCall(Request.Builder().url(optionUrl).header("Authorization", "Bearer owner")
+                .put(body.toRequestBody("application/json".toMediaType())).build()).execute().use { check(it.isSuccessful) }
+        }
+        val beforePackProfile = JSONObject(smokeTree(smokeToken(requireNotNull(FirebaseAuth.getInstance().currentUser))).body).getJSONObject("profile")
+        val previousPreferences = kotlinx.coroutines.runBlocking { app.graph.repository.learnerPreferences().first() }
+        try {
+            writeOption("""{"schemaVersion":1,"curriculumVersion":"connected-test-pack","levelId":"college","subjectIds":{"test-math":true},"approved":true,"approvalStatus":"APPROVED"}""")
+            kotlinx.coroutines.runBlocking { kotlinx.coroutines.withTimeout(10000) { app.graph.repository.learnerPreferenceOptions().first { rows -> rows.any { it.curriculumVersion == "connected-test-pack" } } } }
+            tagged("planner_course_packs").perform(scrollTo(), click())
+            awaitTag("course_pack_connected-test-pack")
+            tagged("course_pack_connected-test-pack").perform(scrollTo(), click())
+            onView(withText("Use pack")).perform(click())
+            awaitTextContaining("Selected")
+            assertEquals("connected-test-pack", kotlinx.coroutines.runBlocking { app.graph.repository.learnerPreferences().first() }.curriculumVersion)
+            captureScreen("connected-08-selected-test-pack")
+            pressBack()
+        } finally {
+            try {
+                kotlinx.coroutines.runBlocking { app.graph.repository.saveLearnerPreferences(previousPreferences) }
+                val restored = JSONObject(smokeTree(smokeToken(requireNotNull(FirebaseAuth.getInstance().currentUser))).body).getJSONObject("profile")
+                assertTrue(restored.getLong("updatedAt") > 0L)
+                val expected = JSONObject(beforePackProfile.toString())
+                    .put("learnerPreferences", JSONObject(com.studypath.app.data.LearnerPreferenceRecords.preferences(previousPreferences)))
+                    .put("updatedAt", restored.getLong("updatedAt"))
+                assertEquals("Pack test may only change the explicitly restored preferences and timestamp", canonical(expected), canonical(restored))
+                cleanupProfile = canonical(expected)
+            } finally { writeOption("null") }
+        }
+        tapNavigation(R.id.nav_saved)
+        tagged("saved_lessons_tab").perform(scrollTo(), click())
+        awaitTag("saved_material_${pdf.id}")
+        tagged("saved_material_${pdf.id}").perform(scrollTo()).check(matches(isDisplayed()))
+        captureScreen("connected-02-saved-materials")
+        tapNavigation(R.id.nav_study)
+        awaitTag("subject_$subjectId")
+        tagged("subject_$subjectId").perform(scrollTo()).check(matches(isDisplayed()))
+        captureScreen("connected-03-study-subjects")
+        tapNavigation(R.id.nav_planner)
+        tagged("planner_subject_$subjectId").perform(scrollTo(), click())
+        tagged("personal_tab_grades").perform(scrollTo(), click())
+        tagged("personal_edit_academics").perform(scrollTo(), click())
+        onView(withHint("Course code")).perform(replaceText("PHY001"))
+        onView(withHint("Units")).perform(replaceText("3"))
+        onView(withHint("Recorded grade")).perform(replaceText("1.75")); closeSoftKeyboard()
+        onView(withText("Save")).perform(click())
+        awaitText("1.75")
+        assertEquals("1.75", store.read().subjects.single().grade)
+        captureScreen("connected-04-recorded-grade")
+        pressBack()
+        awaitTextContaining("Grade 1.75")
+        tagged("planner_import_cor").perform(scrollTo(), click())
+        tagged("cor_sample").perform(scrollTo(), click())
+        awaitText("Sample COR preview")
+        assertEquals(1, store.read().subjects.size)
+        captureScreen("connected-05-cor-review")
+        tagged("cor_confirm").perform(scrollTo(), click())
+        await("COR subjects must commit only after review") { store.read().subjects.size == 4 }
+        val calculus = store.read().subjects.first { it.code == "MATH101" }
+        tagged("planner_subject_$subjectId").perform(scrollTo(), click())
+        tagged("personal_tab_grades").perform(scrollTo(), click())
+        tagged("personal_edit_academics").perform(scrollTo(), click())
+        tagged("personal_choose_prerequisites").perform(scrollTo(), click())
+        onView(withText("Calculus I")).perform(click())
+        onView(withText("Done")).perform(click())
+        onView(withText("Save")).perform(click())
+        awaitText("Calculus I")
+        assertEquals(listOf(calculus.id), store.read().subjects.first { it.id == subjectId }.prerequisiteIds)
+        captureScreen("connected-06-prerequisites")
+        pressBack()
+        captureScreen("connected-07-planner")
         instrumentation.runOnMainSync {
             (resumedActivity(MainActivity::class.java) as MainActivity).openDetails(
                 com.studypath.app.ui.FullArticleFragment.open("Computer_programming", "https://en.wikipedia.org/wiki/Computer_programming"))
@@ -513,6 +610,41 @@ class StudyPathSmokeTest {
         tagged("full_article_next").perform(scrollTo(), click())
         assertTrue(mainThreadValue { currentRoot()!!.findViewWithTag<TextView>("full_article_text").text.toString() != firstPage })
         captureScreen("personal-07-full-article-page-two")
+        pressBack()
+        // Synthetic PDF validates the actual crop → bundled OCR → review → add flow.
+        val scanFile=File(app.cacheDir,"synthetic-cor-scan.pdf")
+        val scanPdf=android.graphics.pdf.PdfDocument()
+        try {
+            val page=scanPdf.startPage(android.graphics.pdf.PdfDocument.PageInfo.Builder(1000,1400,1).create())
+            page.canvas.drawColor(Color.WHITE)
+            val ink=Paint().apply { color=Color.BLACK; textSize=46f; typeface=android.graphics.Typeface.DEFAULT_BOLD }
+            page.canvas.drawText("STUDENT PRIVATE HEADER",150f,100f,ink)
+            page.canvas.drawText("Organic Chemistry",180f,400f,ink)
+            page.canvas.drawText("World History",180f,500f,ink)
+            scanPdf.finishPage(page); scanFile.outputStream().use { scanPdf.writeTo(it) }
+        } finally { scanPdf.close() }
+        instrumentation.runOnMainSync { (resumedActivity(MainActivity::class.java) as MainActivity).openDetails(com.studypath.app.ui.CorScanFragment.open(android.net.Uri.fromFile(scanFile))) }
+        awaitTag("cor_scan_read")
+        captureScreen("tide-01-cor-crop")
+        instrumentation.runOnMainSync { (resumedActivity(MainActivity::class.java) as MainActivity).recreate() }
+        awaitTag("cor_scan_read")
+        tagged("cor_scan_read").perform(scrollTo(),click())
+        awaitTag("cor_table")
+        val recognized=mainThreadValue { currentRoot()!!.findViewWithTag<EditText>("cor_table").text.toString() }
+        assertTrue("Recognized selected course names",recognized.contains("Organic Chemistry") && recognized.contains("World History"))
+        assertTrue("Crop excludes private header",!recognized.contains("PRIVATE") && !recognized.contains("STUDENT"))
+        tagged("cor_table").perform(replaceText("Organic Chemistry\nWorld History")); closeSoftKeyboard()
+        tagged("cor_review").perform(scrollTo(),click())
+        captureScreen("tide-02-cor-review")
+        tagged("cor_confirm").perform(scrollTo(),click())
+        awaitTag("recommend_subject")
+        assertTrue(store.read().subjects.any { it.title=="Organic Chemistry" && it.units==null })
+        captureScreen("tide-03-material-search")
+        pressBack(); pressBack()
+        // Show the actual native subject tiles.
+        instrumentation.runOnMainSync { (resumedActivity(MainActivity::class.java) as MainActivity).openDetails(com.studypath.app.ui.SubjectsFragment()) }
+        awaitTag("subject_library")
+        captureScreen("tide-04-subject-tiles")
         pressBack()
     }
 

@@ -81,7 +81,7 @@ class LessonLibrarySection(
             val hasChoices = preferences.levelId != null || preferences.curriculumVersion != null ||
                 preferences.subjectIds.isNotEmpty() || preferences.classSectionId != null
             content.label(if (hasChoices) "No lessons for your subjects yet." else "Choose your subjects to find lessons.", 14f)
-            preferenceAction(if (hasChoices) "Change subjects" else "Choose subjects")
+            preferenceAction("Browse course packs")
             return
         }
         when (library.status) {
@@ -109,7 +109,7 @@ class LessonLibrarySection(
         preferenceAction()
     }
 
-    private fun preferenceAction(title: String = "Change subjects") {
+    private fun preferenceAction(title: String = "Browse course packs") {
         content.action(title, editPreferences).quietAction()
     }
 

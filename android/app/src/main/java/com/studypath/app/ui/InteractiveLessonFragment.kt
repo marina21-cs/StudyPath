@@ -408,7 +408,7 @@ class InteractiveLessonFragment : Fragment() {
             val chosenFeedback = if (question.format == LessonQuestionFormat.SELECTED_RESPONSE)
                 question.options.firstOrNull { it.id == answer?.draft?.firstOrNull() }?.feedback.orEmpty() else ""
             val explanation = listOf(chosenFeedback, question.explanation).filter { it.isNotBlank() }.distinct().joinToString("\n\n")
-            feedback(heading, explanation, "${run.runId}_${step.id}_${answer?.status}_${answer?.wrongCount}")
+            feedback(heading, explanation, "${run.runId}_${step.id}_${answer?.status}_${answer?.wrongCount}", correct)
             if (!correct) quiet(body.action("Find related readings →") { relatedReadings(module) }).tag = "lesson_related_readings"
             if (assisted) body.label("Solution: ${solution(question)}", 16f)
             if (correct || assisted) primary("Continue") { transition { value, current -> LessonEngine.continueStep(value, current, step.id, now()) } }
@@ -480,9 +480,14 @@ class InteractiveLessonFragment : Fragment() {
         })
     }
 
-    private fun feedback(title: String, explanation: String, announcement: String) {
+    private fun feedback(title: String, explanation: String, announcement: String, celebrate: Boolean = false) {
         body.card(title, explanation).apply {
             tag = "lesson_feedback"
+            if (celebrate) {
+                val mascot = GiraffeMascotView(requireContext()).apply { tag = "lesson_feedback_mascot" }
+                addView(mascot, 0, LinearLayout.LayoutParams(-1, requireContext().dp(72)))
+                if (lastAnnouncement != announcement) mascot.play(GiraffeMascotView.Pose.WAVE, 320L)
+            }
             if (lastAnnouncement != announcement) {
                 lastAnnouncement = announcement
                 val currentScroll = scroll
