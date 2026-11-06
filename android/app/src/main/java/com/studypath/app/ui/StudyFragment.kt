@@ -81,9 +81,11 @@ class StudyFragment : Fragment() {
         content.addView(requireContext().column(0).apply { tag = "study_continue" })
         content.addView(requireContext().column(0).apply { tag = "study_semester" })
         content.addView(requireContext().column(0).apply { tag = "study_subjects" })
-        content.label("", 14f).apply { tag = "reading_context_label"; visibility = View.GONE }
+        val discovery=content.card("Explore Wikipedia", "Find a supplemental reading for your next study session.")
+        ((discovery.parent as View).layoutParams as LinearLayout.LayoutParams).topMargin=requireContext().dp(24)
+        discovery.label("", 14f).apply { tag = "reading_context_label"; visibility = View.GONE }
         val searchRow = requireContext().column(0).apply { orientation=LinearLayout.HORIZONTAL; gravity=android.view.Gravity.CENTER_VERTICAL }
-        content.addView(searchRow)
+        discovery.addView(searchRow)
         val query = searchRow.field("Search Wikipedia").apply { tag = "reading_search_query"; setText(model.state.value.query); imeOptions = EditorInfo.IME_ACTION_SEARCH; setSingleLine(true); id = View.generateViewId() }
         generateSequence(query.parent) { it.parent }.filterIsInstance<com.google.android.material.textfield.TextInputLayout>().firstOrNull()?.apply {
             layoutParams=LinearLayout.LayoutParams(0,-2,1f)
@@ -113,10 +115,10 @@ class StudyFragment : Fragment() {
             topicRow.addView(chip, ViewGroup.LayoutParams(-2, -2))
         }
         wikiLane.addView(topicRow)
-        content.compactAction("All subjects") {
-            (requireActivity() as MainActivity).openDetails(SubjectsFragment())
-        }.apply { tag = "study_personal_workspace" }
-        content.addView(topics)
+        val browse=discovery.compactAction("Browse topics & course lessons") { topics.isVisible=!topics.isVisible }
+        browse.tag="study_browse_toggle"
+        topics.isVisible=false
+        discovery.addView(topics)
         val results = requireContext().column(0).apply { tag = "search_results" }
         content.addView(results)
         wikiLane.addView(requireContext().column(0).apply { tag = "reading_starters" })
@@ -139,6 +141,7 @@ class StudyFragment : Fragment() {
                     (requireActivity() as MainActivity).openDetails(PersonalWorkspaceFragment.open(subject.id, "lessons"))
                 } }
             }
+            subjectPanel.compactAction("All subjects") { (requireActivity() as MainActivity).openDetails(SubjectsFragment()) }.tag="study_personal_workspace"
         }, { subjectPanel.label("Your subjects could not be loaded.", 14f) })
         val results = content.findViewWithTag<LinearLayout>("search_results")
         val resume = content.findViewWithTag<LinearLayout>("study_continue")
@@ -222,7 +225,8 @@ class StudyFragment : Fragment() {
                     subjectPanel.isVisible = !state.submitted
                     content.findViewWithTag<View>("study_semester").isVisible = !state.submitted
                     content.findViewWithTag<View>("study_hero").isVisible = !state.submitted
-                    content.findViewWithTag<View>("study_browse_body").isVisible = !state.submitted
+                    if(state.submitted) content.findViewWithTag<View>("study_browse_body").isVisible = false
+                    content.findViewWithTag<View>("study_browse_toggle").isVisible = !state.submitted
                     featured.visibility = if (state.submitted) View.GONE else View.VISIBLE
                     starters.visibility = if (state.submitted) View.GONE else View.VISIBLE
                     if (state.loading) results.label("Searching…")

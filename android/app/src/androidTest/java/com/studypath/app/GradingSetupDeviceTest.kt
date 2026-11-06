@@ -25,8 +25,9 @@ class GradingSetupDeviceTest {
     @Test fun sharedSetupSupportsCustomCategoriesScoresAndScales() {
         ActivityScenario.launch(DemoActivity::class.java).use { activity ->
             onView(withId(R.id.nav_planner)).perform(click())
-            tag("planner_grading_setup").perform(scrollTo(),click())
-            onView(withText("Data Structures")).perform(click())
+            onView(withText("Grades")).perform(click())
+            onView(withText("Data Structures · 2.0")).perform(scrollTo(),click())
+            tag("grading_setup").perform(scrollTo(),click())
             tag("academic_add_category").perform(scrollTo(),click())
             onView(withText("Choose a category name")).perform(scrollTo(),click())
             onView(withText("Activities")).perform(click())

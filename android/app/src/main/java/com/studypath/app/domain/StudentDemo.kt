@@ -28,7 +28,9 @@ object StudentDemo {
         PersonalMaterial("normalization","databases","Organizing related data","Separate facts about different entities into related tables to reduce duplication. A student name belongs with the student record; enrollment connects that student to a subject."),
         PersonalMaterial("forces","physics","Motion and forces","Net force is the vector sum of forces on an object. In an inertial frame, net force equals mass times acceleration. Draw a free-body diagram before choosing an axis and writing equations."),
         PersonalMaterial("audience","communication","Audience and purpose","Choose details and tone for the audience and the purpose of your message. Explain the same idea to a classmate and to a new learner, then compare your choices.")
-    ))
+    )+pdfMaterials())
+    fun pdfMaterials()=listOf("calculus" to "Laplace transforms handout", "structures" to "Queues and stacks handout", "databases" to "Tables and relationships handout", "physics" to "Forces and acceleration handout", "communication" to "Audience and purpose handout")
+        .map { (id,title) -> PersonalMaterial("pdf-$id",id,title,text="Original StudyPath sample handout. Two pages with a worked example and practice question.",pdf=true) }
 }
 
 class StudentDemoSession {
@@ -42,6 +44,12 @@ class StudentDemoSession {
         require(workspace.tasks.any { it.id == id })
         workspace = workspace.copy(tasks = workspace.tasks.map { if (it.id == id) it.copy(done = !it.done) else it })
     }
+    fun saveReviewer(pack:PdfReviewer) {
+        pack.validate();require(workspace.materials.any { it.id==pack.materialId && it.pdf })
+        workspace=workspace.copy(reviewers=workspace.reviewers.orEmpty().filterNot { it.materialId==pack.materialId }+pack)
+    }
+    fun addReviewTask(task:PersonalTask) { require(workspace.subjects.any { it.id==task.subjectId });workspace=workspace.copy(tasks=workspace.tasks+task) }
+    fun applyGrading(template:PersonalGradeDraft) { workspace=SemesterGrading.apply(workspace,template) }
     fun saveDraft(subjectId: String, draft: PersonalGradeDraft) {
         require(workspace.subjects.any { it.id==subjectId }); draft.validate()
         workspace=workspace.copy(subjects=workspace.subjects.map { if(it.id==subjectId) it.copy(gradeDraft=draft) else it })

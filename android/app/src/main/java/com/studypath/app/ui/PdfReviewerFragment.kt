@@ -78,26 +78,42 @@ class PdfReviewerModel:ViewModel() {
         }
     }
     fun cancel() { job?.cancel() }
+    fun resetDemo() { job?.cancel();stage="home";pages=emptyList();cards=emptyList();queue=emptyList();position=0;revealed=false;response="";message="";refresh() }
     fun practice(pack:PdfReviewer,missed:Boolean) { queue=if(missed)pack.retryIds() else pack.cards.sortedBy { pack.results[it.id]?.understood==true }.map { it.id };position=0;revealed=false;response="";stage="practice";refresh() }
+}
+
+interface DemoReviewerHost {
+    fun demoMaterial(id:String):PersonalMaterial
+    fun demoPdf(id:String):File
+    fun demoReviewer(id:String):PdfReviewer?
+    fun saveDemoReviewer(pack:PdfReviewer)
+    fun addDemoReviewTask(task:PersonalTask)
+    fun showDemoSource(id:String,page:Int)
 }
 
 /** Offline reviewer derived only from a student's own PDF; no academic score writes. */
 class PdfReviewerFragment:Fragment() {
-    private val model:PdfReviewerModel by viewModels()
-    private lateinit var store:PersonalStudyStore
+    private val model:PdfReviewerModel by lazy { androidx.lifecycle.ViewModelProvider(if(activity is DemoReviewerHost) requireActivity() else this)["pdf-reviewer-${requireArguments().getString("id")}",PdfReviewerModel::class.java] }
+    private var store:PersonalStudyStore?=null
+    private val demo get()=activity as? DemoReviewerHost
+    private fun pdf()=demo?.demoPdf(material.id) ?: requireNotNull(store).pdf(material.id)
+    private fun reviewer()=if(demo!=null) demo!!.demoReviewer(material.id) else requireNotNull(store).reviewer(material.id)
+    private fun saveReviewer(pack:PdfReviewer) { if(demo!=null)demo!!.saveDemoReviewer(pack)else requireNotNull(store).saveReviewer(pack) }
     private lateinit var material:PersonalMaterial
     private var dialog:androidx.appcompat.app.AlertDialog?=null
     private var imageJob:Job?=null;private var pageImage:Bitmap?=null
     override fun onCreateView(i:LayoutInflater,c:ViewGroup?,s:Bundle?):View=requireContext().scrolling(requireContext().column().apply { tag="pdf_reviewer" })
     override fun onViewCreated(v:View,s:Bundle?) {
         try {
-            store=personalStore();material=requireNotNull(store.read().materials.firstOrNull { it.id==arguments?.getString("id") && it.pdf }) { "The original PDF was removed." }
-            model.load(store.pdf(material.id))
+            val id=requireArguments().getString("id")!!
+            if(demo!=null) material=demo!!.demoMaterial(id)
+            else { store=personalStore();material=requireNotNull(store!!.read().materials.firstOrNull { it.id==id && it.pdf }) { "The original PDF was removed." } }
+            model.load(pdf())
             viewLifecycleOwner.lifecycleScope.launch { model.revision.collect { render() } }
         } catch(e:Exception) { (v as ScrollView).getChildAt(0).let { (it as LinearLayout).label(e.message ?: "Reviewer unavailable") } }
     }
     private fun go(stage:String) { model.stage=stage;model.refresh() }
-    private fun original(page:Int) { (requireActivity() as MainActivity).openDetails(PersonalMaterialFragment.open(material.id,page-1)) }
+    private fun original(page:Int) { if(demo!=null)demo!!.showDemoSource(material.id,page-1) else (requireActivity() as MainActivity).openDetails(PersonalMaterialFragment.open(material.id,page-1)) }
     private fun safe(action:()->Unit) { runCatching(action).onFailure { Toast.makeText(context,it.message,Toast.LENGTH_LONG).show() } }
     private fun render() {
         val b=view?.findViewWithTag<LinearLayout>("pdf_reviewer") ?: return
@@ -108,8 +124,8 @@ class PdfReviewerFragment:Fragment() {
         when(model.stage) { "text"->textReview(b);"draft"->draftReview(b);"practice"->practice(b);else->home(b) }
     }
     private fun home(b:LinearLayout) {
-        if(model.pageCount==0) b.compactAction("Retry opening PDF") { model.load(store.pdf(material.id)) }
-        val pack=store.reviewer(material.id)
+        if(model.pageCount==0) b.compactAction("Retry opening PDF") { model.load(pdf()) }
+        val pack=reviewer()
         if(pack!=null) {
             b.card("Your reviewer","${pack.cards.size} cards · ${pack.results.values.count { it.understood }} marked understood · ${pack.retryIds().size} to revisit")
             b.action("Practice reviewer") { model.practice(pack,false) }.tag="reviewer_practice"
@@ -122,7 +138,7 @@ class PdfReviewerFragment:Fragment() {
         val first=b.field("First page",InputType.TYPE_CLASS_NUMBER).apply { setText("1");tag="reviewer_first" }
         val last=b.field("Last page",InputType.TYPE_CLASS_NUMBER).apply { setText(minOf(model.pageCount.coerceAtLeast(1),3).toString());tag="reviewer_last" }
         b.label("${model.pageCount} pages · English text drafts · no automatic math interpretation",12f)
-        b.action("Read selected pages") { safe { model.scan(store.pdf(material.id),first.text.toString().toInt(),last.text.toString().toInt()) } }.apply { isEnabled=model.pageCount>0;tag="reviewer_scan" }
+        b.action("Read selected pages") { safe { model.scan(pdf(),first.text.toString().toInt(),last.text.toString().toInt()) } }.apply { isEnabled=model.pageCount>0;tag="reviewer_scan" }
         b.compactAction("Make cards manually") { safe {
             val page=first.text.toString().toInt();require(page in 1..model.pageCount) { "Choose an existing first page." }
             model.pages=listOf(ReviewerPage(page,""));model.cards=emptyList();go("draft")
@@ -163,8 +179,8 @@ class PdfReviewerFragment:Fragment() {
         b.action("Save reviewer") { safe {
             require(checked.isChecked) { "Confirm the questions and answers before saving." }
             val next=PdfReviewer(material.id,model.pages,model.cards);next.validate()
-            fun commit() { safe { store.saveReviewer(next);go("home") } }
-            if(store.reviewer(material.id)!=null) MaterialAlertDialogBuilder(requireContext()).setTitle("Replace saved reviewer?").setMessage("This saves your edited cards and resets their practice progress. Your original PDF and grades stay unchanged.").setNegativeButton("Keep editing",null).setPositiveButton("Replace") { _,_->commit() }.show() else commit()
+            fun commit() { safe { saveReviewer(next);go("home") } }
+            if(reviewer()!=null) MaterialAlertDialogBuilder(requireContext()).setTitle("Replace saved reviewer?").setMessage("This saves your edited cards and resets their practice progress. Your original PDF and grades stay unchanged.").setNegativeButton("Keep editing",null).setPositiveButton("Replace") { _,_->commit() }.show() else commit()
         } }.tag="reviewer_save"
         b.compactAction("Discard draft") { MaterialAlertDialogBuilder(requireContext()).setTitle("Discard unsaved cards?").setNegativeButton("Keep editing",null).setPositiveButton("Discard") { _,_->go("home") }.show() }
     }
@@ -183,7 +199,7 @@ class PdfReviewerFragment:Fragment() {
         }
     }
     private fun practice(b:LinearLayout) {
-        val pack=store.reviewer(material.id) ?: return go("home")
+        val pack=reviewer() ?: return go("home")
         val id=model.queue.getOrNull(model.position)
         val card=pack.cards.firstOrNull { it.id==id }
         if(card==null) {
@@ -196,7 +212,7 @@ class PdfReviewerFragment:Fragment() {
         b.card(card.prompt,"")
         if(card.kind=="IMAGE") {
             val image=ImageView(requireContext()).apply { adjustViewBounds=true;scaleType=ImageView.ScaleType.FIT_CENTER;contentDescription="Original PDF page ${card.page}; use View source to zoom" };b.addView(image,LinearLayout.LayoutParams(-1,requireContext().dp(280)))
-            imageJob=viewLifecycleOwner.lifecycleScope.launch { try { val bitmap=reviewerPageImage(store.pdf(material.id),card.page);pageImage=bitmap;image.setImageBitmap(bitmap) } catch(e:CancellationException) { throw e } catch(_:Exception) { image.contentDescription="Preview unavailable. Open the source page." } }
+            imageJob=viewLifecycleOwner.lifecycleScope.launch { try { val bitmap=reviewerPageImage(pdf(),card.page);pageImage=bitmap;image.setImageBitmap(bitmap) } catch(e:CancellationException) { throw e } catch(_:Exception) { image.contentDescription="Preview unavailable. Open the source page." } }
         }
         b.field("Your answer (optional)",InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE).apply { setText(model.response);tag="reviewer_response";doAfterTextChanged { model.response=it.toString() } }
         if(!model.revealed) b.action("Reveal answer") { model.revealed=true;model.refresh() }.tag="reviewer_reveal"
@@ -204,7 +220,7 @@ class PdfReviewerFragment:Fragment() {
             b.card("Check your answer",card.answer).tag="reviewer_answer"
             if(card.excerpt.isNotBlank()) b.label("Source excerpt: ${card.excerpt}",14f)
             b.label("Self-check · this is not an exam score",12f)
-            fun record(understood:Boolean) { safe { store.saveReviewer(pack.record(card.id,understood));model.position++;model.revealed=false;model.response="";model.refresh() } }
+            fun record(understood:Boolean) { safe { saveReviewer(pack.record(card.id,understood));model.position++;model.revealed=false;model.response="";model.refresh() } }
             b.action("I understood this") { record(true) }.tag="reviewer_understood"
             b.compactAction("Review again") { record(false) }.tag="reviewer_missed"
         }
@@ -216,7 +232,8 @@ class PdfReviewerFragment:Fragment() {
         dialog=MaterialAlertDialogBuilder(requireContext()).setTitle("Plan a review").setMessage("Add a dated task to Planner. This does not enable a notification.").setView(form).setNegativeButton("Cancel",null).setPositiveButton("Add to Planner",null).create().also { d ->
             d.setOnShowListener { d.getButton(-1).setOnClickListener { runCatching {
                 val due=java.time.LocalDate.parse(date.text.toString().trim()).toString()
-                store.update { it.copy(tasks=it.tasks+PersonalTask(PersonalStudyStore.newId(),material.subjectId,"Review · ${material.title}".take(160),due)) }
+                val task=PersonalTask(PersonalStudyStore.newId(),material.subjectId,"Review · ${material.title}".take(160),due)
+                if(demo!=null)demo!!.addDemoReviewTask(task) else requireNotNull(store).update { it.copy(tasks=it.tasks+task) }
             }.onSuccess { d.dismiss();Toast.makeText(context,"Review added to Planner",Toast.LENGTH_SHORT).show() }.onFailure { date.error="Enter a valid date as YYYY-MM-DD" } } };d.show()
         }
     }

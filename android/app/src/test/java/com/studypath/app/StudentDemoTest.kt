@@ -15,7 +15,7 @@ class StudentDemoTest {
         assertTrue(s.workspace.materials.all { it.subjectId in ids && it.text.isNotBlank() })
         assertTrue(s.workspace.tasks.all { it.subjectId in ids })
         assertTrue(s.workspace.subjects.all { it.prerequisiteIds.orEmpty().all { id -> id in ids && id != it.id } })
-        assertEquals(5,s.workspace.subjects.size); assertEquals(9,s.workspace.materials.size)
+        assertEquals(5,s.workspace.subjects.size); assertEquals(14,s.workspace.materials.size); assertEquals(5,s.workspace.materials.count { it.pdf })
         assertEquals(3,s.workspace.tasks.size); assertEquals(15.0,s.includedUnits(),0.0)
         assertEquals(1.75,s.gwa()!!,0.0001); assertEquals(84.6,s.estimate(),0.0001)
         assertEquals(75.0,s.projection(),0.0001)

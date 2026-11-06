@@ -1,0 +1,10 @@
+{
+  "versionName": "0.1.11",
+  "versionCode": 12,
+  "status": "BUILT_CLOUD_UNVERIFIED",
+  "buildExitCode": 0,
+  "sourceFilesMatched": 333,
+  "sha256": "fd20647d88507873b181d25692f73a297ee4b4534c49c8678ee71201a80410e8",
+  "bytes": 60439963,
+  "signerSha256": "9d573838eb0968cd1e0f63a71f61d67f811a38cd4c52265407c1b28f33b79605"
+}

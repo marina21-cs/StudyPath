@@ -27,8 +27,7 @@ class PlannerHomeFragment : Fragment() {
     private fun gradingSetup() {
         body.compactAction("Set up grading") {
             if(workspace.subjects.isEmpty()) open(PersonalWorkspaceFragment.createNew())
-            else com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext()).setTitle("Set up grading for…")
-                .setItems(workspace.subjects.map { it.title }.toTypedArray()) { _,n -> open(PersonalAcademicFragment.open("template",workspace.subjects[n].id)) }.show()
+            else open(SemesterGradingFragment())
         }.tag="planner_grading_setup"
     }
     private fun render() {

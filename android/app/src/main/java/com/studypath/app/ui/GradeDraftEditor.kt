@@ -107,6 +107,7 @@ class GradeDraftEditor(private val context: Context, private val draft: Personal
             store(draft.copy(scores=if(previous==null) draft.scores+score else draft.scores.map { if(it.id==score.id) score else it }))
         }
     }
+    fun chooseScale() = scale()
     private fun scale() {
         val options=arrayOf("Zero-based percentage (0–100)","Linear numeric range","Letter or custom grade bands")
         MaterialAlertDialogBuilder(context).setTitle("Choose your grading formula").setItems(options) { _,n -> scaleForm(listOf("PERCENT","LINEAR","BANDS")[n]) }.show()

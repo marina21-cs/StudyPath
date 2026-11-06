@@ -18,15 +18,17 @@ import com.studypath.app.R
 import com.studypath.app.data.PersonalSubject
 import com.studypath.app.domain.StudentDemoSession
 
-class StudentDemoViewModel : ViewModel() { val session = StudentDemoSession(); var avatar = "initials" }
+class StudentDemoViewModel : ViewModel() { val session = StudentDemoSession(); var avatar = "initials"; var grading=SemesterGradingModel() }
 
 /** Separate native sandbox. Never obtains the application graph or real-account store. */
-class DemoActivity : AppCompatActivity() {
+class DemoActivity : AppCompatActivity(), DemoReviewerHost {
     private lateinit var model: StudentDemoViewModel
     private val sample get() = model.session
     private var page = "study"
     private val history = mutableListOf<String>()
     private lateinit var root: LinearLayout
+    private var pdfView:OfflinePdfView?=null
+    private var semesterUi:SemesterGradingUi?=null
     private var gradeEditor: GradeDraftEditor? = null
     private fun go(next: String) { history.add(page); page = next; render() }
     private fun rootPage(next: String) { history.clear(); page = next; render() }
@@ -43,7 +45,8 @@ class DemoActivity : AppCompatActivity() {
     }
     override fun onSaveInstanceState(out: Bundle) { out.putString("page", page); out.putStringArrayList("history", ArrayList(history)); super.onSaveInstanceState(out) }
     private fun render() {
-        gradeEditor?.dismiss()
+        gradeEditor?.dismiss();semesterUi?.dismiss();pdfView?.clear();pdfView=null
+        supportFragmentManager.findFragmentById(R.id.main_content)?.let { supportFragmentManager.beginTransaction().remove(it).commitNow() }
         val shell = installStudyShell()
         root = shell.mainRoot
         shell.connectionStatus.visibility = View.GONE
@@ -51,6 +54,8 @@ class DemoActivity : AppCompatActivity() {
         shell.toolbar.title = if(mainPage) "studypath." else when {
             page=="settings" -> "Settings"
             page=="edit" -> "Edit profile"
+            page.startsWith("reviewer:") -> "PDF reviewer"
+            page.startsWith("pdf:") -> "Sample PDF"
             page.startsWith("note:") -> "My lesson"
             page.startsWith("subject:") -> "My subjects"
             else -> "Academic toolkit"
@@ -74,25 +79,51 @@ class DemoActivity : AppCompatActivity() {
             page == "profile" -> profile(body)
             page == "edit" -> editProfile(body)
             page == "settings" -> settings(body)
-            page == "library" -> { body.libraryHeading("9 authored sample notes · 5 subjects"); sample.workspace.materials.forEach { m -> body.libraryMaterial(m.title,subject(m.subjectId).title) { go("note:${m.id}") } } }
+            page == "library" -> { body.libraryHeading("5 offline PDFs · 9 sample notes · 5 subjects"); sample.workspace.materials.sortedByDescending { it.pdf }.forEach { m -> body.libraryMaterial(m.title,subject(m.subjectId).title+(if(m.pdf) " · PDF · Offline" else "")) { openMaterial(m.id) } } }
+            page == "semester-grading" -> { semesterUi=SemesterGradingUi(body,model.grading,{sample.workspace},sample::applyGrading,{ rootPage("grades") }).also { it.render() } }
             page == "gwa" -> gwa(body)
             page == "scenario" -> scenario(body)
             page == "map" -> map(body)
             page.startsWith("subject:") -> subjectPage(body, subject(page.substringAfter(':')))
             page.startsWith("scores:") -> scores(body, subject(page.substringAfter(':')))
             page.startsWith("template:") -> gradingSetup(body, subject(page.substringAfter(':')))
+            page.startsWith("reviewer:") -> {
+                shell.mainContent.removeAllViews()
+                supportFragmentManager.beginTransaction().replace(R.id.main_content,PdfReviewerFragment.open(page.substringAfter(':'))).commitNow()
+            }
+            page.startsWith("pdf:") -> {
+                val id=page.split(':')[1];val material=demoMaterial(id)
+                shell.mainContent.removeAllViews()
+                val pdfBody=column(12);shell.mainContent.addView(pdfBody,FrameLayout.LayoutParams(-1,-1))
+                pdfBody.label("Original sample · available offline",12f)
+                pdfBody.action("Turn this PDF into a reviewer") { go("reviewer:$id") }.tag="demo_pdf_reviewer"
+                pdfView=OfflinePdfView(this,this).also { pdfBody.addView(it,LinearLayout.LayoutParams(-1,0,1f));it.open(demoPdf(id),material.title,page.split(':').getOrNull(2)?.toIntOrNull() ?: 0) }
+            }
             page.startsWith("note:") -> {
                 val note = sample.workspace.materials.first { it.id == page.substringAfter(':') }
                 body.label("Authored demo note",12f); body.label(note.title,26f); body.label(subject(note.subjectId).title,14f); body.card("Read & reflect",note.text)
                 body.compactAction("Back to subject") { go("subject:${note.subjectId}") }
             }
-            page == "storage" -> { body.label("Storage & downloads",26f); body.label("9 sample notes are included with the app. No PDFs are downloaded by this demo."); body.compactAction("Browse sample materials") { go("library") } }
+            page == "storage" -> { body.label("Storage & downloads",26f); body.label("Five real PDFs and nine notes are bundled with the app and work offline. Demo reviewers and tasks stay in this demo session."); body.compactAction("Browse sample materials") { go("library") } }
         }
         shell.navigation.visibility = if(mainPage) View.VISIBLE else View.GONE
         shell.navigation.selectedItemId = when(page) { "study" -> R.id.nav_study; "library" -> R.id.nav_saved; "profile" -> R.id.nav_account; else -> R.id.nav_planner }
         shell.navigation.setOnItemSelectedListener { item -> rootPage(when(item.itemId) { R.id.nav_study -> "study"; R.id.nav_saved -> "library"; R.id.nav_account -> "profile"; else -> "overview" }); true }
     }
 
+    private fun openMaterial(id:String) { go(if(demoMaterial(id).pdf) "pdf:$id" else "note:$id") }
+    override fun demoMaterial(id:String)=sample.workspace.materials.first { it.id==id }
+    override fun demoPdf(id:String):java.io.File {
+        val material=demoMaterial(id);require(material.pdf)
+        val directory=java.io.File(cacheDir,"demo-handouts").apply { mkdirs() }
+        return java.io.File(directory,"${material.subjectId}.pdf").also { file ->
+            if(!file.isFile) assets.open("demo/${material.subjectId}.pdf").use { input -> file.outputStream().use { input.copyTo(it) } }
+        }
+    }
+    override fun demoReviewer(id:String)=sample.workspace.reviewers.orEmpty().firstOrNull { it.materialId==id }
+    override fun saveDemoReviewer(pack:com.studypath.app.domain.PdfReviewer) { sample.saveReviewer(pack) }
+    override fun addDemoReviewTask(task:com.studypath.app.data.PersonalTask) { sample.addReviewTask(task) }
+    override fun showDemoSource(id:String,page:Int) { go("pdf:$id:$page") }
     private fun subject(id: String) = sample.workspace.subjects.first { it.id == id }
     private fun study(b: LinearLayout) {
         b.studyGreeting(sample.name)
@@ -123,7 +154,7 @@ class DemoActivity : AppCompatActivity() {
         }
     }
     private fun chooseGradingSubject() {
-        MaterialAlertDialogBuilder(this).setTitle("Set up grading for…").setItems(sample.workspace.subjects.map { it.title }.toTypedArray()) { _,n -> go("template:${sample.workspace.subjects[n].id}") }.show()
+        model.grading=SemesterGradingModel();go("semester-grading")
     }
     private fun tasks(b: LinearLayout, id: String? = null) {
         val rows = sample.workspace.tasks.filter { id == null || it.subjectId == id }
@@ -134,7 +165,7 @@ class DemoActivity : AppCompatActivity() {
         b.label("${s.code} · 3 units",12f); b.label(s.title,26f)
         b.compactAction("Grades & scores") { go("scores:${s.id}") }
         b.label("Next task",20f); tasks(b,s.id); b.label("Materials",20f)
-        sample.workspace.materials.filter { it.subjectId == s.id }.forEach { m -> b.compactAction(m.title) { go("note:${m.id}") } }
+        sample.workspace.materials.filter { it.subjectId == s.id }.forEach { m -> b.compactAction(m.title+(if(m.pdf) " · PDF" else "")) { openMaterial(m.id) } }
     }
     private fun scores(b: LinearLayout, s: PersonalSubject) {
         b.label(s.title,26f); b.label("Sample grading draft · not approved",12f)
@@ -147,7 +178,7 @@ class DemoActivity : AppCompatActivity() {
         gradeEditor!!.setup(b)
         b.compactAction("Add / edit scores") { go("scores:${s.id}") }
     }
-    override fun onDestroy() { gradeEditor?.dismiss(); super.onDestroy() }
+    override fun onDestroy() { semesterUi?.dismiss();gradeEditor?.dismiss();pdfView?.clear(); super.onDestroy() }
 
     private fun gwa(b: LinearLayout) {
         b.label("Know what counts.",26f); b.label("Illustrative common scale · select courses to include.",14f)
@@ -185,7 +216,7 @@ class DemoActivity : AppCompatActivity() {
             chooseAvatar(this,sample.name,model.avatar,"Only changes this demo profile.") { model.avatar=it; render() }
         }
         b.compactAction("Edit profile") { go("edit") }
-        b.card("5 subjects · 15 units", "9 materials")
+        b.card("5 subjects · 15 units", "5 PDFs · 9 notes")
         b.compactAction("Settings") { go("settings") }; b.compactAction("Reset demo") { confirmReset() }; b.compactAction("Exit demo") { confirmExit() }
     }
     private fun editProfile(b: LinearLayout) {
@@ -204,6 +235,6 @@ class DemoActivity : AppCompatActivity() {
         b.compactAction("Reset demo") { confirmReset() }; b.compactAction("Exit demo") { confirmExit() }
     }
     private fun info(title:String,text:String) { MaterialAlertDialogBuilder(this).setTitle(title).setMessage(text).setPositiveButton("Close",null).show() }
-    private fun confirmReset() { MaterialAlertDialogBuilder(this).setTitle("Reset demo?").setMessage("Restore the original five subjects, scores and tasks. Your own account is untouched.").setNegativeButton("Keep exploring",null).setPositiveButton("Reset sample data") { _,_-> sample.reset();model.avatar="initials";rootPage("overview") }.show() }
+    private fun confirmReset() { MaterialAlertDialogBuilder(this).setTitle("Reset demo?").setMessage("Restore the original five subjects, scores and tasks. Your own account is untouched.").setNegativeButton("Keep exploring",null).setPositiveButton("Reset sample data") { _,_-> sample.workspace.materials.filter { it.pdf }.forEach { ViewModelProvider(this)["pdf-reviewer-${it.id}",PdfReviewerModel::class.java].resetDemo() };sample.reset();model.avatar="initials";rootPage("overview") }.show() }
     private fun confirmExit() { MaterialAlertDialogBuilder(this).setTitle("Exit demo?").setMessage("Return to your previous screen. Demo changes will be discarded; your account stays signed in.").setNegativeButton("Keep exploring",null).setPositiveButton("Exit demo") { _,_-> finish() }.show() }
 }

@@ -752,6 +752,19 @@ class StudyPathSmokeTest {
         captureScreen("feedback-01-native-grades")
         instrumentation.runOnMainSync { (resumedActivity(MainActivity::class.java) as MainActivity).recreate() }
         awaitText("80.00 / 100")
+        val scoresBeforeTemplate=store.read().subjects.first { it.id==subjectId }.gradeDraft!!.scores
+        instrumentation.runOnMainSync { (resumedActivity(MainActivity::class.java) as MainActivity).openDetails(com.studypath.app.ui.SemesterGradingFragment()) }
+        tagged("semester_scale").perform(scrollTo(),click())
+        onView(withText("Zero-based percentage (0–100)")).perform(click());onView(withText("Save")).perform(click())
+        tagged("semester_next").perform(scrollTo(),click())
+        tagged("semester_category_Quizzes").perform(scrollTo(),click())
+        tagged("semester_weight_Quizzes").perform(scrollTo(),replaceText("100"));closeSoftKeyboard()
+        tagged("semester_review").perform(scrollTo(),click())
+        captureScreen("semester-01-review-all-subjects")
+        tagged("semester_apply").perform(scrollTo(),click())
+        awaitText("80.00 / 100")
+        assertTrue(store.read().subjects.all { it.gradeDraft?.categories?.singleOrNull()?.title=="Quizzes" })
+        assertEquals(scoresBeforeTemplate,store.read().subjects.first { it.id==subjectId }.gradeDraft!!.scores)
         pressBack()
         openAcademic("gwa")
         onView(withText("These grades use the same numeric scale")).perform(scrollTo(),click())

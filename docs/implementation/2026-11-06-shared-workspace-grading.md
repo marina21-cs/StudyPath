@@ -10,7 +10,7 @@ Saved selected tabs use `sp_action` / `sp_on_action`; unselected tabs use `sp_ca
 
 ## Planner grading setup
 
-Overview and Grades expose **Set up grading → choose subject**. Both personal and demo workspaces use `GradeDraftEditor`:
+In 0.1.10, Overview and Grades exposed a subject picker. Version 0.1.11 replaces that entry with **Set up grading → grading system → category checklist and weights → apply to all current subjects**. See `2026-11-06-semester-grading-demo-pdfs.md` for atomic score-preserving application. Individual subject adjustments still use the shared `GradeDraftEditor`:
 
 1. Add categories: Activities, Quizzes, Exams / Tests, Projects, Homework, Participation, Practical / Lab, or a custom name. Enter each category's percentage. Drafts can be saved incrementally; calculations require a 100% total.
 2. Combine assessments by pooled points, equal assessment percentages, or explicit assessment weights. Existing scores must be removed before changing aggregation so their meaning is not silently changed.

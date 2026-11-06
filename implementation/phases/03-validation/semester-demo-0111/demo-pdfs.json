@@ -1,0 +1,27 @@
+{
+  "calculus.pdf": {
+    "sha256": "17f7cb9e6bf6143faaea07eef3112a2763d1d15f5c7f666f1d9ae9340108cf37",
+    "bytes": 21719,
+    "pages": 2
+  },
+  "communication.pdf": {
+    "sha256": "7b7350034adf29caaef627ff46d7ea478347855926075b2ee1b21e8b5e8013d5",
+    "bytes": 21815,
+    "pages": 2
+  },
+  "databases.pdf": {
+    "sha256": "12a1969a1c2cf063fb1aae417c91bbb90866853bf1baabcf9e7365470036e20c",
+    "bytes": 21801,
+    "pages": 2
+  },
+  "physics.pdf": {
+    "sha256": "acecbf01afb0c21b4a099d3cdee0d281ab25eb1acdc0124467d3fd184af76568",
+    "bytes": 21739,
+    "pages": 2
+  },
+  "structures.pdf": {
+    "sha256": "8ecd90e7060e90b675677f9da8aaffa78eedc2ace2e050a044bdf0b4c8126761",
+    "bytes": 21748,
+    "pages": 2
+  }
+}
