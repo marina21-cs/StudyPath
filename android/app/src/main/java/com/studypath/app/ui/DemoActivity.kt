@@ -15,16 +15,20 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
 import com.studypath.app.R
-import com.studypath.app.data.PersonalSubject
+import com.studypath.app.data.*
+import java.io.File
 import com.studypath.app.domain.StudentDemoSession
 
-class StudentDemoViewModel : ViewModel() { val session = StudentDemoSession(); var avatar = "initials"; var grading=SemesterGradingModel() }
+class StudentDemoViewModel : ViewModel() { val session = StudentDemoSession(); var avatar = "initials"; var grading=SemesterGradingModel();var notesDirectory:File?=null
+    override fun onCleared() { notesDirectory?.deleteRecursively() }
+}
 
 /** Separate native sandbox. Never obtains the application graph or real-account store. */
 class DemoActivity : AppCompatActivity(), DemoReviewerHost {
     private lateinit var model: StudentDemoViewModel
     private val sample get() = model.session
     private var page = "study"
+    private var noteArgs:Bundle?=null
     private val history = mutableListOf<String>()
     private lateinit var root: LinearLayout
     private var pdfView:OfflinePdfView?=null
@@ -35,6 +39,7 @@ class DemoActivity : AppCompatActivity(), DemoReviewerHost {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         model = ViewModelProvider(this)[StudentDemoViewModel::class.java]
+        noteArgs=savedInstanceState?.getBundle("noteArgs")
         page = savedInstanceState?.getString("page") ?: "study"
         history.addAll(savedInstanceState?.getStringArrayList("history").orEmpty())
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -43,7 +48,7 @@ class DemoActivity : AppCompatActivity(), DemoReviewerHost {
         })
         render()
     }
-    override fun onSaveInstanceState(out: Bundle) { out.putString("page", page); out.putStringArrayList("history", ArrayList(history)); super.onSaveInstanceState(out) }
+    override fun onSaveInstanceState(out: Bundle) { out.putBundle("noteArgs",noteArgs);out.putString("page", page); out.putStringArrayList("history", ArrayList(history)); super.onSaveInstanceState(out) }
     private fun render() {
         gradeEditor?.dismiss();semesterUi?.dismiss();pdfView?.clear();pdfView=null
         supportFragmentManager.findFragmentById(R.id.main_content)?.let { supportFragmentManager.beginTransaction().remove(it).commitNow() }
@@ -52,6 +57,7 @@ class DemoActivity : AppCompatActivity(), DemoReviewerHost {
         shell.connectionStatus.visibility = View.GONE
         val mainPage = page in listOf("study","overview","subjects","grades","library","profile")
         shell.toolbar.title = if(mainPage) "studypath." else when {
+            page=="edit-note" -> "Study note"
             page=="semester-grading" -> "Set up grading"
             page=="settings" -> "Settings"
             page=="edit" -> "Edit profile"
@@ -75,12 +81,16 @@ class DemoActivity : AppCompatActivity(), DemoReviewerHost {
         val body = column(20).apply { tag = "demo_body" }
         shell.mainContent.addView(scrolling(body), android.widget.FrameLayout.LayoutParams(-1,-1))
         when {
+            page == "edit-note" -> {
+                shell.mainContent.removeAllViews()
+                supportFragmentManager.beginTransaction().replace(R.id.main_content,StudyNoteFragment().apply { arguments=noteArgs }).commitNow()
+            }
             page == "study" -> study(body)
             page in listOf("overview", "subjects", "grades") -> planner(body)
             page == "profile" -> profile(body)
             page == "edit" -> editProfile(body)
             page == "settings" -> settings(body)
-            page == "library" -> { body.libraryHeading("5 offline PDFs · 9 sample notes · 5 subjects"); sample.workspace.materials.sortedByDescending { it.pdf }.forEach { m -> body.libraryMaterial(m.title,subject(m.subjectId).title+(if(m.pdf) " · PDF · Offline" else "")) { openMaterial(m.id) } } }
+            page == "library" -> { body.libraryHeading("${sample.workspace.materials.count { it.pdf }} offline PDFs · ${sample.workspace.materials.count { !it.pdf }} notes · 5 subjects"); sample.workspace.materials.sortedByDescending { it.pdf }.forEach { m -> body.libraryMaterial(m.title,subject(m.subjectId).title+(if(m.pdf) " · PDF · Offline" else "")) { openMaterial(m.id) } } }
             page == "semester-grading" -> { semesterUi=SemesterGradingUi(body,model.grading,{sample.workspace},sample::applyGrading,{ rootPage("grades") }).also { it.render() } }
             page == "gwa" -> gwa(body)
             page == "scenario" -> scenario(body)
@@ -98,11 +108,19 @@ class DemoActivity : AppCompatActivity(), DemoReviewerHost {
                 val pdfBody=column(12);shell.mainContent.addView(pdfBody,FrameLayout.LayoutParams(-1,-1))
                 pdfBody.label("Original sample · available offline",12f)
                 pdfBody.action("Turn this PDF into a reviewer") { go("reviewer:$id") }.tag="demo_pdf_reviewer"
+                pdfBody.compactAction("Add note for this page") { editNote(material.subjectId,source=NoteSource(id,pdfView?.currentPageNumber ?: 1)) }.tag="pdf_add_note"
+                val notes=sample.workspace.materials.filter { it.source?.materialId==id }
+                if(notes.isNotEmpty())pdfBody.compactAction("Page notes (${notes.size})") { MaterialAlertDialogBuilder(this).setTitle("Page notes").setItems(notes.map { "Page ${it.source!!.page}: ${it.title}" }.toTypedArray()) { _,i -> openMaterial(notes[i].id) }.show() }
                 pdfView=OfflinePdfView(this,this).also { pdfBody.addView(it,LinearLayout.LayoutParams(-1,0,1f));it.open(demoPdf(id),material.title,page.split(':').getOrNull(2)?.toIntOrNull() ?: 0) }
             }
             page.startsWith("note:") -> {
                 val note = sample.workspace.materials.first { it.id == page.substringAfter(':') }
-                body.label("Authored demo note",12f); body.label(note.title,26f); body.label(subject(note.subjectId).title,14f); body.card("Read & reflect",note.text)
+                body.label("Demo study note",12f); body.label(note.title,24f); body.label(subject(note.subjectId).title,14f)
+                body.compactAction("Edit note") { editNote(note.subjectId,note.id) }.tag="note_edit"
+                if(note.text.isNotBlank())body.label(note.text,16f).setTextIsSelectable(true)
+                note.photos.orEmpty().forEach { body.notePhoto(StudyNotes.image(noteDirectory(),it.id),it.caption,this) }
+                note.source?.let { source -> body.compactAction("Open PDF page ${source.page}") { go("pdf:${source.materialId}:${source.page-1}") }.tag="note_source" }
+                if(note.question.isNotBlank()) { body.label(note.question,18f);val answer=body.label(note.answer).apply { visibility=View.GONE };body.compactAction("Show answer") { answer.visibility=View.VISIBLE } }
                 body.compactAction("Back to subject") { go("subject:${note.subjectId}") }
             }
             page == "storage" -> { body.label("Storage & downloads",26f); body.label("Five real PDFs and nine notes are bundled with the app and work offline. Demo reviewers and tasks stay in this demo session."); body.compactAction("Browse sample materials") { go("library") } }
@@ -112,6 +130,13 @@ class DemoActivity : AppCompatActivity(), DemoReviewerHost {
         shell.navigation.setOnItemSelectedListener { item -> rootPage(when(item.itemId) { R.id.nav_study -> "study"; R.id.nav_saved -> "library"; R.id.nav_account -> "profile"; else -> "overview" }); true }
     }
 
+    fun noteWorkspace()=ViewModelProvider(this)[StudentDemoViewModel::class.java].session.workspace
+    fun noteDirectory():File { val state=ViewModelProvider(this)[StudentDemoViewModel::class.java];return state.notesDirectory ?: File(cacheDir,"demo-notes/${PersonalStudyStore.newId()}").apply { mkdirs();state.notesDirectory=this } }
+    fun saveStudyNote(note:PersonalMaterial,drafts:File) {
+        StudyNotes.commit(noteDirectory(),drafts,note,sample.workspace.materials.firstOrNull { it.id==note.id }) { sample.saveNote(note) }
+    }
+    fun editNote(subject:String,id:String?=null,source:NoteSource?=null) { noteArgs=StudyNoteFragment.open(subject,id,source=source).arguments;go("edit-note") }
+    fun finishNote() { page=if(history.isEmpty())"study"else history.removeAt(history.lastIndex);render() }
     private fun openMaterial(id:String) { go(if(demoMaterial(id).pdf) "pdf:$id" else "note:$id") }
     override fun demoMaterial(id:String)=sample.workspace.materials.first { it.id==id }
     override fun demoPdf(id:String):java.io.File {
@@ -166,6 +191,7 @@ class DemoActivity : AppCompatActivity(), DemoReviewerHost {
         b.label("${s.code} · 3 units",12f); b.label(s.title,26f)
         b.compactAction("Grades & scores") { go("scores:${s.id}") }
         b.label("Next task",20f); tasks(b,s.id); b.label("Materials",20f)
+        b.action("Add material") { MaterialAlertDialogBuilder(this).setTitle("Add material").setItems(arrayOf("Write note or add photos", "Browse sample PDFs")) { _,i -> if(i==0)editNote(s.id)else rootPage("library") }.show() }.tag="demo_add_material"
         sample.workspace.materials.filter { it.subjectId == s.id }.forEach { m -> b.compactAction(m.title+(if(m.pdf) " · PDF" else "")) { openMaterial(m.id) } }
     }
     private fun scores(b: LinearLayout, s: PersonalSubject) {
@@ -237,6 +263,6 @@ class DemoActivity : AppCompatActivity(), DemoReviewerHost {
         b.compactAction("Reset demo") { confirmReset() }; b.compactAction("Exit demo") { confirmExit() }
     }
     private fun info(title:String,text:String) { MaterialAlertDialogBuilder(this).setTitle(title).setMessage(text).setPositiveButton("Close",null).show() }
-    private fun confirmReset() { MaterialAlertDialogBuilder(this).setTitle("Reset demo?").setMessage("Restore the original five subjects, scores and tasks. Your own account is untouched.").setNegativeButton("Keep exploring",null).setPositiveButton("Reset sample data") { _,_-> sample.workspace.materials.filter { it.pdf }.forEach { ViewModelProvider(this)["pdf-reviewer-${it.id}",PdfReviewerModel::class.java].resetDemo() };sample.reset();model.avatar="initials";rootPage("overview") }.show() }
+    private fun confirmReset() { MaterialAlertDialogBuilder(this).setTitle("Reset demo?").setMessage("Restore the original five subjects, scores and tasks. Your own account is untouched.").setNegativeButton("Keep exploring",null).setPositiveButton("Reset sample data") { _,_-> sample.workspace.materials.filter { it.pdf }.forEach { ViewModelProvider(this)["pdf-reviewer-${it.id}",PdfReviewerModel::class.java].resetDemo() };model.notesDirectory?.deleteRecursively();model.notesDirectory=null;sample.reset();model.avatar="initials";rootPage("overview") }.show() }
     private fun confirmExit() { MaterialAlertDialogBuilder(this).setTitle("Exit demo?").setMessage("Return to your previous screen. Demo changes will be discarded; your account stays signed in.").setNegativeButton("Keep exploring",null).setPositiveButton("Exit demo") { _,_-> finish() }.show() }
 }

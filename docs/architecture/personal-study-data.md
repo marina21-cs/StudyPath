@@ -42,3 +42,7 @@ There is no StudyPath cloud synchronization or backup for this content. The [man
 [ReadingPages](../../android/app/src/main/java/com/studypath/app/data/ReadingPages.kt) preserves every character of the extracted text while splitting it into pages of at most 6,000 characters. This does not promise extraction of every Wikipedia element: images and tables remain at the linked source. Normal HTTP caching may apply, but full-article offline retention is not guaranteed. Fetch failure leaves the previously saved excerpt available.
 
 These boundaries are source-supported contracts. Device acceptance and the remaining verification gaps are recorded in the [implementation note](../implementation/personal-study-workspace.md#verification-status).
+
+## Photo notes (0.1.13)
+
+PersonalMaterial now has optional `photos` (generated image ID and caption) and `source` (same-subject PDF ID and one-based page). Older text-only JSON remains readable. Photos are bounded normalized JPEG files under the same UID directory in `note-images/`; they are not encoded into workspace JSON or synchronized to Firebase. A metadata commit follows moving new image files, with rollback on commit failure. Deleting a PDF detaches its notes instead of deleting their text/photos. The demo uses the same note schema/editor with separate in-memory metadata and a session cache directory.

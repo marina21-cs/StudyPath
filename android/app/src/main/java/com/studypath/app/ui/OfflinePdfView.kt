@@ -30,6 +30,7 @@ class OfflinePdfView(context: Context, private val owner: LifecycleOwner) : Line
     private val horizontal = android.widget.HorizontalScrollView(context).apply { isHorizontalScrollBarEnabled = false }
     private var file: File? = null
     private var title = "PDF"
+    val currentPageNumber get() = page + 1
     private var page = 0
     private var pageCount = 0
     private var generation = 0

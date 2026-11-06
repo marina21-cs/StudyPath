@@ -20,7 +20,7 @@ data class PersonalSubject(val id: String, val title: String, val category: Stri
     companion object { val CATEGORIES = listOf("General", "Mathematics", "Science", "Technology", "Languages", "Humanities") }
 }
 data class PersonalTask(val id: String, val subjectId: String, val title: String, val due: String = "", val done: Boolean = false)
-data class PersonalMaterial(val id: String, val subjectId: String, val title: String, val text: String = "", val question: String = "", val answer: String = "", val pdf: Boolean = false)
+data class PersonalMaterial(val id: String, val subjectId: String, val title: String, val text: String = "", val question: String = "", val answer: String = "", val pdf: Boolean = false, val photos: List<NotePhoto>? = null, val source: NoteSource? = null)
 data class PersonalWorkspace(val subjects: List<PersonalSubject> = emptyList(), val tasks: List<PersonalTask> = emptyList(), val materials: List<PersonalMaterial> = emptyList(), val reviewers: List<com.studypath.app.domain.PdfReviewer>? = null, val gradingTemplate: com.studypath.app.domain.PersonalGradeDraft? = null)
 
 /** Local personal work is separate from published content and policy-bound academic records. */
@@ -60,6 +60,13 @@ class PersonalStudyStore(root: File, uid: String) {
         reviewer.validate()
         data.copy(reviewers=data.reviewers.orEmpty().filterNot { it.materialId==reviewer.materialId }+reviewer)
     }
+    fun saveNote(note: PersonalMaterial, drafts: File) = synchronized(lock) {
+        val previous=read().materials.firstOrNull { it.id==note.id }
+        require(!note.pdf && previous?.pdf != true)
+        StudyNotes.commit(directory,drafts,note,previous) {
+            update { data -> data.copy(materials=data.materials.filterNot { it.id==note.id }+note) }
+        }
+    }
     fun pdf(id: String): File { require(validId(id)); return File(directory, "$id.pdf") }
     fun commitPdf(temp: File, material: PersonalMaterial) = synchronized(lock) {
         require(material.pdf && temp.isFile && temp.length() in 1..MAX_PDF_BYTES)
@@ -72,12 +79,13 @@ class PersonalStudyStore(root: File, uid: String) {
         catch (error: Exception) { destination.delete(); throw error }
     }
     fun removeSubject(id: String) = synchronized(lock) {
-        val removed = read().materials.filter { it.subjectId == id && it.pdf }
+        val removed = read().materials.filter { it.subjectId == id }
         update { it.copy(subjects = it.subjects.filterNot { row -> row.id == id }.map { row -> if (id in row.prerequisiteIds.orEmpty()) row.copy(prerequisiteIds = row.prerequisiteIds.orEmpty().filterNot { key -> key == id }) else row }, tasks = it.tasks.filterNot { row -> row.subjectId == id }, materials = it.materials.filterNot { row -> row.subjectId == id }, reviewers=it.reviewers.orEmpty().filterNot { r -> r.materialId in removed.map { m -> m.id } }) }
-        removed.forEach { pdf(it.id).delete() }
+        removed.forEach { pdf(it.id).delete(); it.photos.orEmpty().forEach { p -> StudyNotes.image(directory,p.id).delete() } }
     }
     fun removeMaterial(id: String) = synchronized(lock) {
-        update { it.copy(materials = it.materials.filterNot { row -> row.id == id },reviewers=it.reviewers.orEmpty().filterNot { r -> r.materialId==id }) }; pdf(id).delete()
+        val removed=read().materials.firstOrNull { it.id==id }
+        update { it.copy(materials = it.materials.filterNot { row -> row.id == id }.map { row -> if(row.source?.materialId==id)row.copy(source=null)else row },reviewers=it.reviewers.orEmpty().filterNot { r -> r.materialId==id }) }; pdf(id).delete(); removed?.photos.orEmpty().forEach { StudyNotes.image(directory,it.id).delete() }
     }
     companion object {
         private val lock = Any()
@@ -122,10 +130,14 @@ class PersonalStudyStore(root: File, uid: String) {
                 require(validId(it.id) && it.subjectId in subjects && it.title.isNotBlank() && it.title.length <= 160) { "Enter a task name of 1–160 characters and choose a subject." }
                 require(it.due.isEmpty() || runCatching { LocalDate.parse(it.due).toString() == it.due }.getOrDefault(false)) { "Choose a valid date." }
             }
+            val imageIds=value.materials.flatMap { it.photos.orEmpty().map { p -> p.id } }
+            require(imageIds.distinct().size==imageIds.size) { "Each photo belongs to one note." }
             value.materials.forEach {
                 require(validId(it.id) && it.subjectId in subjects && it.title.isNotBlank() && it.title.length <= 120) { "Enter a lesson title and choose a subject." }
+                StudyNotes.validate(it)
+                it.source?.let { source -> require(value.materials.any { pdf -> pdf.id==source.materialId && pdf.pdf && pdf.subjectId==it.subjectId }) { "The source PDF must belong to this subject." } }
                 require(it.text.length <= 20000 && it.question.length <= 1000 && it.answer.length <= 4000) { "This lesson is too long." }
-                require(it.pdf || it.text.isNotBlank() || (it.question.isNotBlank() && it.answer.isNotBlank())) { "Add lesson text or a question and answer." }
+                require(it.pdf || it.text.isNotBlank() || it.photos.orEmpty().isNotEmpty() || (it.question.isNotBlank() && it.answer.isNotBlank())) { "Add lesson text or a question and answer." }
                 require(it.question.isBlank() == it.answer.isBlank()) { "Add both a question and its answer." }
             }
         }

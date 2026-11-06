@@ -167,12 +167,16 @@ class PersonalWorkspaceFragment : Fragment() {
             } else if (shelf == "grades") {
                 academicPanel(body, selected, data)
             } else {
-                body.action("Paste PDF link") { (requireActivity() as MainActivity).openDetails(PdfLinkFragment.open(selected.id)) }.tag = "personal_pdf_link"
-                body.action("Import PDF") {
-                    pendingSubject = selected.id
-                    runCatching { pdfPicker.launch(arrayOf("application/pdf")) }.onFailure { message("No file picker is available on this device.") }
-                }.tag = "personal_import_pdf"
-                body.action("Create study card") { materialEditor(null, arguments?.getString("readingTitle").orEmpty()) }.quietAction().tag = "personal_create_lesson"
+                body.action("Add material") {
+                    MaterialAlertDialogBuilder(requireContext()).setTitle("Add material")
+                        .setItems(arrayOf("Write note or add photos", "PDF file", "PDF link")) { _, choice ->
+                            when(choice) {
+                                0 -> materialEditor(null,arguments?.getString("readingTitle").orEmpty())
+                                1 -> { pendingSubject=selected.id;runCatching { pdfPicker.launch(arrayOf("application/pdf")) }.onFailure { message("No file picker is available.") } }
+                                else -> (requireActivity() as MainActivity).openDetails(PdfLinkFragment.open(selected.id))
+                            }
+                        }.show()
+                }.tag="personal_add_material"
                 val materials = data.materials.filter { it.subjectId == selected.id }
                 if (materials.isEmpty()) {
                     body.giraffe(height = 88).tag = "empty_material_mascot"
@@ -181,7 +185,7 @@ class PersonalWorkspaceFragment : Fragment() {
                 materials.forEach { material ->
                     val row = requireContext().column(0).apply { orientation = LinearLayout.HORIZONTAL }
                     body.addView(row)
-                    row.workspaceRow(material.title.replace('_', ' '), if (material.pdf) "PDF · Offline" else "Study card", com.studypath.app.R.drawable.ic_subject_book, subjectColor(selected.categoryLabel())) {
+                    row.workspaceRow(material.title.replace('_', ' '), if (material.pdf) "PDF · Offline" else if(material.photos.orEmpty().isEmpty()) "Study note" else "Note · ${material.photos.orEmpty().size} photos", com.studypath.app.R.drawable.ic_subject_book, subjectColor(selected.categoryLabel())) {
                         (requireActivity() as MainActivity).openDetails(PersonalMaterialFragment.open(material.id))
                     }.apply {
                         contentDescription = "Study ${material.title}"
@@ -189,7 +193,7 @@ class PersonalWorkspaceFragment : Fragment() {
                     }
                     row.action("⋮") {
                         MaterialAlertDialogBuilder(requireContext()).setTitle(material.title)
-                            .setItems((if (material.pdf) listOf("Remove PDF") else listOf("Edit lesson", "Remove lesson")).toTypedArray()) { _, index ->
+                            .setItems((if (material.pdf) listOf("Remove PDF") else listOf("Edit note", "Remove lesson")).toTypedArray()) { _, index ->
                                 if (!material.pdf && index == 0) materialEditor(material)
                                 else confirm("Remove this lesson?", "This removes your local copy.") { personalStore().removeMaterial(material.id); render() }
                             }.show()
@@ -292,18 +296,7 @@ class PersonalWorkspaceFragment : Fragment() {
         }.quietAction()
     }
     private fun materialEditor(existing: PersonalMaterial?, suggestedTitle: String = "") {
-        val body = requireContext().column(16)
-        val title = body.field("Lesson title").apply { filters = arrayOf(InputFilter.LengthFilter(120)); setText(existing?.title ?: suggestedTitle.take(120)) }
-        fun textField(label: String, limit: Int, value: String) = body.field(label, InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE).apply {
-            minLines = 2; maxLines = 6; filters = arrayOf(InputFilter.LengthFilter(limit)); setText(value)
-        }
-        val text = textField("Your lesson text", 20000, existing?.text.orEmpty())
-        val question = textField("Practice question (optional)", 1000, existing?.question.orEmpty())
-        val answer = textField("Answer", 4000, existing?.answer.orEmpty())
-        editor("Personal lesson", body) {
-            val row = PersonalMaterial(existing?.id ?: PersonalStudyStore.newId(), requireNotNull(subjectId), title.text.toString().trim(), text.text.toString().trim(), question.text.toString().trim(), answer.text.toString().trim())
-            personalStore().update { it.copy(materials = if (existing == null) it.materials + row else it.materials.map { old -> if (old.id == row.id) row else old }) }
-        }
+        (requireActivity() as MainActivity).openDetails(StudyNoteFragment.open(requireNotNull(subjectId),existing?.id,suggestedTitle))
     }
     private fun editor(title: String, body: LinearLayout, save: () -> Unit) {
         val status = body.label("", 14f)
@@ -394,6 +387,15 @@ class PersonalMaterialFragment : Fragment() {
                 body.compactAction(if(store.reviewer(item.id)==null) "Turn this PDF into a reviewer" else "Open interactive reviewer") {
                     (requireActivity() as MainActivity).openDetails(PdfReviewerFragment.open(item.id))
                 }.tag="personal_pdf_reviewer"
+                body.compactAction("Add note for this page") {
+                    (requireActivity() as MainActivity).openDetails(StudyNoteFragment.open(item.subjectId,source=NoteSource(item.id,pdfView?.currentPageNumber ?: 1)))
+                }.tag="pdf_add_note"
+                val notes=store.read().materials.filter { it.source?.materialId==item.id }
+                if(notes.isNotEmpty())body.compactAction("Page notes (${notes.size})") {
+                    MaterialAlertDialogBuilder(requireContext()).setTitle("Page notes").setItems(notes.map { "Page ${it.source!!.page}: ${it.title}" }.toTypedArray()) { _, index ->
+                        (requireActivity() as MainActivity).openDetails(open(notes[index].id))
+                    }.show()
+                }
                 pdfView = OfflinePdfView(requireContext(), viewLifecycleOwner).also {
                     body.addView(it, LinearLayout.LayoutParams(-1, 0, 1f))
                     it.open(store.pdf(item.id), item.title, arguments?.takeIf { args -> args.containsKey("page") }?.getInt("page") ?: prefs.getInt(key, 0)) { page -> prefs.edit().putInt(key, page).apply() }
@@ -402,7 +404,10 @@ class PersonalMaterialFragment : Fragment() {
                 val content = requireContext().column(0)
                 body.addView(requireContext().scrolling(content))
                 content.label(item.title, 24f)
+                content.compactAction("Edit note") { (requireActivity() as MainActivity).openDetails(StudyNoteFragment.open(item.subjectId,item.id)) }.tag="note_edit"
+                item.source?.let { source -> content.compactAction("Open PDF page ${source.page}") { (requireActivity() as MainActivity).openDetails(open(source.materialId,source.page-1)) }.tag="note_source" }
                 if (item.text.isNotBlank()) content.label(item.text).setTextIsSelectable(true)
+                item.photos.orEmpty().forEach { content.notePhoto(StudyNotes.image(store.directory,it.id),it.caption,viewLifecycleOwner) }
                 if (item.question.isNotBlank()) {
                     content.label("Try it", 20f); content.label(item.question)
                     content.field("Your answer", InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE).apply { minLines = 2; filters = arrayOf(InputFilter.LengthFilter(4000)) }

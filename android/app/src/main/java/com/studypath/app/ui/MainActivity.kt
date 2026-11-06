@@ -139,7 +139,7 @@ class MainActivity : AppCompatActivity() {
         }
         fun updateChrome() {
             val current = supportFragmentManager.findFragmentById(R.id.main_content)
-            val detail = current is SemesterGradingFragment || current is PdfReviewerFragment || current is SettingsFragment || current is StorageSettingsFragment || current is AccountFragment || current is PlannerFragment || (current is StudyFragment && current.arguments?.containsKey("subjectQuery") == true) || current is PersonalAcademicFragment || current is PdfLinkFragment || current is CoursePacksFragment || current is CorImportFragment || current is CorScanFragment || current is SubjectsFragment || current is MaterialRecommendationsFragment || current is PersonalWorkspaceFragment || current is PersonalMaterialFragment || current is EditProfileFragment || current is FullArticleFragment || current is ReadingFragment || current is ModuleFragment || current is LearnerPreferencesFragment || current is InteractiveLessonFragment || current is OfflinePdfFragment || current is FamilySharingFragment || current is OnboardingReadyFragment
+            val detail = current is StudyNoteFragment || current is SemesterGradingFragment || current is PdfReviewerFragment || current is SettingsFragment || current is StorageSettingsFragment || current is AccountFragment || current is PlannerFragment || (current is StudyFragment && current.arguments?.containsKey("subjectQuery") == true) || current is PersonalAcademicFragment || current is PdfLinkFragment || current is CoursePacksFragment || current is CorImportFragment || current is CorScanFragment || current is SubjectsFragment || current is MaterialRecommendationsFragment || current is PersonalWorkspaceFragment || current is PersonalMaterialFragment || current is EditProfileFragment || current is FullArticleFragment || current is ReadingFragment || current is ModuleFragment || current is LearnerPreferencesFragment || current is InteractiveLessonFragment || current is OfflinePdfFragment || current is FamilySharingFragment || current is OnboardingReadyFragment
             binding.toolbar.navigationIcon = if (detail)
                 androidx.appcompat.content.res.AppCompatResources.getDrawable(this, androidx.appcompat.R.drawable.abc_ic_ab_back_material) else null
             binding.toolbar.navigationContentDescription = if (detail) "Back" else null
@@ -155,6 +155,7 @@ class MainActivity : AppCompatActivity() {
                 is MaterialRecommendationsFragment -> "Find materials"
                 is CoursePacksFragment -> "Course packs"
                 is PersonalWorkspaceFragment -> "My subjects"
+                is StudyNoteFragment -> "Study note"
                 is PersonalMaterialFragment -> "My lesson"
                 is EditProfileFragment -> "Edit profile"
                 is FullArticleFragment -> "Full article"

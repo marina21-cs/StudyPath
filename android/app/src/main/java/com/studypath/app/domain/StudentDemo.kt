@@ -44,6 +44,12 @@ class StudentDemoSession {
         require(workspace.tasks.any { it.id == id })
         workspace = workspace.copy(tasks = workspace.tasks.map { if (it.id == id) it.copy(done = !it.done) else it })
     }
+    fun saveNote(note:PersonalMaterial) {
+        StudyNotes.validate(note);require(!note.pdf && workspace.subjects.any { it.id==note.subjectId })
+        require(workspace.materials.size<200 || workspace.materials.any { it.id==note.id })
+        note.source?.let { source -> require(workspace.materials.any { it.id==source.materialId && it.pdf && it.subjectId==note.subjectId }) }
+        workspace=workspace.copy(materials=workspace.materials.filterNot { it.id==note.id }+note)
+    }
     fun saveReviewer(pack:PdfReviewer) {
         pack.validate();require(workspace.materials.any { it.id==pack.materialId && it.pdf })
         workspace=workspace.copy(reviewers=workspace.reviewers.orEmpty().filterNot { it.materialId==pack.materialId }+pack)

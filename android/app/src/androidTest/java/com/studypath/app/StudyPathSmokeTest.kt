@@ -535,12 +535,21 @@ class StudyPathSmokeTest {
         onView(withContentDescription("Mark done: Read chapter two")).perform(scrollTo(), click())
         onView(withContentDescription("Mark unfinished: Read chapter two")).check(matches(isDisplayed()))
         tagged("personal_tab_lessons").perform(scrollTo(), click())
-        tagged("personal_create_lesson").perform(scrollTo(), click())
-        onView(withHint("Lesson title")).perform(replaceText("Motion basics"))
-        onView(withHint("Your lesson text")).perform(scrollTo(), replaceText("Speed compares distance with elapsed time."))
-        onView(withHint("Practice question (optional)")).perform(scrollTo(), replaceText("What is speed?"))
+        tagged("personal_add_material").perform(scrollTo(), click())
+        onView(withText("Write note or add photos")).perform(click())
+        onView(withHint("Title")).perform(replaceText("Motion basics"))
+        onView(withHint("Notes")).perform(scrollTo(), replaceText("Speed compares distance with elapsed time."))
+        onView(withHint("Question")).perform(scrollTo(), replaceText("What is speed?"))
         onView(withHint("Answer")).perform(scrollTo(), replaceText("Distance divided by time.")); closeSoftKeyboard()
-        onView(withText("Save")).perform(click())
+        val noteModel=mainThreadValue {
+            val activity=resumedActivity(MainActivity::class.java) as MainActivity
+            val fragment=activity.supportFragmentManager.findFragmentById(R.id.main_content) as com.studypath.app.ui.StudyNoteFragment
+            androidx.lifecycle.ViewModelProvider(activity)["study-note-${fragment.requireArguments().getString("draft")}",com.studypath.app.ui.StudyNoteModel::class.java]
+        }
+        val notePhoto=com.studypath.app.data.NotePhoto(com.studypath.app.data.PersonalStudyStore.newId(),"My study illustration")
+        app.resources.openRawResource(R.drawable.avatar_tide_glasses).use { com.studypath.app.ui.importNotePhoto(it,File(noteModel.drafts,"${notePhoto.id}.jpg")) }
+        instrumentation.runOnMainSync { noteModel.note=noteModel.note!!.copy(photos=listOf(notePhoto));noteModel.changed() }
+        tagged("note_save").perform(scrollTo(),click())
         awaitText("Motion basics")
         onView(withContentDescription("Study Motion basics")).perform(scrollTo(), click())
         awaitTag("personal_reveal_answer")
@@ -548,15 +557,20 @@ class StudyPathSmokeTest {
         tagged("personal_answer").check(matches(isDisplayed()))
         captureScreen("personal-02-study-card")
         pressBack()
-        tagged("personal_import_pdf").perform(scrollTo(), click())
+        tagged("personal_add_material").perform(scrollTo(), click())
+        onView(withText("PDF file")).perform(click())
         await("The system PDF picker must open") {
             instrumentation.uiAutomation.rootInActiveWindow?.packageName?.toString()?.contains("documentsui") == true
         }
         instrumentation.uiAutomation.performGlobalAction(android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_BACK)
-        awaitTag("personal_import_pdf")
+        awaitTag("personal_add_material")
         val uid = requireNotNull(app.graph.repository.currentSession()?.uid)
         val store = com.studypath.app.data.PersonalStudyStore(File(app.filesDir, "personal-study"), uid)
         val subjectId = store.read().subjects.single().id
+        val persistedNote=store.read().materials.single { it.title=="Motion basics" }
+        assertEquals("My study illustration",persistedNote.photos!!.single().caption)
+        assertTrue(com.studypath.app.data.StudyNotes.image(store.directory,persistedNote.photos!!.single().id).isFile)
+        assertEquals(persistedNote,com.studypath.app.data.PersonalStudyStore(File(app.filesDir,"personal-study"),uid).read().materials.single { it.id==persistedNote.id })
         val fixture = File(app.cacheDir, "personal-native-fixture.pdf")
         val document = android.graphics.pdf.PdfDocument()
         try {

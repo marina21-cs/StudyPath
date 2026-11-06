@@ -41,8 +41,8 @@ android {
         applicationId = "com.studypath.app"
         minSdk = 26
         targetSdk = 36
-        versionCode = 13
-        versionName = "0.1.12"
+        versionCode = 14
+        versionName = "0.1.13"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("boolean", "USE_FIREBASE_EMULATORS", useEmulators.toString())
         buildConfigField("String", "FIREBASE_PROJECT_ID", quoted(firebaseProject))
