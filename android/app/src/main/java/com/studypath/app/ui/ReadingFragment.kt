@@ -130,7 +130,7 @@ class ReadingFragment : Fragment() {
 
         val excerpt = content.label(reading.excerpt).apply {
             tag = "reading_excerpt"; setTextIsSelectable(true)
-            background = GradientDrawable().apply { setColor(Color.WHITE); cornerRadius = context.dp(24).toFloat() }
+            background = GradientDrawable().apply { setColor(context.tint(R.color.sp_card)); cornerRadius = context.dp(24).toFloat() }
             setPadding(context.dp(20), context.dp(20), context.dp(20), context.dp(20))
             setLineSpacing(context.dp(5).toFloat(), 1f)
             layoutParams = LinearLayout.LayoutParams(-1, -2).apply { topMargin = context.dp(12); bottomMargin = context.dp(12) }

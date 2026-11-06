@@ -113,8 +113,10 @@ class NativeEmailVerificationDeviceTest {
             onView(withTagValue(`is`("preference_later" as Any))).perform(scrollTo(), click())
             await("Unverified original owner can continue studying") { main { tag("study_heading") != null } }
             main { root()?.findViewById<BottomNavigationView>(R.id.navigation)?.selectedItemId = R.id.nav_account }
+            onView(withTagValue(`is`("profile_settings" as Any))).perform(scrollTo(), click())
+            onView(withTagValue(`is`("settings_account" as Any))).perform(scrollTo(), click())
             await("Account must show its verification control") { main { tag("profile_email_verification_action") != null } }
-            onView(withTagValue(`is`("account_section_Your study & account" as Any))).perform(scrollTo(), click())
+            // Account settings are already expanded.
             assertTrue(main { (tag("profile_email_verification_status") as TextView).text.contains("not verified") })
             onView(withTagValue(`is`("profile_email_verification_action" as Any))).perform(scrollTo(), click())
             awaitActivity(EmailVerificationActivity::class.java)

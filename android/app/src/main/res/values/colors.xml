@@ -4,8 +4,10 @@
     <color name="sp_rose">#738DBF</color><color name="sp_blush">#E0E8FA</color>
     <color name="sp_ink">#203452</color><color name="sp_muted">#52627C</color>
     <color name="sp_outline">#7385A3</color><color name="sp_disabled_text">#52627C</color>
-    <color name="sp_yellow">#FFD66B</color><color name="sp_peach">#FFC6A3</color>
-    <color name="sp_lilac">#D8CCFF</color><color name="sp_mint">#BCE8D4</color>
+    <color name="sp_yellow">@color/sp_cream</color><color name="sp_peach">@color/sp_cream</color>
+    <color name="sp_lilac">@color/sp_cream</color><color name="sp_mint">@color/sp_cream</color>
     <color name="sp_orange">@color/sp_action</color><color name="sp_coral">@color/sp_peach</color>
     <color name="sp_blue">@color/sp_action</color><color name="sp_green">#216547</color>
+    <color name="sp_on_action">#FFFFFF</color>
+    <bool name="sp_light_bars">true</bool>
 </resources>

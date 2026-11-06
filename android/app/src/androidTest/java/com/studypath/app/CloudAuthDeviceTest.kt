@@ -122,8 +122,10 @@ class CloudAuthDeviceTest {
 
                 stage = "ui-logout"
                 onView(withId(R.id.nav_account)).perform(click())
+                onView(withTagValue(`is`("profile_settings" as Any))).perform(scrollTo(), click())
+                onView(withTagValue(`is`("settings_account" as Any))).perform(scrollTo(), click())
                 await("Account must render") { main { tag("profile_account_action") != null } }
-                onView(withTagValue(`is`("account_section_Your study & account" as Any))).perform(scrollTo(), click())
+                // Account section is opened from Settings.
                 onView(withTagValue(`is`("profile_account_action" as Any))).perform(scrollTo(), click())
                 onView(withTagValue(`is`("profile_account_signout" as Any))).perform(scrollTo(), click())
                 onView(withTagValue(`is`("profile_confirm_signout" as Any))).perform(scrollTo(), click())

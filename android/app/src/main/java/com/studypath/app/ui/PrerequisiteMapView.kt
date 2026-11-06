@@ -28,7 +28,7 @@ class PrerequisiteMapView(context:Context,private val subjects:List<PersonalSubj
         groups.forEach{(level,items)->items.forEachIndexed{col,s->positions[s.id]=col to level}}
         subjects.forEach{s->val holder=context.column(0)
             val button=holder.action(s.title+"\n"+(if(s.prerequisiteIds.isNullOrEmpty())"No links added" else "Requires all linked courses")){onSelect(s)}.quietAction()
-            button.backgroundTintList=android.content.res.ColorStateList.valueOf(subjectColor(s.categoryLabel()));button.strokeWidth=0;button.textSize=14f;button.maxLines=5;button.contentDescription="${s.title}. ${s.prerequisiteIds.orEmpty().size} prerequisites. Policy unreviewed. Open details."
+            button.backgroundTintList=android.content.res.ColorStateList.valueOf(context.tint(R.color.sp_cream));button.strokeWidth=0;button.textSize=14f;button.maxLines=5;button.contentDescription="${s.title}. ${s.prerequisiteIds.orEmpty().size} prerequisites. Policy unreviewed. Open details."
             holder.removeView(button);addView(button)
         }
     }

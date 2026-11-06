@@ -1,0 +1,48 @@
+{
+  "startedAtUtc": "2026-11-06T00:26:47Z",
+  "finishedAtUtc": "2026-11-06T00:29:15.665418+00:00",
+  "status": "PASSED",
+  "exitCode": 0,
+  "lastStage": "complete",
+  "deviceSerial": "emulator-5554",
+  "avd": "StudyPath_Lite_Test",
+  "firebase": {
+    "projectId": "demo-studypath",
+    "localOnly": true,
+    "authPort": 9099,
+    "databasePort": 9000
+  },
+  "liveApi": true,
+  "explicitJUnitSuccess": true,
+  "apkSha256": "446c9d85cb31d9f94a7e05fd478292c0d1a7a0e3dd0e7c960604c52d96b7d6ef",
+  "screenshots": [
+    "00-welcome.png",
+    "01-register-empty.png",
+    "02-study-home.png",
+    "03-study-shelf.png",
+    "04-planner.png",
+    "04b-planner-policy-preferences.png",
+    "05-account.png",
+    "06-login-bound-workspace.png",
+    "07-live-reading.png",
+    "08-reading-attribution.png",
+    "09-saved-reading.png",
+    "feedback-01-native-grades.png",
+    "feedback-02-native-gwa.png",
+    "feedback-03-native-scenario.png",
+    "feedback-04-native-map.png",
+    "feedback-05-native-map-list.png",
+    "feedback-06-linked-offline-pdf.png",
+    "tide-01-cor-crop.png",
+    "tide-02-cor-review.png",
+    "tide-03-material-search.png",
+    "tide-04-subject-tiles.png"
+  ],
+  "dataCleared": false,
+  "packagesUninstalled": false,
+  "limits": [
+    "Core smoke; --live-api adds Wikipedia. --personal-workspace adds native workspace, COR, grades, GWA, scenarios, graph and linked PDF checks.",
+    "This is not acceptance of notifications, accessibility, extended offline recovery, or cloud setup.",
+    "Screenshots are diagnostic captures; verify visible content before assigning detailed captions."
+  ]
+}

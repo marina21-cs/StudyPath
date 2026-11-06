@@ -1,0 +1,8 @@
+<resources>
+<color name="sp_background">#111C2C</color><color name="sp_card">#1B293D</color>
+<color name="sp_cream">#223653</color><color name="sp_blush">#223653</color>
+<color name="sp_action">#9BBAFF</color><color name="sp_action_edge">#203F74</color><color name="sp_on_action">#12203A</color>
+<color name="sp_ink">#EDF2FC</color><color name="sp_muted">#AFBDD4</color>
+<color name="sp_outline">#6F829E</color><color name="sp_disabled_text">#AFBDD4</color><color name="sp_rose">#9BBAFF</color>
+<color name="sp_green">#A9CEBB</color><bool name="sp_light_bars">false</bool>
+</resources>

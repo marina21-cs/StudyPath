@@ -26,7 +26,7 @@ class SubjectsFragment : Fragment() {
             group.forEach { subject ->
                 val card=MaterialCardView(requireContext()).apply {
                     radius=requireContext().dp(24).toFloat(); cardElevation=requireContext().dp(2).toFloat(); strokeWidth=0
-                    setCardBackgroundColor(subjectColor(subject.categoryLabel())); isClickable=true; isFocusable=true
+                    setCardBackgroundColor(context.tint(R.color.sp_card)); isClickable=true; isFocusable=true
                     val count=data.materials.count { it.subjectId==subject.id }
                     contentDescription="${subject.title}, $count materials"; tag="subject_tile_${subject.id}"
                     setOnClickListener { (requireActivity() as MainActivity).openDetails(PersonalWorkspaceFragment.open(subject.id,"lessons")) }
@@ -35,7 +35,7 @@ class SubjectsFragment : Fragment() {
                 inside.addView(ImageView(requireContext()).apply {
                     setImageResource(subjectIcon(subject.categoryLabel())); imageTintList=ColorStateList.valueOf(context.tint(R.color.sp_ink))
                     setPadding(requireContext().dp(10),requireContext().dp(10),requireContext().dp(10),requireContext().dp(10))
-                    background=android.graphics.drawable.GradientDrawable().apply { setColor(0xAAFFFFFF.toInt()); cornerRadius=requireContext().dp(14).toFloat() }
+                    background=android.graphics.drawable.GradientDrawable().apply { setColor(context.tint(R.color.sp_cream)); cornerRadius=requireContext().dp(14).toFloat() }
                 },LinearLayout.LayoutParams(requireContext().dp(48),requireContext().dp(48)).apply { bottomMargin=requireContext().dp(12) })
                 inside.label(subject.title,16f); inside.label("${data.materials.count { it.subjectId==subject.id }} materials",14f)
                 card.addView(inside); line.addView(card,LinearLayout.LayoutParams(0,-1,1f).apply { marginEnd=requireContext().dp(8) })

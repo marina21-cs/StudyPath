@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.espresso.matcher.ViewMatchers.withTagValue
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -103,6 +105,8 @@ class NativeLearningRevisionDeviceTest {
                 capture("04a-saved-download")
                 observations.put("readyDownloadUsesOnePlainStatus", true)
                 scenario.onActivity { it.findViewById<BottomNavigationView>(R.id.navigation).selectedItemId = R.id.nav_planner }
+                onView(withText("Grades")).perform(click())
+                tap("planner_reviewed_tools")
                 awaitTag("planner_mode_scores")
                 awaitTag("planner_policy_unavailable")
                 assertNull(main { root()?.findViewWithTag<View>("planner_average") })
@@ -190,12 +194,13 @@ class NativeLearningRevisionDeviceTest {
                     activity.goToStudy()
                     activity.findViewById<BottomNavigationView>(R.id.navigation).selectedItemId = R.id.nav_account
                 }
+                onView(withText("Study reminders & next review")).perform(scrollTo(),click())
                 awaitTag("profile_open_review")
-                assertFalse(main { root()?.findViewWithTag<View>("reminders")?.isShown == true })
+                assertTrue(main { root()?.findViewWithTag<View>("reminders")?.isShown == true })
                 assertFalse(main { root()?.findViewWithTag<View>("profile_preferences_action")?.isShown == true })
                 observations.put("accountUsesFactualAuthoredReviewAndCollapsedOptionalControls", true)
                 capture("07-account-next-review")
-                tap("account_section_Your study & account")
+                pressBack(); tap("profile_settings"); tap("settings_account")
                 awaitTag("profile_sync_action")
                 assertEquals("Saved changes", text("profile_sync_action"))
                 assertTrue(main { texts(requireNotNull(root()?.findViewWithTag<View>("profile_sync_section"))).none {
@@ -203,7 +208,8 @@ class NativeLearningRevisionDeviceTest {
                 } })
                 onView(withTagValue(equalTo<Any>("profile_sync_action"))).perform(scrollTo())
                 capture("07b-account-save-settings")
-                tap("account_section_Your study & account")
+                pressBack(); pressBack()
+                onView(withText("Study reminders & next review")).perform(scrollTo(),click())
                 tap("profile_open_review"); awaitTag("lesson_step")
                 val review = module.lessons.single { it.reviewOf == originalLesson.id }
                 val reviewRun = requireNotNull(repository.lessonRun(module, review.id))
@@ -251,6 +257,7 @@ class NativeLearningRevisionDeviceTest {
                 assertTrue(main { root()?.findViewWithTag<View>("study_browse_body")?.isShown == true })
                 capture("11-study-discovery")
                 scenario.onActivity { it.findViewById<BottomNavigationView>(R.id.navigation).selectedItemId = R.id.nav_account }
+                onView(withText("Study reminders & next review")).perform(scrollTo(),click())
                 awaitTag("profile_due_queue"); awaitTag("profile_edit_direct")
                 assertTrue(main { root()?.findViewWithTag<View>("profile_due_queue")?.isShown == true })
                 capture("12-account-up-next")

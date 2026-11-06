@@ -106,13 +106,13 @@ fun LinearLayout.lessonCard(title: String, detail: String, selected: Boolean, on
     }
     row.addView(art, LinearLayout.LayoutParams(context.dp(40), context.dp(40)).apply { marginEnd = context.dp(12) })
     val words = context.column(0)
-    words.label(title, 18f).apply { setPadding(0, 0, 0, context.dp(4)); setTextColor(context.tint(if (selected) android.R.color.white else R.color.sp_ink)) }
-    if (detail.isNotBlank()) words.label(detail, 14f).setTextColor(context.tint(if (selected) android.R.color.white else R.color.sp_ink))
+    words.label(title, 18f).apply { setPadding(0, 0, 0, context.dp(4)); setTextColor(context.tint(if (selected) R.color.sp_on_action else R.color.sp_ink)) }
+    if (detail.isNotBlank()) words.label(detail, 14f).setTextColor(context.tint(if (selected) R.color.sp_on_action else R.color.sp_ink))
     row.addView(words, LinearLayout.LayoutParams(0, -2, 1f))
     val arrow = TextView(context).apply {
         text = "›"; textSize = 24f; gravity = Gravity.CENTER
         typeface = ResourcesCompat.getFont(context, R.font.nunito_bold)
-        setTextColor(context.tint(if (selected) android.R.color.white else R.color.sp_ink))
+        setTextColor(context.tint(if (selected) R.color.sp_on_action else R.color.sp_ink))
     }
     row.addView(arrow, LinearLayout.LayoutParams(context.dp(24), context.dp(48)).apply { marginStart = context.dp(8) })
     card.addView(row)

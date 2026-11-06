@@ -27,6 +27,7 @@ class StudyPathApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        com.studypath.app.ui.Appearance.apply(this)
         val firebase = FirebaseApp.initializeApp(this, FirebaseOptions.Builder()
             .setProjectId(BuildConfig.FIREBASE_PROJECT_ID)
             .setApplicationId(BuildConfig.FIREBASE_APP_ID)

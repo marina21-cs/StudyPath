@@ -16,10 +16,10 @@
     <style name="Widget.StudyPath.Auth.Back" parent="Widget.StudyPath.Auth.Link">
         <item name="android:minWidth">48dp</item><item name="android:textSize">24sp</item>
         <item name="android:padding">0dp</item><item name="android:insetTop">0dp</item>
-        <item name="android:insetBottom">0dp</item><item name="backgroundTint">#FFFFFF</item>
+        <item name="android:insetBottom">0dp</item><item name="backgroundTint">@color/sp_card</item>
     </style>
     <style name="Widget.StudyPath.Auth.Field" parent="Widget.Material3.TextInputLayout.FilledBox">
-        <item name="boxBackgroundColor">#FFFFFF</item><item name="boxStrokeWidth">0dp</item>
+        <item name="boxBackgroundColor">@color/sp_card</item><item name="boxStrokeWidth">0dp</item>
         <item name="boxStrokeWidthFocused">2dp</item><item name="boxStrokeColor">@color/sp_ink</item>
         <item name="boxCornerRadiusTopStart">20dp</item><item name="boxCornerRadiusTopEnd">20dp</item>
         <item name="boxCornerRadiusBottomStart">20dp</item><item name="boxCornerRadiusBottomEnd">20dp</item>

@@ -33,6 +33,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 
 class AccountFragment : Fragment() {
+    companion object { fun tools(section: String) = AccountFragment().apply { arguments = Bundle().apply { putString("section", section) } } }
     private val repository get() = (requireActivity().application as StudyPathApplication).graph.repository
     private var reminderMutationActive = false
     private val expanded = mutableSetOf<String>()
@@ -40,6 +41,7 @@ class AccountFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         expanded.addAll(savedInstanceState?.getStringArrayList("accountSections").orEmpty())
+        arguments?.getString("section")?.let { expanded.add(it) }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -75,6 +77,15 @@ class AccountFragment : Fragment() {
             startActivity(EmailVerificationActivity.forAccount(requireContext(), owner))
         }.tag = "profile_email_verification_action"
         settings.secondaryAction("Account details") { showAccountDetails() }.tag = "profile_account_action"
+        // Settings destinations expose only their relevant group; collectors retain their views.
+        val selected = arguments?.getString("section")
+        if (selected != null) {
+            val keep = if (selected == "Study reminders") setOf(upNext.parent as View, reminders.parent.parent as View,
+                content.findViewWithTag<View>("reminder_status")) else setOf(settings.parent.parent as View)
+            for (index in 0 until content.childCount) content.getChildAt(index).apply {
+                if (this !in keep) visibility = View.GONE
+            }
+        }
         return requireContext().scrolling(content)
     }
 

@@ -373,7 +373,7 @@ class LearnerPreferencesFragment : Fragment() {
                 val selected = id in draft.subjectIds
                 isEnabled = initialized && !saving; isChecked = selected
                 backgroundTintList = android.content.res.ColorStateList.valueOf(requireContext().tint(if (selected) R.color.sp_action else R.color.sp_ink))
-                setTextColor(android.graphics.Color.WHITE); strokeWidth = 0
+                setTextColor(requireContext().tint(R.color.sp_on_action)); strokeWidth = 0
                 androidx.core.view.ViewCompat.setStateDescription(this, if (selected) "Selected" else "Not selected")
             }
         }

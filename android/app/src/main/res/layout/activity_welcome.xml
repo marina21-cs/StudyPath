@@ -20,6 +20,8 @@
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.StudyPath.Auth.Heading" android:fontFamily="@font/nunito_bold" android:textStyle="bold" android:gravity="center"
             android:text="A little learning.\nEvery day." android:textSize="38sp" android:accessibilityHeading="true"/>
+        <com.studypath.app.ui.StudyButton android:id="@+id/demoButton" style="@style/Widget.StudyPath.Auth.Primary" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="Try the student demo"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="5 subjects · no account needed" android:gravity="center" android:textColor="@color/sp_muted" android:textSize="14sp"/>
         <com.studypath.app.ui.StudyButton android:id="@+id/signUpButton"
             style="@style/Widget.StudyPath.Auth.Primary" android:layout_width="match_parent"
             android:layout_height="wrap_content" android:layout_marginTop="28dp" android:text="Get started"/>

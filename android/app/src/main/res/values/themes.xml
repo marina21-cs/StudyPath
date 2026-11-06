@@ -1,13 +1,16 @@
 <resources>
-    <style name="Theme.StudyPath" parent="Theme.Material3.Light.NoActionBar">
-        <item name="colorPrimary">@color/sp_action</item><item name="colorOnPrimary">#FFFFFF</item>
-        <item name="colorSecondary">@color/sp_blue</item><item name="colorOnSecondary">#FFFFFF</item>
+    <style name="Theme.StudyPath" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/sp_action</item><item name="colorOnPrimary">@color/sp_on_action</item>
+        <item name="colorSecondary">@color/sp_blue</item><item name="colorOnSecondary">@color/sp_on_action</item>
+        <item name="colorPrimaryContainer">@color/sp_cream</item><item name="colorOnPrimaryContainer">@color/sp_ink</item>
+        <item name="colorSecondaryContainer">@color/sp_cream</item><item name="colorOnSecondaryContainer">@color/sp_ink</item>
+        <item name="colorTertiary">@color/sp_action</item><item name="colorOnTertiary">@color/sp_on_action</item><item name="colorTertiaryContainer">@color/sp_cream</item><item name="colorOnTertiaryContainer">@color/sp_ink</item>
         <item name="colorSurface">@color/sp_card</item><item name="colorSurfaceVariant">@color/sp_background</item>
         <item name="colorOnSurface">@color/sp_ink</item><item name="colorOnSurfaceVariant">@color/sp_ink</item>
         <item name="colorOutline">@color/sp_outline</item><item name="colorError">#B3261E</item>
         <item name="android:colorBackground">@color/sp_background</item>
         <item name="android:fontFamily">@font/geist</item>
-        <item name="android:statusBarColor">@color/sp_background</item><item name="android:windowLightStatusBar">true</item><item name="android:windowLightNavigationBar">true</item><item name="android:navigationBarColor">@color/sp_background</item>
+        <item name="android:statusBarColor">@color/sp_background</item><item name="android:windowLightStatusBar">@bool/sp_light_bars</item><item name="android:windowLightNavigationBar">@bool/sp_light_bars</item><item name="android:navigationBarColor">@color/sp_background</item>
         <item name="materialButtonStyle">@style/Widget.StudyPath.Button</item>
         <item name="textInputStyle">@style/Widget.StudyPath.Input</item>
         <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.StudyPath.Card</item>

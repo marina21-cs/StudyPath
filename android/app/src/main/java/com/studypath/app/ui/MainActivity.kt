@@ -132,6 +132,7 @@ class MainActivity : AppCompatActivity() {
         }
         binding.toolbar.title = "StudyPath"
         binding.toolbar.isTitleCentered = false
+        binding.toolbar.menu.add("Settings").apply { setIcon(R.drawable.ic_settings); setShowAsAction(android.view.MenuItem.SHOW_AS_ACTION_ALWAYS); setOnMenuItemClickListener { openDetails(SettingsFragment()); true } }
         binding.toolbar.setTitleTextAppearance(this, R.style.TextAppearance_StudyPath_Title)
         binding.navigation.isItemActiveIndicatorEnabled = true
         binding.navigation.menu.apply {
@@ -144,8 +145,8 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.popBackStackImmediate(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
             val fragment = when (item.itemId) {
                 R.id.nav_saved -> SavedFragment()
-                R.id.nav_planner -> PlannerFragment()
-                R.id.nav_account -> AccountFragment()
+                R.id.nav_planner -> PlannerHomeFragment()
+                R.id.nav_account -> ProfileFragment()
                 else -> StudyFragment()
             }
             supportFragmentManager.beginTransaction().replace(R.id.main_content, fragment).commit()
@@ -153,7 +154,7 @@ class MainActivity : AppCompatActivity() {
         }
         fun updateChrome() {
             val current = supportFragmentManager.findFragmentById(R.id.main_content)
-            val detail = (current is StudyFragment && current.arguments?.containsKey("subjectQuery") == true) || current is PersonalAcademicFragment || current is PdfLinkFragment || current is CoursePacksFragment || current is CorImportFragment || current is CorScanFragment || current is SubjectsFragment || current is MaterialRecommendationsFragment || current is PersonalWorkspaceFragment || current is PersonalMaterialFragment || current is EditProfileFragment || current is FullArticleFragment || current is ReadingFragment || current is ModuleFragment || current is LearnerPreferencesFragment || current is InteractiveLessonFragment || current is OfflinePdfFragment || current is FamilySharingFragment || current is OnboardingReadyFragment
+            val detail = current is SettingsFragment || current is StorageSettingsFragment || current is AccountFragment || current is PlannerFragment || (current is StudyFragment && current.arguments?.containsKey("subjectQuery") == true) || current is PersonalAcademicFragment || current is PdfLinkFragment || current is CoursePacksFragment || current is CorImportFragment || current is CorScanFragment || current is SubjectsFragment || current is MaterialRecommendationsFragment || current is PersonalWorkspaceFragment || current is PersonalMaterialFragment || current is EditProfileFragment || current is FullArticleFragment || current is ReadingFragment || current is ModuleFragment || current is LearnerPreferencesFragment || current is InteractiveLessonFragment || current is OfflinePdfFragment || current is FamilySharingFragment || current is OnboardingReadyFragment
             binding.toolbar.navigationIcon = if (detail)
                 androidx.appcompat.content.res.AppCompatResources.getDrawable(this, androidx.appcompat.R.drawable.abc_ic_ab_back_material) else null
             binding.toolbar.navigationContentDescription = if (detail) "Back" else null
@@ -177,8 +178,12 @@ class MainActivity : AppCompatActivity() {
                 is InteractiveLessonFragment -> "Lesson"
                 is LearnerPreferencesFragment, is OnboardingReadyFragment -> ""
                 is SavedFragment -> "Saved"
-                is PlannerFragment -> "Planner"
-                is AccountFragment -> "Account"
+                is PlannerHomeFragment -> "Planner"
+                is PlannerFragment -> "Reviewed grade tools"
+                is SettingsFragment -> "Settings"
+                is StorageSettingsFragment -> "Storage"
+                is ProfileFragment -> "Profile"
+                is AccountFragment -> if (current.arguments?.getString("section") == "Study reminders") "Study reminders" else "Account settings"
                 else -> "StudyPath"
             }
         }

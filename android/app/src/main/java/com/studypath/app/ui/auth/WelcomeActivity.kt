@@ -26,6 +26,7 @@ class WelcomeActivity : AppCompatActivity() {
         setContentView(binding.root)
         AuthUi.applyInsets(binding.root)
         binding.mascot.play(GiraffeMascotView.Pose.WAKE)
+        binding.demoButton.setOnClickListener { startActivity(Intent(this, com.studypath.app.ui.DemoActivity::class.java)) }
         binding.loginButton.setOnClickListener { startActivity(Intent(this, LoginActivity::class.java)) }
         binding.signUpButton.setOnClickListener { startActivity(Intent(this, RegisterActivity::class.java)) }
     }

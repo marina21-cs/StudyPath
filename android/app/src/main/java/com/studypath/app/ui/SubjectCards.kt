@@ -16,10 +16,8 @@ import com.studypath.app.data.*
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
-internal fun subjectColor(category: String): Int = Color.parseColor(when(category) {
-    "Mathematics" -> "#FFC6A3"; "Science" -> "#BCE8D4"; "Technology" -> "#D8CCFF"
-    "Languages" -> "#F9D6E5"; "Humanities" -> "#C9DFFA"; else -> "#FFD66B"
-})
+// Callers keep category metadata; the row uses semantic Tide surface colors.
+internal fun subjectColor(category: String): Int = Color.TRANSPARENT
 internal fun subjectIcon(category: String) = when(category) {
     "Mathematics" -> R.drawable.ic_subject_math; "Science" -> R.drawable.ic_subject_science
     "Technology" -> R.drawable.ic_subject_code; "Languages" -> R.drawable.ic_subject_language
@@ -30,7 +28,7 @@ internal fun subjectIcon(category: String) = when(category) {
 internal fun LinearLayout.workspaceRow(title: String, detail: String, icon: Int, color: Int, onOpen: () -> Unit): MaterialCardView {
     val card = MaterialCardView(context).apply {
         radius = context.dp(24).toFloat(); cardElevation = 0f; strokeWidth = 0
-        setCardBackgroundColor(color); isClickable = true; isFocusable = true
+        setCardBackgroundColor(context.tint(R.color.sp_card)); isClickable = true; isFocusable = true
         contentDescription = listOf(title, detail).filter { it.isNotBlank() }.joinToString(", ")
         setOnClickListener { onOpen() }
     }
@@ -40,7 +38,7 @@ internal fun LinearLayout.workspaceRow(title: String, detail: String, icon: Int,
         minimumHeight = context.dp(72); importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
     }
     row.addView(ImageView(context).apply { setImageResource(icon); setPadding(context.dp(10),context.dp(10),context.dp(10),context.dp(10))
-        background = android.graphics.drawable.GradientDrawable().apply { setColor(0xAAFFFFFF.toInt()); cornerRadius=context.dp(14).toFloat() }
+        background = android.graphics.drawable.GradientDrawable().apply { setColor(context.tint(R.color.sp_cream)); cornerRadius=context.dp(14).toFloat() }
         imageTintList = ColorStateList.valueOf(context.tint(R.color.sp_ink)) },
         LinearLayout.LayoutParams(context.dp(48), context.dp(48)).apply { marginEnd = context.dp(12) })
     val words = context.column(0)
@@ -86,7 +84,7 @@ internal fun LinearLayout.academicToolkit(open: (String) -> Unit) {
         val row=context.column(0).apply{orientation=LinearLayout.HORIZONTAL;isBaselineAligned=false}
         addView(row,LinearLayout.LayoutParams(-1,-2).apply{topMargin=context.dp(12)})
         pair.forEachIndexed { index, item ->
-            val card=MaterialCardView(context).apply{radius=context.dp(23).toFloat();setCardBackgroundColor(Color.parseColor(item[3]));strokeWidth=0;cardElevation=context.dp(2).toFloat();isClickable=true;isFocusable=true;contentDescription="${item[0]}, ${item[1]}";tag="toolkit_${item[4]}";setOnClickListener{open(item[4])}}
+            val card=MaterialCardView(context).apply{radius=context.dp(23).toFloat();setCardBackgroundColor(context.tint(R.color.sp_cream));strokeWidth=0;cardElevation=context.dp(2).toFloat();isClickable=true;isFocusable=true;contentDescription="${item[0]}, ${item[1]}";tag="toolkit_${item[4]}";setOnClickListener{open(item[4])}}
             val words=context.column(14).apply{minimumHeight=context.dp(148);importantForAccessibility=View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS}
             words.label(item[2],28f);words.label(item[0],18f);words.label(item[1],12f);card.addView(words)
             row.addView(card,LinearLayout.LayoutParams(0,-1,1f).apply{if(index==0)marginEnd=context.dp(12)})
