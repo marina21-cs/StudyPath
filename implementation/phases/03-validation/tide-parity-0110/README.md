@@ -55,3 +55,5 @@ Physical handset, exhaustive TalkBack/large-font acceptance, production Firebase
 ## Cloud-configured download artifact
 
 `android/build-cloud-candidate.sh --output /home/keni/Documents/ChatGPT/SE/.build/cloud-candidates/tide-reviewer-0.1.10` exited 0 (Gradle 39 seconds). All 322 Android source hashes match the tested inventory. `apksigner verify --print-certs` exited 0; signer SHA-256 matches 0.1.9. `aapt dump badging` confirms com.studypath.app version 0.1.10 (11). APK SHA-256: `f09604bc9769c0389b999f60a7afffc9d43dc9396e2bd757976a3308333b8919`; 60278871 bytes. See `cloud-artifact.json`. Status remains BUILT_CLOUD_UNVERIFIED: this packages the production client configuration, without claiming production Firebase acceptance.
+
+Published GitHub release: https://github.com/marina21-cs/StudyPath/releases/tag/v0.1.10 at source commit `82fc63b92fd205743c267e51d180399449394ff5`. The API reports the APK asset uploaded at 60,278,871 bytes with its matching SHA-256 digest. See `github-release.json`.
