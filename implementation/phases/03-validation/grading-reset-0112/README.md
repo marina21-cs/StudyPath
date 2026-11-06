@@ -29,3 +29,7 @@ Previous scored drafts remain available read-only under Grades & scores → Prev
 `android/build-cloud-candidate.sh --output /home/keni/Documents/ChatGPT/SE/.build/cloud-candidates/grading-reset-0.1.12` exited 0, BUILD SUCCESSFUL in 45s. All **333** Android source hashes matched tested-source.json. `apksigner verify --print-certs` passed with certificate `9d573838eb0968cd1e0f63a71f61d67f811a38cd4c52265407c1b28f33b79605`, matching 0.1.11. APK size: 60018308 bytes; SHA-256 `ecd862d6a19a2eeeb80ab1396608a9df94b16707e5891439c93076a174402b97`. Build status remains BUILT_CLOUD_UNVERIFIED: no production Firebase acceptance is claimed. See cloud-artifact.json.
 
 The native review screenshot was inspected: selected scale, 100% total, affected subjects, history explanation and final replacement action are visible without clipping. The smoke wrapper did not auto-pull this extra image; it was retrieved from its test-generated external-files path.
+
+## Published release
+
+GitHub v0.1.12 targets `dde66262bb9774be37449b15adc850af01de66e1`. API verification confirmed the published release and uploaded APK with matching size and SHA-256 digest. See github-release.json. Download: https://github.com/marina21-cs/StudyPath/releases/download/v0.1.12/StudyPath.apk
