@@ -1,0 +1,31 @@
+{
+  "startedAtUtc": "2026-11-06T01:38:02Z",
+  "finishedAtUtc": "2026-11-06T01:41:45.412766+00:00",
+  "status": "FAILED",
+  "exitCode": 1,
+  "lastStage": "screenshots",
+  "deviceSerial": "emulator-5554",
+  "avd": "StudyPath_Lite_Test",
+  "firebase": {
+    "projectId": "demo-studypath",
+    "localOnly": true,
+    "authPort": 9099,
+    "databasePort": 9000
+  },
+  "liveApi": true,
+  "explicitJUnitSuccess": false,
+  "apkSha256": "68b6926e648e8ac54a3737f5062913221402b613ee1b2516fa195b57ff8a6741",
+  "screenshots": [
+    "00-welcome.png",
+    "01-register-empty.png",
+    "02-study-home.png",
+    "03-study-shelf.png"
+  ],
+  "dataCleared": false,
+  "packagesUninstalled": false,
+  "limits": [
+    "Core smoke; --live-api adds Wikipedia. --personal-workspace adds native workspace, COR, grades, GWA, scenarios, graph and linked PDF checks.",
+    "This is not acceptance of notifications, accessibility, extended offline recovery, or cloud setup.",
+    "Screenshots are diagnostic captures; verify visible content before assigning detailed captions."
+  ]
+}

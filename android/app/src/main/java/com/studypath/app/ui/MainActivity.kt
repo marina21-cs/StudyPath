@@ -108,9 +108,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun setupContent() {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        binding = installStudyShell()
         if (resources.configuration.fontScale >= 1.5f) {
             binding.mainHeader.orientation = LinearLayout.VERTICAL
             binding.toolbar.layoutParams = LinearLayout.LayoutParams(-1, -2)
@@ -118,10 +116,6 @@ class MainActivity : AppCompatActivity() {
                 gravity = Gravity.END
                 marginEnd = dp(8)
             }
-        }
-        ViewCompat.setOnApplyWindowInsetsListener(binding.mainRoot) { view, insets ->
-            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.ime())
-            view.setPadding(bars.left + dp(8), bars.top + dp(4), bars.right + dp(8), bars.bottom + dp(4)); insets
         }
         binding.connectionStatus.setOnClickListener {
             MaterialAlertDialogBuilder(this).setTitle("Connection")
@@ -132,13 +126,6 @@ class MainActivity : AppCompatActivity() {
         binding.toolbar.isTitleCentered = false
         binding.toolbar.menu.add("Settings").apply { setIcon(R.drawable.ic_settings); setShowAsAction(android.view.MenuItem.SHOW_AS_ACTION_ALWAYS); setOnMenuItemClickListener { openDetails(SettingsFragment()); true } }
         binding.toolbar.setTitleTextAppearance(this, R.style.TextAppearance_StudyPath_Title)
-        binding.navigation.isItemActiveIndicatorEnabled = true
-        binding.navigation.menu.apply {
-            add(0, R.id.nav_study, 0, "Study").setIcon(R.drawable.ic_study).setContentDescription("Study")
-            add(0, R.id.nav_saved, 1, "Saved").setIcon(R.drawable.ic_saved).setContentDescription("Saved")
-            add(0, R.id.nav_planner, 2, "Planner").setIcon(R.drawable.ic_plan).setContentDescription("Planner")
-            add(0, R.id.nav_account, 3, "Account").setIcon(R.drawable.ic_profile).setContentDescription("Account")
-        }
         binding.navigation.setOnItemSelectedListener { item ->
             supportFragmentManager.popBackStackImmediate(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
             val fragment = when (item.itemId) {
@@ -152,12 +139,13 @@ class MainActivity : AppCompatActivity() {
         }
         fun updateChrome() {
             val current = supportFragmentManager.findFragmentById(R.id.main_content)
-            val detail = current is SettingsFragment || current is StorageSettingsFragment || current is AccountFragment || current is PlannerFragment || (current is StudyFragment && current.arguments?.containsKey("subjectQuery") == true) || current is PersonalAcademicFragment || current is PdfLinkFragment || current is CoursePacksFragment || current is CorImportFragment || current is CorScanFragment || current is SubjectsFragment || current is MaterialRecommendationsFragment || current is PersonalWorkspaceFragment || current is PersonalMaterialFragment || current is EditProfileFragment || current is FullArticleFragment || current is ReadingFragment || current is ModuleFragment || current is LearnerPreferencesFragment || current is InteractiveLessonFragment || current is OfflinePdfFragment || current is FamilySharingFragment || current is OnboardingReadyFragment
+            val detail = current is PdfReviewerFragment || current is SettingsFragment || current is StorageSettingsFragment || current is AccountFragment || current is PlannerFragment || (current is StudyFragment && current.arguments?.containsKey("subjectQuery") == true) || current is PersonalAcademicFragment || current is PdfLinkFragment || current is CoursePacksFragment || current is CorImportFragment || current is CorScanFragment || current is SubjectsFragment || current is MaterialRecommendationsFragment || current is PersonalWorkspaceFragment || current is PersonalMaterialFragment || current is EditProfileFragment || current is FullArticleFragment || current is ReadingFragment || current is ModuleFragment || current is LearnerPreferencesFragment || current is InteractiveLessonFragment || current is OfflinePdfFragment || current is FamilySharingFragment || current is OnboardingReadyFragment
             binding.toolbar.navigationIcon = if (detail)
                 androidx.appcompat.content.res.AppCompatResources.getDrawable(this, androidx.appcompat.R.drawable.abc_ic_ab_back_material) else null
             binding.toolbar.navigationContentDescription = if (detail) "Back" else null
             binding.navigation.visibility = if (detail) View.GONE else View.VISIBLE
             binding.toolbar.title = when (current) {
+                is PdfReviewerFragment -> "PDF reviewer"
                 is PersonalAcademicFragment -> "Academic toolkit"
                 is PdfLinkFragment -> "Add PDF link"
                 is CorImportFragment -> "Import COR"
@@ -175,14 +163,14 @@ class MainActivity : AppCompatActivity() {
                 is ModuleFragment -> "Module"
                 is InteractiveLessonFragment -> "Lesson"
                 is LearnerPreferencesFragment, is OnboardingReadyFragment -> ""
-                is SavedFragment -> "Saved"
-                is PlannerHomeFragment -> "Planner"
+                is SavedFragment -> "studypath."
+                is PlannerHomeFragment -> "studypath."
                 is PlannerFragment -> "Reviewed grade tools"
                 is SettingsFragment -> "Settings"
                 is StorageSettingsFragment -> "Storage"
-                is ProfileFragment -> "Profile"
+                is ProfileFragment -> "studypath."
                 is AccountFragment -> if (current.arguments?.getString("section") == "Study reminders") "Study reminders" else "Account settings"
-                else -> "StudyPath"
+                else -> "studypath."
             }
         }
         // A back-stack callback can precede the completed pop on predictive-back Android builds.

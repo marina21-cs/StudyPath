@@ -76,11 +76,11 @@ class StudyFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val content = requireContext().column()
         val hero = requireContext().column(0).apply { tag = "study_hero" }
-        val greeting = requireContext().column(0).apply { orientation = LinearLayout.HORIZONTAL; gravity = android.view.Gravity.CENTER_VERTICAL }
-        hero.addView(greeting)
-        greeting.label("Your study space", 26f).apply { tag = "study_heading"; layoutParams = LinearLayout.LayoutParams(0, -2, 1f) }
-        greeting.addView(GiraffeMascotView(requireContext()).apply { play(GiraffeMascotView.Pose.READ) }, LinearLayout.LayoutParams(requireContext().dp(56),requireContext().dp(72)))
+        hero.studyGreeting("")
         content.addView(hero)
+        content.addView(requireContext().column(0).apply { tag = "study_continue" })
+        content.addView(requireContext().column(0).apply { tag = "study_semester" })
+        content.addView(requireContext().column(0).apply { tag = "study_subjects" })
         content.label("", 14f).apply { tag = "reading_context_label"; visibility = View.GONE }
         val searchRow = requireContext().column(0).apply { orientation=LinearLayout.HORIZONTAL; gravity=android.view.Gravity.CENTER_VERTICAL }
         content.addView(searchRow)
@@ -98,8 +98,6 @@ class StudyFragment : Fragment() {
         content.action("Back to my study", model::clearSearch).apply {
             tag = "reading_search_clear"; quietAction(); isVisible = model.state.value.submitted
         }
-        content.addView(requireContext().column(0).apply { tag = "study_continue" })
-        content.addView(requireContext().column(0).apply { tag = "study_subjects" })
         val topics = requireContext().column(0).apply { tag = "study_browse_body" }
         val wikiLane = requireContext().column(0).also { topics.addView(it); it.label("Browse topics", 20f) }
         val topicRow = com.google.android.material.chip.ChipGroup(requireContext()).apply { isSingleLine = false; chipSpacingHorizontal = context.dp(8) }
@@ -132,9 +130,12 @@ class StudyFragment : Fragment() {
         val subjectPanel = content.findViewWithTag<LinearLayout>("study_subjects")
         watchPersonal({ data ->
             subjectPanel.removeAllViews()
+            content.findViewWithTag<LinearLayout>("study_semester").apply {
+                removeAllViews(); semesterCard(data) { requireActivity().findViewById<CapsuleBottomNavigationView>(R.id.navigation).selectedItemId=R.id.nav_planner }
+            }
             if (data.subjects.isNotEmpty()) {
-                subjectPanel.label("My subjects", 18f)
-                data.subjects.take(3).forEach { subject -> subjectPanel.subjectRow(subject, data) {
+                subjectPanel.label("Pick a subject", 20f)
+                data.subjects.take(2).forEach { subject -> subjectPanel.plannerSubject(subject, data) {
                     (requireActivity() as MainActivity).openDetails(PersonalWorkspaceFragment.open(subject.id, "lessons"))
                 } }
             }
@@ -186,6 +187,9 @@ class StudyFragment : Fragment() {
         ).start()
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch { graph.repository.profileName().catch { emit(null) }.collect { name ->
+                    content.findViewWithTag<android.widget.TextView>("study_greeting").text=if(name.isNullOrBlank()) "Your study space" else "Hi, ${name.trim().substringBefore(' ')}"
+                } }
                 launch {
                     combine(graph.repository.savedReadings(), graph.repository.operationStates()) { rows, _ -> rows }
                         .catch { resume.removeAllViews() }.collect { rows ->
@@ -200,38 +204,14 @@ class StudyFragment : Fragment() {
                             if (latest == null && lesson == null) "Your study space" else "Let’s pick it up."
                         if (continueLesson) {
                             val savedLesson = requireNotNull(lesson)
-                            val card = resume.card("Continue learning", "").apply {
-                                setPadding(context.dp(16), context.dp(16), context.dp(16), context.dp(16))
-                                (getChildAt(0) as android.widget.TextView).apply {
-                                    textSize = 12f; typeface = androidx.core.content.res.ResourcesCompat.getFont(context, R.font.geist)
-                                    androidx.core.view.ViewCompat.setAccessibilityHeading(this, false)
-                                }
-                            }
-                            card.label(savedLesson.title, 20f)
-                            card.label("Ready offline", 12f)
-                            card.studyMetadata("Saved place", "Step ${savedLesson.position + 1} of ${savedLesson.totalSteps}", "Material", "Practice lesson")
-                            card.action("Continue lesson →") {
+                            resume.continueStudy(savedLesson.title,"Ready offline · Step ${savedLesson.position + 1} of ${savedLesson.totalSteps}","Continue lesson →") {
                                 (requireActivity() as MainActivity).openDetails(InteractiveLessonFragment.forPackage(savedLesson.key, savedLesson.lessonId))
-                            }.tag = "study_continue_lesson"
+                            }.tag="study_continue_lesson"
                         } else latest?.let { (saved, local) ->
-                            val card = resume.card("Continue learning", "").apply {
-                                setPadding(context.dp(16), context.dp(16), context.dp(16), context.dp(16))
-                                (getChildAt(0) as android.widget.TextView).apply {
-                                    textSize = 12f; typeface = androidx.core.content.res.ResourcesCompat.getFont(context, R.font.geist)
-                                    androidx.core.view.ViewCompat.setAccessibilityHeading(this, false)
-                                }
-                            }
-                            card.label(saved.title, 20f)
-                            card.label(readingCopyStatus(local), 12f)
-                            (card.parent as com.google.android.material.card.MaterialCardView).setCardBackgroundColor(requireContext().tint(R.color.sp_yellow))
-                            card.addView(android.widget.ProgressBar(requireContext(),null,android.R.attr.progressBarStyleHorizontal).apply {
-                                max=100;progress=if(saved.excerpt.isEmpty())0 else (((local?.annotation?.position ?: 0).toDouble()/saved.excerpt.length)*100).toInt().coerceIn(0,100)
-                                progressTintList=ColorStateList.valueOf(context.tint(R.color.sp_action))
-                            },LinearLayout.LayoutParams(-1,requireContext().dp(12)).apply{topMargin=requireContext().dp(10);bottomMargin=requireContext().dp(8)})
-                            card.label(readingPositionLabel(local?.annotation?.position ?: 0, saved.excerpt.length) + " · Wikipedia excerpt", 14f)
-                            card.action("Continue reading →") {
+                            resume.continueStudy(saved.title,readingCopyStatus(local)+" · "+readingPositionLabel(local?.annotation?.position ?: 0,saved.excerpt.length),"Continue reading →") {
                                 (requireActivity() as MainActivity).openDetails(ReadingFragment.forSaved(saved.id))
-                            }.tag = "study_continue_reading"
+                            }.tag="study_continue_reading"
+
                         }
                     }
                 }
@@ -240,6 +220,7 @@ class StudyFragment : Fragment() {
                     clear.isVisible = state.submitted
                     resume.isVisible = !state.submitted
                     subjectPanel.isVisible = !state.submitted
+                    content.findViewWithTag<View>("study_semester").isVisible = !state.submitted
                     content.findViewWithTag<View>("study_hero").isVisible = !state.submitted
                     content.findViewWithTag<View>("study_browse_body").isVisible = !state.submitted
                     featured.visibility = if (state.submitted) View.GONE else View.VISIBLE

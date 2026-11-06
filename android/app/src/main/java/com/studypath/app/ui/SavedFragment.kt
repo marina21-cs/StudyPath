@@ -34,6 +34,7 @@ class SavedFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val content = requireContext().column()
+        content.libraryHeading("Readings, PDFs and study notes")
         content.compactAction("Manage subjects") {
             (requireActivity() as MainActivity).openDetails(PersonalWorkspaceFragment.lessons())
         }.tag = "saved_personal_workspace"
@@ -61,8 +62,8 @@ class SavedFragment : Fragment() {
             listOf(readingTab to "readings", lessonTab to "lessons").forEach { (button, key) ->
                 val selected = value == key
                 button.isChecked = selected
-                button.backgroundTintList = ColorStateList.valueOf(requireContext().tint(if (selected) R.color.sp_action else android.R.color.white))
-                button.setTextColor(requireContext().tint(if (selected) android.R.color.white else R.color.sp_ink))
+                button.backgroundTintList = ColorStateList.valueOf(requireContext().tint(if (selected) R.color.sp_action else R.color.sp_card))
+                button.setTextColor(requireContext().tint(if (selected) R.color.sp_on_action else R.color.sp_ink))
                 androidx.core.view.ViewCompat.setStateDescription(button, if (selected) "Selected" else "Not selected")
             }
         }
@@ -92,7 +93,7 @@ class SavedFragment : Fragment() {
             data.subjects.filter { subject -> data.materials.any { it.subjectId == subject.id } }.forEach { subject ->
                 personalMaterials.label(subject.title, 18f)
                 data.materials.filter { it.subjectId == subject.id }.take(20).forEach { material ->
-                    personalMaterials.workspaceRow(material.title.replace('_',' '), if (material.pdf) "PDF · Offline" else "Study card", subjectIcon(subject.categoryLabel()), subjectColor(subject.categoryLabel())) {
+                    personalMaterials.libraryMaterial(material.title, subject.title+" · "+if(material.pdf) "PDF · Offline" else "Study card") {
                         (requireActivity() as MainActivity).openDetails(PersonalMaterialFragment.open(material.id))
                     }.tag = "saved_material_${material.id}"
                 }

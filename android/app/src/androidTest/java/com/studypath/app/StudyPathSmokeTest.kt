@@ -147,6 +147,7 @@ class StudyPathSmokeTest {
             assertTrue("Saved must not expose legacy demonstration lessons", mainThreadValue {
                 currentRoot()?.let { !containsText(it) { value -> value == "Algorithms and programming" } } == true
             })
+            verifySavedContrast()
             captureScreen("03-study-shelf")
 
             if (InstrumentationRegistry.getArguments().getString("verifyPersonalWorkspace") == "true") verifyPersonalWorkspace()
@@ -413,6 +414,82 @@ class StudyPathSmokeTest {
         captureScreen("09-saved-reading")
     }
 
+    private fun verifySavedContrast() {
+        val old=com.studypath.app.ui.Appearance.selected(app)
+        try { for(mode in listOf(androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES,androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO)) {
+            instrumentation.runOnMainSync { com.studypath.app.ui.Appearance.set(app,mode) }
+            awaitTag("saved_readings_tab")
+            onView(allOf(withText("studypath."),androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA(withId(R.id.toolbar)))).check(matches(isCompletelyDisplayed()))
+            for(selected in listOf("saved_readings_tab","saved_lessons_tab")) {
+                onView(withTagValue(`is`(selected as Any))).perform(scrollTo(),click())
+                assertTrue("Both Saved tabs need readable text in each theme and selection",mainThreadValue {
+                    listOf("saved_readings_tab","saved_lessons_tab").all { tag ->
+                        val button=currentRoot()!!.findViewWithTag<com.google.android.material.button.MaterialButton>(tag)
+                        val background=button.backgroundTintList!!.getColorForState(button.drawableState,button.backgroundTintList!!.defaultColor)
+                        androidx.core.graphics.ColorUtils.calculateContrast(button.currentTextColor,background)>=4.5
+                    }
+                })
+            }
+            captureScreen(if(mode==androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES) "parity-saved-dark" else "parity-saved-light")
+        } } finally { instrumentation.runOnMainSync { com.studypath.app.ui.Appearance.set(app,old) };awaitTag("saved_readings_tab") }
+    }
+
+    private fun verifyPdfReviewer(pdf:com.studypath.app.data.PersonalMaterial,store:com.studypath.app.data.PersonalStudyStore) {
+        fun tagged(tag:String)=onView(withTagValue(`is`(tag as Any)))
+        val beforeGrades=store.read().subjects.map { it.grade }
+        val beforeTasks=store.read().tasks
+        tagged("personal_pdf_reviewer").perform(click())
+        awaitTag("reviewer_last")
+        tagged("reviewer_last").perform(scrollTo(),replaceText("1"));closeSoftKeyboard()
+        await("PDF page count is ready") { mainThreadValue { currentRoot()?.findViewWithTag<View>("reviewer_scan")?.isEnabled==true } }
+        tagged("reviewer_scan").perform(scrollTo(),click())
+        awaitTag("reviewer_extracted")
+        assertTrue("Bundled OCR must recognize the raster-only fixture",mainThreadValue { currentRoot()!!.findViewWithTag<EditText>("reviewer_extracted").text.toString().contains("queue",true) })
+        tagged("reviewer_extracted").perform(scrollTo(),replaceText("A queue is a collection of items processed in the order they arrive."));closeSoftKeyboard()
+        tagged("reviewer_text_checked").perform(scrollTo(),click())
+        tagged("reviewer_generate").perform(scrollTo(),click())
+        onView(withText("Edit card")).perform(scrollTo(),click())
+        tagged("reviewer_answer_edit").perform(scrollTo(),replaceText("A queue"));closeSoftKeyboard()
+        onView(withText("Keep card")).perform(click())
+        tagged("reviewer_add").perform(scrollTo(),click())
+        tagged("reviewer_question").perform(replaceText("Explain the queue shown on this page"))
+        tagged("reviewer_answer_edit").perform(scrollTo(),replaceText("Items leave in their arrival order."));closeSoftKeyboard()
+        onView(withText("Show original page image (diagram or equation)")).perform(scrollTo(),click())
+        onView(withText("Keep card")).perform(click())
+        tagged("reviewer_cards_checked").perform(scrollTo(),click())
+        tagged("reviewer_save").perform(scrollTo(),click())
+        assertEquals(2,store.reviewer(pdf.id)!!.cards.size)
+        tagged("reviewer_practice").perform(scrollTo(),click())
+        tagged("reviewer_answer").check(androidx.test.espresso.assertion.ViewAssertions.doesNotExist())
+        tagged("reviewer_reveal").perform(scrollTo(),click())
+        tagged("reviewer_answer").perform(scrollTo()).check(matches(isDisplayed()))
+        tagged("reviewer_missed").perform(scrollTo(),click())
+        awaitText("Card 2 of 2 · page 1")
+        tagged("reviewer_reveal").perform(scrollTo(),click())
+        tagged("reviewer_understood").perform(scrollTo(),click())
+        onView(withText("Retry missed cards")).perform(scrollTo(),click())
+        awaitText("Card 1 of 1 · page 1")
+        tagged("reviewer_source").perform(scrollTo(),click())
+        awaitText("Page 1 of 2 · Available offline");pressBack()
+        tagged("reviewer_reveal").perform(scrollTo(),click())
+        tagged("reviewer_understood").perform(scrollTo(),click())
+        awaitText("Review complete.")
+        captureScreen("reviewer-01-complete")
+        assertTrue(store.reviewer(pdf.id)!!.retryIds().isEmpty())
+        assertEquals(2,store.reviewer(pdf.id)!!.results.values.count { it.understood })
+        onView(withText("Back to reviewer")).perform(scrollTo(),click())
+        instrumentation.runOnMainSync { (resumedActivity(MainActivity::class.java) as MainActivity).recreate() }
+        awaitTag("reviewer_practice")
+        assertEquals(2,store.reviewer(pdf.id)!!.cards.size)
+        tagged("reviewer_plan").perform(scrollTo(),click())
+        onView(withText("Add to Planner")).perform(click())
+        assertEquals(beforeTasks.size+1,store.read().tasks.size)
+        assertEquals(beforeGrades,store.read().subjects.map { it.grade })
+        store.update { it.copy(tasks=beforeTasks) } // Restore only this test's new task before baseline assertions.
+        captureScreen("reviewer-02-saved-pack")
+        pressBack();awaitTag("personal_pdf_reviewer")
+    }
+
     private fun verifyPersonalWorkspace() {
         fun tagged(tag: String) = onView(withTagValue(`is`(tag as Any)))
         tapNavigation(R.id.nav_account)
@@ -485,7 +562,15 @@ class StudyPathSmokeTest {
         try {
             repeat(2) { index ->
                 val page = document.startPage(android.graphics.pdf.PdfDocument.PageInfo.Builder(400, 600, index + 1).create())
-                page.canvas.drawText("Personal module page ${index + 1}", 30f, 60f, Paint().apply { textSize = 20f })
+                // Raster-only fixture: OCR must read pixels rather than a PDF text layer.
+                val scan=Bitmap.createBitmap(400,600,Bitmap.Config.ARGB_8888)
+                val canvas=Canvas(scan);canvas.drawColor(Color.WHITE)
+                val ink=Paint(Paint.ANTI_ALIAS_FLAG).apply { color=Color.BLACK;textSize=16f }
+                canvas.drawText("Personal module page ${index+1}",20f,40f,ink)
+                canvas.drawText("A queue is a collection of items processed",20f,90f,ink)
+                canvas.drawText("in the order they arrive.",20f,115f,ink)
+                canvas.drawText("Stacks store items in last-in first-out order.",20f,155f,ink)
+                page.canvas.drawBitmap(scan,0f,0f,null);scan.recycle()
                 document.finishPage(page)
             }
             fixture.outputStream().use(document::writeTo)
@@ -512,6 +597,7 @@ class StudyPathSmokeTest {
         awaitText("Page 1 of 2 · Available offline")
         tagged("offline_pdf_zoom").perform(click())
         captureScreen("personal-03-pdf-page-two")
+        verifyPdfReviewer(pdf,store)
         pressBack()
         // The manual workspace does not depend on a live database or a published course pack.
         com.google.firebase.database.FirebaseDatabase.getInstance().goOffline()
@@ -809,6 +895,25 @@ class StudyPathSmokeTest {
 
     /** Screenshots contain empty auth forms or a disposable synthetic account, never passwords. */
     private fun captureScreen(name: String) {
+        mainThreadValue {
+            resumedActivity(MainActivity::class.java)?.let { activity ->
+                activity.findViewById<View>(R.id.toolbar)?.let { toolbar ->
+                    val bounds=Rect();assertTrue("Header is visible",toolbar.getGlobalVisibleRect(bounds))
+                    val insets=androidx.core.view.ViewCompat.getRootWindowInsets(toolbar)!!.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars() or androidx.core.view.WindowInsetsCompat.Type.displayCutout())
+                    assertTrue("Header remains below system bars",bounds.top>=insets.top)
+                    assertEquals("Header is not clipped",toolbar.height,bounds.height())
+                    val bar=toolbar as com.google.android.material.appbar.MaterialToolbar
+                    if(!bar.title.isNullOrBlank()) {
+                        val title=(0 until bar.childCount).map { bar.getChildAt(it) }.filterIsInstance<TextView>().firstOrNull { it.text==bar.title }
+                        assertNotNull("Header title has a rendered text view",title)
+                        val titleBounds=Rect();assertTrue("Header title is visible",title!!.getGlobalVisibleRect(titleBounds))
+                        assertEquals("Header title is not clipped",title.height,titleBounds.height())
+                        assertTrue("Header title has readable contrast",androidx.core.graphics.ColorUtils.calculateContrast(title.currentTextColor,androidx.core.content.ContextCompat.getColor(activity,R.color.sp_background))>=4.5)
+                    }
+                }
+            }
+        }
+
         flowStage = "after-$name"
         instrumentation.waitForIdleSync()
         val bitmap = instrumentation.uiAutomation.takeScreenshot()

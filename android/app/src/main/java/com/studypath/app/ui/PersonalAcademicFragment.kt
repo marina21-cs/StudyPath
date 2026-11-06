@@ -19,14 +19,14 @@ import kotlinx.coroutines.withTimeout
 class PersonalAcademicFragment:Fragment() {
     private var mode="grades";private var subjectId:String?=null
     private val decimal=InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
-    private var dialog:androidx.appcompat.app.AlertDialog?=null
+    private var gradeEditor:GradeDraftEditor?=null
     override fun onCreate(s:Bundle?){super.onCreate(s);mode=s?.getString("mode")?:arguments?.getString("mode")?:"grades";subjectId=s?.getString("subject")?:arguments?.getString("subject")}
     override fun onSaveInstanceState(out:Bundle){out.putString("mode",mode);out.putString("subject",subjectId);super.onSaveInstanceState(out)}
     override fun onCreateView(i:LayoutInflater,c:ViewGroup?,s:Bundle?):View=requireContext().scrolling(requireContext().column().apply{tag="academic_panel"})
     override fun onViewCreated(v:View,s:Bundle?){render()}
     private fun open(m:String){mode=m;render()}
     private fun render(){
-        val b=view?.findViewWithTag<LinearLayout>("academic_panel")?:return;b.removeAllViews()
+        val b=view?.findViewWithTag<LinearLayout>("academic_panel")?:return;gradeEditor?.dismiss();b.removeAllViews()
         val data=personalStore().read()
         if(mode=="what-if"){scenario(b);return}
         if(mode=="gwa"){gwa(b,data);return}
@@ -34,6 +34,7 @@ class PersonalAcademicFragment:Fragment() {
         if(data.subjects.isEmpty()){b.giraffe(height=88);b.label("Start with your subjects",26f);b.label("Add a subject or import your COR to set up grades.");b.action("Add subject"){(requireActivity() as MainActivity).openDetails(PersonalWorkspaceFragment.createNew())};return}
         val subject=data.subjects.firstOrNull{it.id==subjectId}?:data.subjects.first().also{subjectId=it.id}
         b.compactAction(subject.title){MaterialAlertDialogBuilder(requireContext()).setTitle("Choose subject").setItems(data.subjects.map{it.title}.toTypedArray()){_,n->subjectId=data.subjects[n].id;render()}.show()}
+        gradeEditor=GradeDraftEditor(requireContext(),subject.gradeDraft?:PersonalGradeDraft()){save(subject,it)}
         if(mode=="template"){template(b,subject);return}
         b.label("Every score counts.",26f)
         val draft=subject.gradeDraft?:PersonalGradeDraft()
@@ -41,33 +42,17 @@ class PersonalAcademicFragment:Fragment() {
         top.compactAction("Review weights & rules →"){open("template")}.tag="academic_template"
         top.compactAction("Link a reviewed course pack"){chooseCatalog(subject)}
         subject.catalogCourseId?.let{courseId->b.action("Open reviewed grade tools"){(requireActivity() as MainActivity).openDetails(PlannerFragment().apply{arguments=Bundle().apply{putString("courseId",courseId);putBoolean("toolsOnly",true)}})}}
-        if(draft.categories.isEmpty()){b.label("Add your syllabus categories first. No weights or grades are assumed.");b.action("Set up grading template"){open("template")};return}
-        val estimate=runCatching{GradeEngine.evaluate(draft.plan())}
-        val result=b.card("Personal draft estimate",estimate.getOrNull()?.gradedWorkPercent?.let{"%.2f / 100".format(it)}?:"—")
-        (result.parent as com.google.android.material.card.MaterialCardView).setCardBackgroundColor(requireContext().tint(R.color.sp_mint))
-        result.label("Raw arithmetic from your draft weights. No school conversion or approval is implied.",12f)
-        estimate.exceptionOrNull()?.let{result.label(it.message?:"Complete your categories and assessment plan.",14f)}
-        b.label("Assessment scores",20f)
-        draft.categories.forEach{category->
-            b.label("${category.title} · ${"%.1f".format(category.weight*100)}%",18f)
-            draft.scores.filter{it.categoryId==category.id}.forEach{s->b.card(s.title,when(s.status){"SCORED"->"${s.earned} / ${s.possible}";else->s.status.lowercase().replaceFirstChar{it.uppercase()}}).compactAction("Edit score"){scoreEditor(subject,category,s)}}
-            b.compactAction("Add ${category.title} score"){scoreEditor(subject,category,null)}
-        }
+        gradeEditor!!.scores(b){open("template")}
         b.action("Explore what-if →"){open("what-if")}.quietAction()
         b.compactAction("Recorded final grade & units"){(requireActivity() as MainActivity).openDetails(PersonalWorkspaceFragment.open(subject.id,"grades"))}
     }
     private fun save(subject:PersonalSubject,draft:PersonalGradeDraft){draft.validate();personalStore().update{w->w.copy(subjects=w.subjects.map{if(it.id==subject.id)it.copy(gradeDraft=draft)else it})};render()}
-    private fun editor(title:String,body:LinearLayout,onSave:()->Unit){
-        dialog=MaterialAlertDialogBuilder(requireContext()).setTitle(title).setView(requireContext().scrolling(body)).setNegativeButton("Cancel",null).setPositiveButton("Save",null).create()
-        dialog?.setOnShowListener{dialog?.getButton(-1)?.setOnClickListener{runCatching{onSave()}.onSuccess{dialog?.dismiss()}.onFailure{Toast.makeText(requireContext(),it.message,Toast.LENGTH_LONG).show()}}};dialog?.show()
-    }
     private fun template(b:LinearLayout,subject:PersonalSubject){
         val draft=subject.gradeDraft?:PersonalGradeDraft()
         b.label("Start with your syllabus.",26f)
         b.label(if(draft.reviewPrepared)"Review copy prepared · awaiting external confirmation" else "Draft · no professor approval",14f)
-        draft.categories.forEach{c->b.card(c.title,"${"%.1f".format(c.weight*100)}% · ${c.aggregation.lowercase().replace('_',' ')}").compactAction("Edit category"){categoryEditor(subject,c)}}
-        b.action("Add category"){categoryEditor(subject,null)}.tag="academic_add_category"
-        b.label("Total: ${"%.1f".format(draft.categories.sumOf{it.weight}*100)}%",18f)
+        gradeEditor!!.setup(b)
+        b.compactAction("Add / edit scores"){open("grades")}
         val source=b.field("Syllabus source / review notes",InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE).apply{setText(draft.syllabus);minLines=2}
         b.compactAction("Save syllabus notes"){runCatching{save(subject,draft.copy(syllabus=source.text.toString().take(4000),reviewPrepared=false))}.onFailure{Toast.makeText(context,it.message,Toast.LENGTH_LONG).show()}}
         b.card("Rules to confirm","Blank scores remain ungraded. Excused work is excluded. Missing-work treatment, conversion, rounding and retakes need reviewed school rules.")
@@ -76,26 +61,11 @@ class PersonalAcademicFragment:Fragment() {
             save(subject,draft.copy(syllabus=source.text.toString().take(4000),reviewPrepared=true))
         }.tag="academic_prepare_review"
         if(draft.reviewPrepared){b.card("Awaiting review","No approval is recorded. Share this draft with your professor; a trusted maintainer must publish the reviewed course policy.");b.action("Share review copy"){
-            val text="StudyPath grading draft — ${subject.title}\n"+draft.categories.joinToString("\n"){"${it.title}: ${it.weight*100}% (${it.aggregation})"}+"\n${draft.syllabus}\nNot approved. Confirm the grading scale, missing work, rounding and retake rules."
+            val text="StudyPath grading draft — ${subject.title}\n"+draft.categories.joinToString("\n"){"${it.title}: ${it.weight*100}% (${it.aggregation})"}+"\n${draft.scale?.description()?:"Zero-based percentage"}\nPassing raw threshold: ${draft.scale?.passingPercent?:"Not configured"}\n${draft.syllabus}\nNot approved. Confirm the grading scale, missing work, rounding and retake rules."
             startActivity(android.content.Intent.createChooser(android.content.Intent(android.content.Intent.ACTION_SEND).setType("text/plain").putExtra(android.content.Intent.EXTRA_TEXT,text),"Share grading draft"))
         }.quietAction()}
         b.compactAction("Link reviewed course pack"){chooseCatalog(subject)}
         b.compactAction("Back to scores"){open("grades")}
-    }
-    private fun categoryEditor(subject:PersonalSubject,previous:DraftCategory?){
-        val draft=subject.gradeDraft?:PersonalGradeDraft();val form=requireContext().column(16)
-        val name=form.field("Category name").apply{setText(previous?.title.orEmpty())};val weight=form.field("Weight (%)",decimal).apply{setText(previous?.weight?.times(100)?.toString().orEmpty())}
-        var aggregation=previous?.aggregation?:"POOLED_POINTS"
-        val choice=form.compactAction("Aggregation: $aggregation"){}
-        choice.setOnClickListener{val values=Aggregation.entries;MaterialAlertDialogBuilder(requireContext()).setTitle("Within-category aggregation").setItems(values.map{it.name}.toTypedArray()){_,n->aggregation=values[n].name;choice.text="Aggregation: $aggregation"}.show()}
-        editor("Category",form){val c=DraftCategory(previous?.id?:PersonalStudyStore.newId(),name.text.toString().trim(),requireNotNull(weight.text.toString().toDoubleOrNull()){"Enter a weight."}/100,aggregation);save(subject,draft.copy(categories=if(previous==null)draft.categories+c else draft.categories.map{if(it.id==c.id)c else it},reviewPrepared=false))}
-    }
-    private fun scoreEditor(subject:PersonalSubject,category:DraftCategory,previous:DraftScore?){
-        val draft=requireNotNull(subject.gradeDraft);val form=requireContext().column(16)
-        val name=form.field("Assessment title").apply{setText(previous?.title.orEmpty())};val possible=form.field("Possible points",decimal).apply{setText(previous?.possible?.toString().orEmpty())};val earned=form.field("Earned points (blank = ungraded)",decimal).apply{setText(previous?.earned?.toString().orEmpty())}
-        val excused=androidx.appcompat.widget.AppCompatCheckBox(requireContext()).apply{text="Excused · exclude from calculation";isChecked=previous?.status=="EXCUSED"};form.addView(excused)
-        val weight=if(category.aggregation=="EXPLICIT_WEIGHTS")form.field("Assessment weight (%)",decimal).apply{setText(previous?.weight?.times(100)?.toString().orEmpty())}else null
-        editor("Assessment score",form){val raw=earned.text.toString().trim();val s=DraftScore(previous?.id?:PersonalStudyStore.newId(),category.id,name.text.toString().trim(),requireNotNull(possible.text.toString().toDoubleOrNull()){"Enter possible points."},if(excused.isChecked||raw.isEmpty())null else requireNotNull(raw.toDoubleOrNull()){"Enter valid earned points."},if(excused.isChecked)"EXCUSED"else if(raw.isEmpty())"UNGRADED"else "SCORED",weight?.let{requireNotNull(it.text.toString().toDoubleOrNull()){"Enter assessment weight."}/100});save(subject,draft.copy(scores=if(previous==null)draft.scores+s else draft.scores.map{if(it.id==s.id)s else it}))}
     }
     private fun chooseCatalog(subject:PersonalSubject){viewLifecycleOwner.lifecycleScope.launch{runCatching{withTimeout(10000){(requireActivity().application as StudyPathApplication).graph.repository.courses().first()}}.onSuccess{courses->if(courses.isEmpty()){Toast.makeText(context,"No course packs available. Your draft is kept.",Toast.LENGTH_LONG).show()}else MaterialAlertDialogBuilder(requireContext()).setTitle("Link exact course / term policy").setItems(courses.map{it.title+" · "+it.id}.toTypedArray()){_,n->personalStore().update{w->w.copy(subjects=w.subjects.map{if(it.id==subject.id)it.copy(catalogCourseId=courses[n].id)else it})};render()}.show()}.onFailure{Toast.makeText(context,"Could not load course packs. Retry when connected.",Toast.LENGTH_LONG).show()}}}
     private fun gwa(b:LinearLayout,data:PersonalWorkspace){
@@ -127,6 +97,6 @@ class PersonalAcademicFragment:Fragment() {
         val list=requireContext().column(0);data.subjects.forEach{s->list.card(s.title,"Requires all: "+s.prerequisiteIds.orEmpty().mapNotNull{id->data.subjects.find{it.id==id}?.title}.joinToString().ifEmpty{"No links added"}).compactAction("Edit prerequisites"){(requireActivity() as MainActivity).openDetails(PersonalWorkspaceFragment.open(s.id,"grades"))}}
         b.action("Map / accessible list"){val show=scroll.visibility==View.VISIBLE;scroll.visibility=if(show)View.GONE else View.VISIBLE;list.visibility=if(show)View.VISIBLE else View.GONE}.quietAction();list.visibility=View.GONE;b.addView(list)
     }
-    override fun onDestroyView(){dialog?.dismiss();dialog=null;super.onDestroyView()}
+    override fun onDestroyView(){gradeEditor?.dismiss();gradeEditor=null;super.onDestroyView()}
     companion object{fun open(mode:String="grades",subject:String?=null)=PersonalAcademicFragment().apply{arguments=Bundle().apply{putString("mode",mode);putString("subject",subject)}}}
 }

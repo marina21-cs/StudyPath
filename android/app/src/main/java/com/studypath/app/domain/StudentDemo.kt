@@ -4,8 +4,12 @@ import com.studypath.app.data.*
 
 /** Fictional in-memory data. No repository, UID, file or network access is available here. */
 object StudentDemo {
+    private fun calculusDraft() = PersonalGradeDraft(
+        categories=listOf(DraftCategory("quiz","Quizzes",.2),DraftCategory("midterm","Midterm",.3),DraftCategory("final","Final exam",.5)),
+        scores=listOf(DraftScore("quiz1","quiz","Quiz 1",20.0,16.0,"SCORED"),DraftScore("midterm1","midterm","Midterm exam",100.0,82.0,"SCORED"),DraftScore("final1","final","Final exam",100.0,88.0,"SCORED")),
+        syllabus="Authored fictional example; no professor approval.",scale=DraftGradeScale())
     fun workspace() = PersonalWorkspace(subjects = listOf(
-        PersonalSubject("calculus","Advanced Calculus",code="MATH203",units=3.0,grade="1.75",prerequisiteIds=listOf()),
+        PersonalSubject("calculus","Advanced Calculus",code="MATH203",units=3.0,grade="1.75",prerequisiteIds=listOf(),gradeDraft=calculusDraft()),
         PersonalSubject("structures","Data Structures",code="CS202",units=3.0,grade="2.0",prerequisiteIds=listOf()),
         PersonalSubject("databases","Database Systems",code="IT204",units=3.0,grade="1.5",prerequisiteIds=listOf("structures")),
         PersonalSubject("physics","General Physics",code="PHY102",units=3.0,grade="2.25",prerequisiteIds=listOf("calculus")),
@@ -37,6 +41,10 @@ class StudentDemoSession {
     fun toggleTask(id: String) {
         require(workspace.tasks.any { it.id == id })
         workspace = workspace.copy(tasks = workspace.tasks.map { if (it.id == id) it.copy(done = !it.done) else it })
+    }
+    fun saveDraft(subjectId: String, draft: PersonalGradeDraft) {
+        require(workspace.subjects.any { it.id==subjectId }); draft.validate()
+        workspace=workspace.copy(subjects=workspace.subjects.map { if(it.id==subjectId) it.copy(gradeDraft=draft) else it })
     }
     fun setQuiz(value: Double) { require(value.isFinite() && value in 0.0..20.0); quiz = value }
     fun setExam(value: Int) { require(value in 0..100); exam = value }

@@ -18,8 +18,6 @@ class ProfileFragment : Fragment() {
         val b = requireContext().column()
         b.label("Your space.", 26f)
         b.addView(requireContext().column(0).apply { tag = "profile_avatar_host" })
-        b.label("Your account", 24f).apply { tag = "profile_name"; gravity = Gravity.CENTER }
-        b.label("Your personal study space", 14f).apply { gravity = Gravity.CENTER }
         b.compactAction("Edit profile") { (requireActivity() as MainActivity).openDetails(EditProfileFragment()) }.tag = "profile_edit_direct"
         b.addView(requireContext().column(0).apply { tag = "profile_counts" })
         b.compactAction("Settings") { (requireActivity() as MainActivity).openDetails(SettingsFragment()) }.tag = "profile_settings"
@@ -34,7 +32,6 @@ class ProfileFragment : Fragment() {
         val repository = (requireActivity().application as StudyPathApplication).graph.repository
         viewLifecycleOwner.lifecycleScope.launch { viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
             repository.profileName().catch { emit(null) }.collect { name ->
-                v.findViewWithTag<android.widget.TextView>("profile_name").text = name ?: "Your account"
                 val uid = repository.currentSession()?.uid ?: return@collect
                 val host = v.findViewWithTag<LinearLayout>("profile_avatar_host")
                 fun renderAvatar() {
@@ -42,8 +39,7 @@ class ProfileFragment : Fragment() {
                     fun pick() { chooseAvatar(requireContext(), name.orEmpty(), ProfileAvatars.selected(requireContext(),uid), "Saved on this device for your account.") {
                         ProfileAvatars.save(requireContext(),uid,it); renderAvatar()
                     } }
-                    host.profileAvatar(name.orEmpty(), ProfileAvatars.selected(requireContext(),uid)) { pick() }
-                    host.compactAction("Change picture") { pick() }
+                    host.profileIdentity(name ?: "Your account","Your personal study space",ProfileAvatars.selected(requireContext(),uid)) { pick() }
                 }
                 renderAvatar()
             }

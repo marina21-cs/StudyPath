@@ -27,6 +27,7 @@ class DemoActivity : AppCompatActivity() {
     private var page = "study"
     private val history = mutableListOf<String>()
     private lateinit var root: LinearLayout
+    private var gradeEditor: GradeDraftEditor? = null
     private fun go(next: String) { history.add(page); page = next; render() }
     private fun rootPage(next: String) { history.clear(); page = next; render() }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,23 +43,20 @@ class DemoActivity : AppCompatActivity() {
     }
     override fun onSaveInstanceState(out: Bundle) { out.putString("page", page); out.putStringArrayList("history", ArrayList(history)); super.onSaveInstanceState(out) }
     private fun render() {
-        root = column(0).apply { setBackgroundColor(tint(R.color.sp_background)) }
-        setContentView(root, android.view.ViewGroup.LayoutParams(-1, -1))
-        ViewCompat.setOnApplyWindowInsetsListener(root) { v, insets ->
-            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.ime()); v.setPadding(bars.left, bars.top, bars.right, bars.bottom); insets
+        gradeEditor?.dismiss()
+        val shell = installStudyShell()
+        root = shell.mainRoot
+        shell.connectionStatus.visibility = View.GONE
+        val mainPage = page in listOf("study","overview","subjects","grades","library","profile")
+        shell.toolbar.title = if(mainPage) "studypath." else when {
+            page=="settings" -> "Settings"
+            page=="edit" -> "Edit profile"
+            page.startsWith("note:") -> "My lesson"
+            page.startsWith("subject:") -> "My subjects"
+            else -> "Academic toolkit"
         }
-        val header = column(8).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
-        fun headerIcon(drawable: Int, description: String, action: () -> Unit) = android.widget.ImageButton(this).apply {
-            setImageResource(drawable); contentDescription = description
-            imageTintList = android.content.res.ColorStateList.valueOf(tint(R.color.sp_ink))
-            val background = android.util.TypedValue(); theme.resolveAttribute(android.R.attr.selectableItemBackgroundBorderless, background, true); setBackgroundResource(background.resourceId)
-            setPadding(dp(12),dp(12),dp(12),dp(12)); setOnClickListener { action() }
-            layoutParams = LinearLayout.LayoutParams(dp(48),dp(48))
-        }
-        if(history.isNotEmpty()) header.addView(headerIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material,"Back") { onBackPressedDispatcher.onBackPressed() })
-        header.label(if(page == "settings") "Settings" else "studypath.", 22f).layoutParams = LinearLayout.LayoutParams(0, -2, 1f)
-        header.addView(headerIcon(R.drawable.ic_settings,"Open settings") { go("settings") })
-        root.addView(header)
+        if(!mainPage) { shell.toolbar.setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material); shell.toolbar.navigationContentDescription="Back"; shell.toolbar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() } }
+        shell.toolbar.menu.add("Open settings").apply { setIcon(R.drawable.ic_settings); setShowAsAction(android.view.MenuItem.SHOW_AS_ACTION_ALWAYS); setOnMenuItemClickListener { go("settings"); true } }
         val banner = column(0).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
         banner.label("DEMO · Fictional student", 12f).layoutParams = LinearLayout.LayoutParams(0, -2, 1f)
         banner.setPadding(dp(20),0,dp(12),0)
@@ -66,21 +64,23 @@ class DemoActivity : AppCompatActivity() {
             text="Exit"; isAllCaps=false; minWidth=dp(48); minHeight=dp(48)
             setOnClickListener { confirmExit() }; layoutParams=LinearLayout.LayoutParams(-2,dp(48))
         })
-        root.addView(banner)
+        shell.demoBanner.visibility=View.VISIBLE
+        shell.demoBanner.addView(banner,LinearLayout.LayoutParams(-1,-2))
         val body = column(20).apply { tag = "demo_body" }
-        root.addView(scrolling(body), LinearLayout.LayoutParams(-1, 0, 1f))
+        shell.mainContent.addView(scrolling(body), android.widget.FrameLayout.LayoutParams(-1,-1))
         when {
             page == "study" -> study(body)
             page in listOf("overview", "subjects", "grades") -> planner(body)
             page == "profile" -> profile(body)
             page == "edit" -> editProfile(body)
             page == "settings" -> settings(body)
-            page == "library" -> { body.label("Ready to revisit.",26f); body.label("9 authored sample notes · 5 subjects"); sample.workspace.materials.forEach { m -> body.compactAction(m.title + "\n" + subject(m.subjectId).title) { go("note:${m.id}") } } }
+            page == "library" -> { body.libraryHeading("9 authored sample notes · 5 subjects"); sample.workspace.materials.forEach { m -> body.libraryMaterial(m.title,subject(m.subjectId).title) { go("note:${m.id}") } } }
             page == "gwa" -> gwa(body)
             page == "scenario" -> scenario(body)
             page == "map" -> map(body)
             page.startsWith("subject:") -> subjectPage(body, subject(page.substringAfter(':')))
             page.startsWith("scores:") -> scores(body, subject(page.substringAfter(':')))
+            page.startsWith("template:") -> gradingSetup(body, subject(page.substringAfter(':')))
             page.startsWith("note:") -> {
                 val note = sample.workspace.materials.first { it.id == page.substringAfter(':') }
                 body.label("Authored demo note",12f); body.label(note.title,26f); body.label(subject(note.subjectId).title,14f); body.card("Read & reflect",note.text)
@@ -88,68 +88,48 @@ class DemoActivity : AppCompatActivity() {
             }
             page == "storage" -> { body.label("Storage & downloads",26f); body.label("9 sample notes are included with the app. No PDFs are downloaded by this demo."); body.compactAction("Browse sample materials") { go("library") } }
         }
-        if(page in listOf("study","overview","subjects","grades","library","profile")) {
-            val nav = CapsuleBottomNavigationView(this).apply {
-                id = R.id.navigation
-                menu.add(0, R.id.nav_study, 0, "Study").setIcon(R.drawable.ic_study)
-                menu.add(0, R.id.nav_saved, 1, "Saved").setIcon(R.drawable.ic_saved)
-                menu.add(0, R.id.nav_planner, 2, "Planner").setIcon(R.drawable.ic_plan)
-                menu.add(0, R.id.nav_account, 3, "Account").setIcon(R.drawable.ic_profile)
-                selectedItemId = when(page) { "study" -> R.id.nav_study; "library" -> R.id.nav_saved; "profile" -> R.id.nav_account; else -> R.id.nav_planner }
-                setOnItemSelectedListener { item -> rootPage(when(item.itemId) { R.id.nav_study -> "study"; R.id.nav_saved -> "library"; R.id.nav_account -> "profile"; else -> "overview" }); true }
-            }
-            root.addView(nav, LinearLayout.LayoutParams(-1, -2))
-        }
+        shell.navigation.visibility = if(mainPage) View.VISIBLE else View.GONE
+        shell.navigation.selectedItemId = when(page) { "study" -> R.id.nav_study; "library" -> R.id.nav_saved; "profile" -> R.id.nav_account; else -> R.id.nav_planner }
+        shell.navigation.setOnItemSelectedListener { item -> rootPage(when(item.itemId) { R.id.nav_study -> "study"; R.id.nav_saved -> "library"; R.id.nav_account -> "profile"; else -> "overview" }); true }
     }
+
     private fun subject(id: String) = sample.workspace.subjects.first { it.id == id }
     private fun study(b: LinearLayout) {
-        b.giraffe("read",height=100)
-        b.label("Hi, ${sample.name.substringBefore(' ')}",14f); b.label("Let’s pick it up.",26f)
-        b.card("Relational database", "Database Systems · authored sample note").action("Continue reading →") { go("note:relational") }
-        b.card("Your semester", "5 subjects · ${sample.workspace.tasks.count { !it.done }} tasks left · 9 materials").compactAction("Open Planner") { rootPage("overview") }
+        b.studyGreeting(sample.name)
+        b.continueStudy("Relational database", "Database Systems · authored sample note","Continue reading →") { go("note:relational") }
+        b.semesterCard(sample.workspace) { rootPage("overview") }
         b.label("Pick a subject",20f); sample.workspace.subjects.take(2).forEach { row(b,it) }
     }
     private fun row(b: LinearLayout, s: PersonalSubject) {
-        b.workspaceRow(s.title, "${s.code} · 3 units · ${sample.workspace.materials.count { it.subjectId == s.id }} materials", subjectIcon(s.categoryLabel()), 0) { go("subject:${s.id}") }.tag = "demo_subject_${s.id}"
+        b.plannerSubject(s,sample.workspace) { go("subject:${s.id}") }.tag = "demo_subject_${s.id}"
     }
     private fun planner(b: LinearLayout) {
-        b.label("Your semester",26f); b.label("First semester · 2026–27",14f)
-        b.addView(TabLayout(this).apply {
-            val pages = listOf("overview","subjects","grades")
-            pages.forEach { addTab(newTab().setText(it.replaceFirstChar(Char::uppercase)), it == page) }
-            addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-                override fun onTabSelected(t: TabLayout.Tab) { rootPage(pages[t.position]) }
-                override fun onTabUnselected(t: TabLayout.Tab) = Unit
-                override fun onTabReselected(t: TabLayout.Tab) = Unit
-            })
-        })
+        val pages=listOf("overview","subjects","grades")
+        b.plannerHeading("First semester · 2026–27",pages.indexOf(page)) { rootPage(pages[it]) }
         when(page) {
             "overview" -> {
-                b.card("5 subjects · 15 units", "${sample.workspace.tasks.count { !it.done }} tasks left")
+                b.semesterSummary(sample.workspace)
+                b.compactAction("Set up grading") { chooseGradingSubject() }.tag="planner_grading_setup"
                 b.label("Up next",20f); tasks(b)
                 b.compactAction("Continue · Relational database") { go("note:relational") }
             }
             "subjects" -> { sample.workspace.subjects.forEach { row(b,it) }; b.compactAction("Add or import subjects") { info("Your real workspace", "The demo has five fixed subjects. In your account, Planner → Subjects lets you add a subject or import a COR.") } }
             else -> {
-                b.card("Sample GWA", "${sample.included.size} included · ${sample.includedUnits().toInt()} units").apply {
-                    label(sample.gwa()?.let { "%.2f".format(it) } ?: "—",36f); compactAction("See calculation") { go("gwa") }
-                }
-                b.compactAction("What-if") { go("scenario") }; b.compactAction("Course map") { go("map") }
-                b.label("By subject",20f)
+                b.compactAction("Set up grading") { chooseGradingSubject() }.tag="planner_grading_setup"
+                b.gradeOverview("Sample GWA",sample.gwa()?.let { "%.2f".format(it) } ?: "—", "${sample.included.size} included · ${sample.includedUnits().toInt()} units", { go("gwa") }, { go("scenario") }, { go("map") })
                 sample.workspace.subjects.forEach { s -> b.compactAction("${s.title} · ${s.grade}") { go("scores:${s.id}") } }
                 b.label("Illustrative grades, not official results.",12f)
             }
         }
     }
+    private fun chooseGradingSubject() {
+        MaterialAlertDialogBuilder(this).setTitle("Set up grading for…").setItems(sample.workspace.subjects.map { it.title }.toTypedArray()) { _,n -> go("template:${sample.workspace.subjects[n].id}") }.show()
+    }
     private fun tasks(b: LinearLayout, id: String? = null) {
         val rows = sample.workspace.tasks.filter { id == null || it.subjectId == id }
-        if(rows.isEmpty()) { b.giraffe("sleep",96); b.label("No tasks due. A little breathing room.") }
-        else if(rows.all { it.done }) { b.giraffe("celebrate",96); b.label("All done. Nice work!") }
-        rows.forEach { t -> b.addView(AppCompatCheckBox(this).apply {
-            text = t.title + "\n" + subject(t.subjectId).title; minHeight = dp(64); isChecked = t.done; tag = "demo_task_${t.id}"
-            setOnCheckedChangeListener { _, _ -> sample.toggleTask(t.id); render() }
-        }) }
+        b.taskRows(sample.workspace,rows,"demo_task_") { task,_ -> sample.toggleTask(task.id); render() }
     }
+
     private fun subjectPage(b: LinearLayout, s: PersonalSubject) {
         b.label("${s.code} · 3 units",12f); b.label(s.title,26f)
         b.compactAction("Grades & scores") { go("scores:${s.id}") }
@@ -158,19 +138,17 @@ class DemoActivity : AppCompatActivity() {
     }
     private fun scores(b: LinearLayout, s: PersonalSubject) {
         b.label(s.title,26f); b.label("Sample grading draft · not approved",12f)
-        if(s.id == "calculus") {
-            val score = b.field("Quiz 1 score / 20", android.text.InputType.TYPE_CLASS_NUMBER or android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL).apply { setText(sample.quiz.toString()); tag = "demo_quiz" }
-            b.label("Quiz 20% · Midterm 82/100, 30% · Final 88/100, 50%",14f)
-            b.action("Recalculate estimate") {
-                val value = score.text.toString().toDoubleOrNull()
-                if(value == null || !value.isFinite() || value !in 0.0..20.0) score.error = "Enter a score from 0 to 20"
-                else { sample.setQuiz(value); render() }
-            }
-            b.card("Draft estimate", "%.1f / 100".format(sample.estimate()))
-            b.compactAction("Review template") { info("Calculus sample template", "Quiz 20%, midterm 30%, final 50%. This authored example has no professor approval. Recorded final grades and what-if assumptions remain separate.") }
-        } else b.card("Sample final grade", s.grade.orEmpty())
-        b.label("Editing an estimate does not change a recorded final grade or GWA.",12f)
+        gradeEditor=GradeDraftEditor(this,s.gradeDraft ?: com.studypath.app.domain.PersonalGradeDraft()) { sample.saveDraft(s.id,it); render() }
+        gradeEditor!!.scores(b) { go("template:${s.id}") }
     }
+    private fun gradingSetup(b: LinearLayout, s: PersonalSubject) {
+        b.label(s.title,26f); b.label("Sample grading setup · not approved",14f)
+        gradeEditor=GradeDraftEditor(this,s.gradeDraft ?: com.studypath.app.domain.PersonalGradeDraft()) { sample.saveDraft(s.id,it); render() }
+        gradeEditor!!.setup(b)
+        b.compactAction("Add / edit scores") { go("scores:${s.id}") }
+    }
+    override fun onDestroy() { gradeEditor?.dismiss(); super.onDestroy() }
+
     private fun gwa(b: LinearLayout) {
         b.label("Know what counts.",26f); b.label("Illustrative common scale · select courses to include.",14f)
         val result = b.label(sample.gwa()?.let { "%.2f".format(it) } ?: "—",36f).apply { tag = "demo_gwa" }
@@ -203,12 +181,9 @@ class DemoActivity : AppCompatActivity() {
     }
     private fun profile(b: LinearLayout) {
         b.label("Your space.",26f)
-        b.profileAvatar(sample.name, model.avatar) {
-            chooseAvatar(this, sample.name, model.avatar, "Only changes this demo profile.") { model.avatar=it; render() }
+        b.profileIdentity(sample.name,"@alex.demo · Fictional student\nBS Information Technology · Year 2",model.avatar) {
+            chooseAvatar(this,sample.name,model.avatar,"Only changes this demo profile.") { model.avatar=it; render() }
         }
-        b.compactAction("Change picture") { chooseAvatar(this,sample.name,model.avatar,"Only changes this demo profile.") { model.avatar=it; render() } }
-        b.label(sample.name,24f).gravity=Gravity.CENTER
-        b.label("@alex.demo · Fictional student\nBS Information Technology · Year 2",14f).gravity=Gravity.CENTER
         b.compactAction("Edit profile") { go("edit") }
         b.card("5 subjects · 15 units", "9 materials")
         b.compactAction("Settings") { go("settings") }; b.compactAction("Reset demo") { confirmReset() }; b.compactAction("Exit demo") { confirmExit() }

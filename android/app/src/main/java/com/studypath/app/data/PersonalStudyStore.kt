@@ -20,7 +20,7 @@ data class PersonalSubject(val id: String, val title: String, val category: Stri
 }
 data class PersonalTask(val id: String, val subjectId: String, val title: String, val due: String = "", val done: Boolean = false)
 data class PersonalMaterial(val id: String, val subjectId: String, val title: String, val text: String = "", val question: String = "", val answer: String = "", val pdf: Boolean = false)
-data class PersonalWorkspace(val subjects: List<PersonalSubject> = emptyList(), val tasks: List<PersonalTask> = emptyList(), val materials: List<PersonalMaterial> = emptyList())
+data class PersonalWorkspace(val subjects: List<PersonalSubject> = emptyList(), val tasks: List<PersonalTask> = emptyList(), val materials: List<PersonalMaterial> = emptyList(), val reviewers: List<com.studypath.app.domain.PdfReviewer>? = null)
 
 /** Local personal work is separate from published content and policy-bound academic records. */
 class PersonalStudyStore(root: File, uid: String) {
@@ -47,6 +47,11 @@ class PersonalStudyStore(root: File, uid: String) {
         revision.value = revision.value + 1
         value
     }
+    fun reviewer(id:String) = read().reviewers.orEmpty().firstOrNull { it.materialId==id }
+    fun saveReviewer(reviewer:com.studypath.app.domain.PdfReviewer) = update { data ->
+        reviewer.validate()
+        data.copy(reviewers=data.reviewers.orEmpty().filterNot { it.materialId==reviewer.materialId }+reviewer)
+    }
     fun pdf(id: String): File { require(validId(id)); return File(directory, "$id.pdf") }
     fun commitPdf(temp: File, material: PersonalMaterial) = synchronized(lock) {
         require(material.pdf && temp.isFile && temp.length() in 1..MAX_PDF_BYTES)
@@ -60,11 +65,11 @@ class PersonalStudyStore(root: File, uid: String) {
     }
     fun removeSubject(id: String) = synchronized(lock) {
         val removed = read().materials.filter { it.subjectId == id && it.pdf }
-        update { it.copy(subjects = it.subjects.filterNot { row -> row.id == id }.map { row -> if (id in row.prerequisiteIds.orEmpty()) row.copy(prerequisiteIds = row.prerequisiteIds.orEmpty().filterNot { key -> key == id }) else row }, tasks = it.tasks.filterNot { row -> row.subjectId == id }, materials = it.materials.filterNot { row -> row.subjectId == id }) }
+        update { it.copy(subjects = it.subjects.filterNot { row -> row.id == id }.map { row -> if (id in row.prerequisiteIds.orEmpty()) row.copy(prerequisiteIds = row.prerequisiteIds.orEmpty().filterNot { key -> key == id }) else row }, tasks = it.tasks.filterNot { row -> row.subjectId == id }, materials = it.materials.filterNot { row -> row.subjectId == id }, reviewers=it.reviewers.orEmpty().filterNot { r -> r.materialId in removed.map { m -> m.id } }) }
         removed.forEach { pdf(it.id).delete() }
     }
     fun removeMaterial(id: String) = synchronized(lock) {
-        update { it.copy(materials = it.materials.filterNot { row -> row.id == id }) }; pdf(id).delete()
+        update { it.copy(materials = it.materials.filterNot { row -> row.id == id },reviewers=it.reviewers.orEmpty().filterNot { r -> r.materialId==id }) }; pdf(id).delete()
     }
     companion object {
         private val lock = Any()
@@ -76,6 +81,12 @@ class PersonalStudyStore(root: File, uid: String) {
         private fun validId(value: String) = value.matches(Regex("[a-f0-9-]{36}"))
         fun validate(value: PersonalWorkspace) {
             require(value.subjects.size <= 100 && value.tasks.size <= 500 && value.materials.size <= 200) { "Personal workspace limit reached." }
+            val reviewers=value.reviewers.orEmpty()
+            require(reviewers.size<=20 && reviewers.map { it.materialId }.distinct().size==reviewers.size) { "Keep at most 20 PDF reviewers." }
+            reviewers.forEach { reviewer ->
+                reviewer.validate()
+                require(value.materials.any { it.id==reviewer.materialId && it.pdf }) { "The reviewer's original PDF must remain in this workspace." }
+            }
             val subjects = value.subjects.map { it.id }.toSet()
             require(subjects.size == value.subjects.size && value.tasks.map { it.id }.distinct().size == value.tasks.size && value.materials.map { it.id }.distinct().size == value.materials.size)
             value.subjects.forEach { require(validId(it.id) && it.title.isNotBlank() && it.title.length <= 80) { "Use a subject name of 1–80 characters." } }

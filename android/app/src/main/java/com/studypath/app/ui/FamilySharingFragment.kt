@@ -93,7 +93,7 @@ class FamilySharingFragment : Fragment() {
                 button.isSelected = role == roleFilter
                 button.backgroundTintList = android.content.res.ColorStateList.valueOf(requireContext().tint(
                     if (button.isSelected) com.studypath.app.R.color.sp_ink else com.studypath.app.R.color.sp_card))
-                button.setTextColor(requireContext().tint(if (button.isSelected) android.R.color.white else com.studypath.app.R.color.sp_ink))
+                button.setTextColor(requireContext().tint(if (button.isSelected) com.studypath.app.R.color.sp_on_action else com.studypath.app.R.color.sp_ink))
                 androidx.core.view.ViewCompat.setStateDescription(button, if (button.isSelected) "Selected" else "Not selected")
             }
         }

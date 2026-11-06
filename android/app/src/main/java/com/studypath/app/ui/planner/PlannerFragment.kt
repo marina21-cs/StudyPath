@@ -327,7 +327,7 @@ class PlannerFragment : Fragment() {
                 tag = "planner_mode_$mode"
                 isSelected = plannerMode == mode
                 backgroundTintList = ColorStateList.valueOf(context.tint(if (isSelected) R.color.sp_ink else R.color.sp_card))
-                setTextColor(context.tint(if (isSelected) android.R.color.white else R.color.sp_ink))
+                setTextColor(context.tint(if (isSelected) com.studypath.app.R.color.sp_on_action else R.color.sp_ink))
                 contentDescription = "$title, ${if (isSelected) "selected" else "not selected"}"
                 layoutParams = (if (modes.orientation == LinearLayout.VERTICAL) LinearLayout.LayoutParams(-1, -2)
                     else LinearLayout.LayoutParams(0, -2, 1f)).apply {
@@ -738,7 +738,7 @@ class PlannerFragment : Fragment() {
                         quietAction()
                         contentDescription = "${expression.courseId}, $badge. Record an attempt or switch course"
                         backgroundTintList = ColorStateList.valueOf(context.tint(if (status in setOf(CompletionStatus.PASSED, CompletionStatus.CREDITED_EQUIVALENT)) R.color.sp_ink else R.color.sp_background))
-                        setTextColor(context.tint(if (status in setOf(CompletionStatus.PASSED, CompletionStatus.CREDITED_EQUIVALENT)) android.R.color.white else R.color.sp_ink))
+                        setTextColor(context.tint(if (status in setOf(CompletionStatus.PASSED, CompletionStatus.CREDITED_EQUIVALENT)) com.studypath.app.R.color.sp_on_action else R.color.sp_ink))
                     }
                 }
                 is Prerequisite.Unknown -> parent.label("UNKNOWN ? · ${expression.reason}", 14f)

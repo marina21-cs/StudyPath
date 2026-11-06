@@ -1,17 +1,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/main_root" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:background="@color/sp_background">
-    <LinearLayout android:id="@+id/app_shell" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="vertical" android:background="@drawable/bg_app_shell" android:clipToOutline="true">
+    <LinearLayout android:id="@+id/app_shell" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="vertical" android:background="@color/sp_background">
         <LinearLayout android:id="@+id/main_header" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
             <com.google.android.material.appbar.MaterialToolbar android:id="@+id/toolbar" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:minHeight="56dp" app:titleTextColor="@color/sp_ink"/>
             <TextView android:id="@+id/connection_status" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minHeight="48dp" android:minWidth="64dp" android:layout_marginEnd="8dp" android:paddingHorizontal="8dp" android:gravity="center" android:text="…" android:contentDescription="Checking connection" android:fontFamily="@font/geist" android:textSize="12sp" android:maxLines="1" android:clickable="true" android:focusable="true" android:background="?attr/selectableItemBackgroundBorderless" android:accessibilityLiveRegion="polite" android:textColor="@color/sp_ink"/>
         </LinearLayout>
-        <androidx.fragment.app.FragmentContainerView android:id="@id/main_content" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"/>
+        <LinearLayout android:id="@+id/demo_banner" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:visibility="gone"/>
+        <FrameLayout android:id="@id/main_content" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"/>
         <com.studypath.app.ui.CapsuleBottomNavigationView
             android:id="@+id/navigation"
             android:theme="@style/ThemeOverlay.StudyPath.Navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="64dp"
-            android:layout_marginHorizontal="8dp"
+            android:layout_marginHorizontal="0dp"
             android:layout_marginTop="0dp"
             android:layout_marginBottom="0dp"
             android:paddingHorizontal="8dp"

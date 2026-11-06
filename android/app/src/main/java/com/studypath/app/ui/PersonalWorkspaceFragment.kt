@@ -391,9 +391,12 @@ class PersonalMaterialFragment : Fragment() {
                 require(store.pdf(item.id).isFile) { "This PDF is missing. Import it again from My subjects." }
                 val prefs = requireContext().getSharedPreferences("personal_pdf_pages", 0)
                 val key = store.directory.name + item.id
+                body.compactAction(if(store.reviewer(item.id)==null) "Turn this PDF into a reviewer" else "Open interactive reviewer") {
+                    (requireActivity() as MainActivity).openDetails(PdfReviewerFragment.open(item.id))
+                }.tag="personal_pdf_reviewer"
                 pdfView = OfflinePdfView(requireContext(), viewLifecycleOwner).also {
-                    body.addView(it, LinearLayout.LayoutParams(-1, -1))
-                    it.open(store.pdf(item.id), item.title, prefs.getInt(key, 0)) { page -> prefs.edit().putInt(key, page).apply() }
+                    body.addView(it, LinearLayout.LayoutParams(-1, 0, 1f))
+                    it.open(store.pdf(item.id), item.title, arguments?.takeIf { args -> args.containsKey("page") }?.getInt("page") ?: prefs.getInt(key, 0)) { page -> prefs.edit().putInt(key, page).apply() }
                 }
             } else {
                 val content = requireContext().column(0)
@@ -411,5 +414,5 @@ class PersonalMaterialFragment : Fragment() {
         } catch (error: Exception) { body.label(error.message ?: "Could not open this lesson.") }
     }
     override fun onDestroyView() { pdfView?.clear(); pdfView = null; super.onDestroyView() }
-    companion object { fun open(id: String) = PersonalMaterialFragment().apply { arguments = Bundle().apply { putString("id", id) } } }
+    companion object { fun open(id: String,page:Int?=null) = PersonalMaterialFragment().apply { arguments = Bundle().apply { putString("id", id);page?.let { putInt("page",it) } } } }
 }

@@ -431,8 +431,8 @@ class InteractiveLessonFragment : Fragment() {
                     setColor(context.tint(if (isChecked) R.color.sp_action else R.color.sp_background))
                     cornerRadius = context.dp(16).toFloat()
                 }
-                setTextColor(context.tint(if (isChecked) android.R.color.white else R.color.sp_ink))
-                buttonTintList = ColorStateList.valueOf(context.tint(if (isChecked) android.R.color.white else R.color.sp_ink))
+                setTextColor(context.tint(if (isChecked) com.studypath.app.R.color.sp_on_action else R.color.sp_ink))
+                buttonTintList = ColorStateList.valueOf(context.tint(if (isChecked) com.studypath.app.R.color.sp_on_action else R.color.sp_ink))
                 setOnClickListener { transition { module, run -> LessonEngine.select(module, run, step.id, listOf(option.id), now()) } }
             }, RadioGroup.LayoutParams(-1, -2).apply { bottomMargin = requireContext().dp(8) })
         }
