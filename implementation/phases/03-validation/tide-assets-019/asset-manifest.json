@@ -1,0 +1,28 @@
+{
+  "created": "2026-11-06",
+  "avatars": "Original anime-inspired student portraits generated with built-in imagegen; no reference character or user photograph.",
+  "nativeIllustrations": "Book and stars extend the existing layered StudyPath giraffe using semantic Tide colors.",
+  "runtime": "Bundled Android resources; no network required.",
+  "assets": [
+    {
+      "path": "android/app/src/main/res/drawable-nodpi/avatar_tide_hoodie.png",
+      "sha256": "c66be73e087b90c8e0a7194fa3345df73d69ccc625e11049ed8eb0891c929530",
+      "bytes": 1493567
+    },
+    {
+      "path": "android/app/src/main/res/drawable-nodpi/avatar_tide_glasses.png",
+      "sha256": "2585f9c5b6e7a61eada06c494d891d863ac9d3f618d9a484f72ff9d819eafe91",
+      "bytes": 1527286
+    },
+    {
+      "path": "android/app/src/main/res/drawable/giraffe_book.xml",
+      "sha256": "bcb17de5fd92b452bd82484404763a5508e08aeea04357da94508d638eab7cb6",
+      "bytes": 1023
+    },
+    {
+      "path": "android/app/src/main/res/drawable/giraffe_stars.xml",
+      "sha256": "c0326d826b29edf1e348404ab65c357811e522bc2bf7366342f7127af5ce7477",
+      "bytes": 549
+    }
+  ]
+}

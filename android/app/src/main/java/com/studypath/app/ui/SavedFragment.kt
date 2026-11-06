@@ -85,6 +85,7 @@ class SavedFragment : Fragment() {
             personalMaterials.label("Your materials", 20f)
             content.findViewWithTag<MaterialButton>("saved_lessons_tab").text = "Materials"
             if (data.materials.isEmpty()) {
+                personalMaterials.giraffe("read",96)
                 personalMaterials.label("Import a PDF or create a study card.", 14f)
                 personalMaterials.compactAction("Add material") { (requireActivity() as MainActivity).openDetails(PersonalWorkspaceFragment.lessons()) }
             }
@@ -121,6 +122,7 @@ class SavedFragment : Fragment() {
     private fun renderReadings(content: LinearLayout, repository: FirebaseStudyRepository, rows: List<SavedReading>) {
         content.removeAllViews()
         if (rows.isEmpty()) {
+            content.giraffe("read",96)
             content.card("Keep what helps.", "Save a reading from Study to find it here.")
             content.action("Find a reading →") {
                 requireActivity().findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.navigation).selectedItemId = R.id.nav_study

@@ -120,7 +120,7 @@ fun LinearLayout.lessonCard(title: String, detail: String, selected: Boolean, on
 }
 fun LinearLayout.giraffe(pose: String = "wave", height: Int = 140): GiraffeMascotView = GiraffeMascotView(context).also {
     addView(it, LinearLayout.LayoutParams(-1, context.dp(height)).apply { topMargin = context.dp(4); bottomMargin = context.dp(8) })
-    it.play(when(pose.lowercase()) { "sleep" -> GiraffeMascotView.Pose.SLEEP; "wake" -> GiraffeMascotView.Pose.WAKE; else -> GiraffeMascotView.Pose.WAVE })
+    it.play(when(pose.lowercase()) { "read" -> GiraffeMascotView.Pose.READ; "celebrate" -> GiraffeMascotView.Pose.CELEBRATE; "sleep" -> GiraffeMascotView.Pose.SLEEP; "wake" -> GiraffeMascotView.Pose.WAKE; else -> GiraffeMascotView.Pose.WAVE })
 }
 fun LinearLayout.detailArtwork() { giraffe("wave", 112) }
 fun Context.scrolling(content: View): ScrollView = ScrollView(this).apply {

@@ -123,8 +123,6 @@ class MainActivity : AppCompatActivity() {
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.ime())
             view.setPadding(bars.left + dp(8), bars.top + dp(4), bars.right + dp(8), bars.bottom + dp(4)); insets
         }
-        // The root already reserves system-bar space; keep the floating pill's padding symmetric.
-        ViewCompat.setOnApplyWindowInsetsListener(binding.navigation) { _, insets -> insets }
         binding.connectionStatus.setOnClickListener {
             MaterialAlertDialogBuilder(this).setTitle("Connection")
                 .setMessage(binding.connectionStatus.contentDescription)

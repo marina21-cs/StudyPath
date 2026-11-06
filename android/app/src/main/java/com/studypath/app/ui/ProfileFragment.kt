@@ -17,11 +17,7 @@ class ProfileFragment : Fragment() {
     override fun onCreateView(i: LayoutInflater, c: ViewGroup?, s: Bundle?): View {
         val b = requireContext().column()
         b.label("Your space.", 26f)
-        b.action("●") { (requireActivity() as MainActivity).openDetails(EditProfileFragment()) }.quietAction().apply {
-            tag = "profile_avatar"; contentDescription = "Edit profile"; textSize = 32f
-            cornerRadius=context.dp(48); layoutParams=LinearLayout.LayoutParams(context.dp(96),context.dp(96)).apply { gravity=Gravity.CENTER_HORIZONTAL }
-            backgroundTintList=android.content.res.ColorStateList.valueOf(context.tint(com.studypath.app.R.color.sp_cream))
-        }
+        b.addView(requireContext().column(0).apply { tag = "profile_avatar_host" })
         b.label("Your account", 24f).apply { tag = "profile_name"; gravity = Gravity.CENTER }
         b.label("Your personal study space", 14f).apply { gravity = Gravity.CENTER }
         b.compactAction("Edit profile") { (requireActivity() as MainActivity).openDetails(EditProfileFragment()) }.tag = "profile_edit_direct"
@@ -39,7 +35,17 @@ class ProfileFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch { viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
             repository.profileName().catch { emit(null) }.collect { name ->
                 v.findViewWithTag<android.widget.TextView>("profile_name").text = name ?: "Your account"
-                v.findViewWithTag<android.widget.TextView>("profile_avatar").text = name?.trim()?.split(Regex("\\s+"))?.take(2)?.mapNotNull { it.firstOrNull()?.uppercaseChar() }?.joinToString("")?.ifBlank { "●" } ?: "●"
+                val uid = repository.currentSession()?.uid ?: return@collect
+                val host = v.findViewWithTag<LinearLayout>("profile_avatar_host")
+                fun renderAvatar() {
+                    host.removeAllViews()
+                    fun pick() { chooseAvatar(requireContext(), name.orEmpty(), ProfileAvatars.selected(requireContext(),uid), "Saved on this device for your account.") {
+                        ProfileAvatars.save(requireContext(),uid,it); renderAvatar()
+                    } }
+                    host.profileAvatar(name.orEmpty(), ProfileAvatars.selected(requireContext(),uid)) { pick() }
+                    host.compactAction("Change picture") { pick() }
+                }
+                renderAvatar()
             }
         } }
     }

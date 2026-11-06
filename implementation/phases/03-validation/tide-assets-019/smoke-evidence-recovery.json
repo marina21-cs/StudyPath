@@ -1,0 +1,17 @@
+{
+  "status": "JUNIT_PASSED_EVIDENCE_RECOVERED",
+  "originalRunnerExit": 1,
+  "originalRunnerFailure": "Transient ADB disconnect while pulling screenshots after explicit JUnit success",
+  "junit": "OK (1 test)",
+  "junitSeconds": 163.612,
+  "recoveredBy": "adb -s emulator-5554 pull /sdcard/Pictures/StudyPathSmoke/<named-capture>.png <evidence-path>",
+  "recovered": [
+    "08-reading-attribution",
+    "09-saved-reading",
+    "tide-01-cor-crop",
+    "tide-02-cor-review"
+  ],
+  "allExpectedPngCapturesPresent": 21,
+  "dataCleared": false,
+  "testsRerun": false
+}

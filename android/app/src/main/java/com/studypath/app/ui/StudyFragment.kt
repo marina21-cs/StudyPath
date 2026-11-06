@@ -79,7 +79,7 @@ class StudyFragment : Fragment() {
         val greeting = requireContext().column(0).apply { orientation = LinearLayout.HORIZONTAL; gravity = android.view.Gravity.CENTER_VERTICAL }
         hero.addView(greeting)
         greeting.label("Your study space", 26f).apply { tag = "study_heading"; layoutParams = LinearLayout.LayoutParams(0, -2, 1f) }
-        greeting.addView(android.widget.ImageView(requireContext()).apply { setImageResource(R.drawable.giraffe_mascot); importantForAccessibility=View.IMPORTANT_FOR_ACCESSIBILITY_NO }, LinearLayout.LayoutParams(requireContext().dp(56),requireContext().dp(72)))
+        greeting.addView(GiraffeMascotView(requireContext()).apply { play(GiraffeMascotView.Pose.READ) }, LinearLayout.LayoutParams(requireContext().dp(56),requireContext().dp(72)))
         content.addView(hero)
         content.label("", 14f).apply { tag = "reading_context_label"; visibility = View.GONE }
         val searchRow = requireContext().column(0).apply { orientation=LinearLayout.HORIZONTAL; gravity=android.view.Gravity.CENTER_VERTICAL }

@@ -16,8 +16,10 @@ import com.studypath.app.R
 
 /** The approved original giraffe, rendered as native vector layers. Motion always settles. */
 class GiraffeMascotView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
-    enum class Pose { SLEEP, WAKE, WAVE }
+    enum class Pose { SLEEP, WAKE, WAVE, READ, CELEBRATE }
     private fun layer(id: Int): Drawable = requireNotNull(AppCompatResources.getDrawable(context, id)).mutate().apply { setBounds(0, 0, 240, 300) }
+    private val book = layer(R.drawable.giraffe_book)
+    private val stars = layer(R.drawable.giraffe_stars)
     private val shadow = layer(R.drawable.giraffe_shadow)
     private val tail = layer(R.drawable.giraffe_tail)
     private val torso = layer(R.drawable.giraffe_torso)
@@ -45,7 +47,7 @@ class GiraffeMascotView @JvmOverloads constructor(context: Context, attrs: Attri
         if (!isAttachedToWindow || windowVisibility != VISIBLE || !ValueAnimator.areAnimatorsEnabled()) { settle(); return }
         progress = 0f
         animator = ValueAnimator.ofFloat(0f, 1f).apply {
-            duration = durationMillis?.coerceIn(200L, 1500L) ?: when (pose) { Pose.SLEEP -> 1250L; Pose.WAKE -> 780L; Pose.WAVE -> 1050L }
+            duration = durationMillis?.coerceIn(200L, 1500L) ?: when (pose) { Pose.SLEEP -> 1250L; Pose.WAKE -> 780L; Pose.WAVE, Pose.CELEBRATE -> 1050L; Pose.READ -> 700L }
             interpolator = android.view.animation.LinearInterpolator()
             addUpdateListener { progress = it.animatedValue as Float; invalidate() }
             start()
@@ -75,21 +77,24 @@ class GiraffeMascotView @JvmOverloads constructor(context: Context, attrs: Attri
         shadow.draw(canvas)
         canvas.save()
         if (pose == Pose.WAKE) canvas.translate(0f, key(2f, -3f, 0f))
+        if (pose == Pose.CELEBRATE) { stars.draw(canvas); canvas.translate(0f, key(0f,-8f,0f,-5f,0f)) }
         tail.draw(canvas)
         canvas.save()
         if (pose == Pose.SLEEP) canvas.scale(1f, key(1f, 1.018f, 1f), 120f, 270f)
         torso.draw(canvas); canvas.restore()
         canvas.save()
-        canvas.rotate(when(pose) { Pose.SLEEP -> 18f; Pose.WAVE -> key(0f,-12f,12f,-9f,0f); else -> key(18f,0f) }, 151f, 215f)
+        canvas.rotate(when(pose) { Pose.SLEEP -> 18f; Pose.WAVE, Pose.CELEBRATE -> key(0f,-12f,12f,-9f,0f); Pose.READ -> 35f; else -> key(18f,0f) }, 151f, 215f)
         arm.draw(canvas); canvas.restore()
         canvas.save()
         canvas.translate(0f, when(pose) { Pose.SLEEP -> 3f; Pose.WAKE -> key(3f,-2f,0f); else -> 0f })
-        canvas.rotate(when(pose) { Pose.SLEEP -> -7f; Pose.WAKE -> key(-7f,3f,0f); Pose.WAVE -> key(0f,-3f,0f) }, 121f,150f)
+        canvas.rotate(when(pose) { Pose.SLEEP -> -7f; Pose.WAKE -> key(-7f,3f,0f); Pose.WAVE, Pose.CELEBRATE -> key(0f,-3f,0f); Pose.READ -> 5f }, 121f,150f)
         canvas.save(); canvas.rotate(if(pose==Pose.WAKE) key(-10f,8f,0f) else 0f,82f,78f); earLeft.draw(canvas); canvas.restore()
         canvas.save(); canvas.rotate(if(pose==Pose.WAKE) key(10f,-8f,0f) else 0f,158f,78f); earRight.draw(canvas); canvas.restore()
         head.draw(canvas)
         val closed = pose == Pose.SLEEP || (pose == Pose.WAKE && progress < .23f) || (pose == Pose.WAVE && progress in .63f.. .75f)
         (if(closed) eyesClosed else eyesOpen).draw(canvas)
-        canvas.restore(); canvas.restore(); canvas.restore()
+        canvas.restore()
+        if (pose == Pose.READ) book.draw(canvas)
+        canvas.restore(); canvas.restore()
     }
 }

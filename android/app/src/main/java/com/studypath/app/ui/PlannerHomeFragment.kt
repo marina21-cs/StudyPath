@@ -39,7 +39,7 @@ class PlannerHomeFragment : Fragment() {
                 body.card("${workspace.subjects.size} subjects · ${workspace.tasks.count { !it.done }} tasks left", "${workspace.materials.size} personal materials")
                 body.label("Up next", 20f)
                 val tasks = workspace.tasks.filterNot { it.done }.sortedBy { it.due.ifEmpty { "9999" } }.take(5)
-                if (tasks.isEmpty()) body.label("You're all caught up. Add tasks from a subject.")
+                if (tasks.isEmpty()) { body.giraffe(if(workspace.tasks.isEmpty()) "sleep" else "celebrate",96); body.label("You're all caught up. Add tasks from a subject.") }
                 tasks.forEach { task ->
                     val row = requireContext().column(0).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
                     val check = androidx.appcompat.widget.AppCompatCheckBox(requireContext()).apply {
@@ -56,7 +56,7 @@ class PlannerHomeFragment : Fragment() {
                 body.compactAction("View subjects") { selected = 1; (body.parent as LinearLayout).let { (it.getChildAt(2) as TabLayout).getTabAt(1)?.select() } }
             }
             1 -> {
-                if (workspace.subjects.isEmpty()) body.label("Add your first subject or import a COR to start your semester.")
+                if (workspace.subjects.isEmpty()) { body.giraffe(height=96); body.label("Add your first subject or import a COR to start your semester.") }
                 workspace.subjects.forEach { subject ->
                     body.workspaceRow(subject.title, "${subject.code.orEmpty()} · ${subject.units ?: "—"} units · ${workspace.materials.count { it.subjectId == subject.id }} materials", subjectIcon(subject.categoryLabel()), 0) { open(PersonalWorkspaceFragment.open(subject.id)) }.tag = "planner_subject_${subject.id}"
                 }

@@ -18,7 +18,7 @@ import com.studypath.app.R
 import com.studypath.app.data.PersonalSubject
 import com.studypath.app.domain.StudentDemoSession
 
-class StudentDemoViewModel : ViewModel() { val session = StudentDemoSession() }
+class StudentDemoViewModel : ViewModel() { val session = StudentDemoSession(); var avatar = "initials" }
 
 /** Separate native sandbox. Never obtains the application graph or real-account store. */
 class DemoActivity : AppCompatActivity() {
@@ -43,7 +43,7 @@ class DemoActivity : AppCompatActivity() {
     override fun onSaveInstanceState(out: Bundle) { out.putString("page", page); out.putStringArrayList("history", ArrayList(history)); super.onSaveInstanceState(out) }
     private fun render() {
         root = column(0).apply { setBackgroundColor(tint(R.color.sp_background)) }
-        setContentView(root)
+        setContentView(root, android.view.ViewGroup.LayoutParams(-1, -1))
         ViewCompat.setOnApplyWindowInsetsListener(root) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.ime()); v.setPadding(bars.left, bars.top, bars.right, bars.bottom); insets
         }
@@ -90,13 +90,7 @@ class DemoActivity : AppCompatActivity() {
         }
         if(page in listOf("study","overview","subjects","grades","library","profile")) {
             val nav = CapsuleBottomNavigationView(this).apply {
-                id = View.generateViewId()
-                setBackgroundColor(tint(R.color.sp_card)); elevation=0f
-                itemIconTintList=androidx.core.content.ContextCompat.getColorStateList(this@DemoActivity,R.color.navigation_icon_tint)
-                itemTextColor=androidx.core.content.ContextCompat.getColorStateList(this@DemoActivity,R.color.navigation_text_tint)
-                itemActiveIndicatorColor=android.content.res.ColorStateList.valueOf(tint(R.color.sp_action))
-                labelVisibilityMode=com.google.android.material.navigation.NavigationBarView.LABEL_VISIBILITY_LABELED
-                itemIconSize=dp(22); itemPaddingTop=dp(4); itemPaddingBottom=dp(4)
+                id = R.id.navigation
                 menu.add(0, R.id.nav_study, 0, "Study").setIcon(R.drawable.ic_study)
                 menu.add(0, R.id.nav_saved, 1, "Saved").setIcon(R.drawable.ic_saved)
                 menu.add(0, R.id.nav_planner, 2, "Planner").setIcon(R.drawable.ic_plan)
@@ -104,12 +98,12 @@ class DemoActivity : AppCompatActivity() {
                 selectedItemId = when(page) { "study" -> R.id.nav_study; "library" -> R.id.nav_saved; "profile" -> R.id.nav_account; else -> R.id.nav_planner }
                 setOnItemSelectedListener { item -> rootPage(when(item.itemId) { R.id.nav_study -> "study"; R.id.nav_saved -> "library"; R.id.nav_account -> "profile"; else -> "overview" }); true }
             }
-            root.addView(nav)
+            root.addView(nav, LinearLayout.LayoutParams(-1, -2))
         }
     }
     private fun subject(id: String) = sample.workspace.subjects.first { it.id == id }
     private fun study(b: LinearLayout) {
-        b.giraffe(height=76)
+        b.giraffe("read",height=100)
         b.label("Hi, ${sample.name.substringBefore(' ')}",14f); b.label("Let’s pick it up.",26f)
         b.card("Relational database", "Database Systems · authored sample note").action("Continue reading →") { go("note:relational") }
         b.card("Your semester", "5 subjects · ${sample.workspace.tasks.count { !it.done }} tasks left · 9 materials").compactAction("Open Planner") { rootPage("overview") }
@@ -149,7 +143,8 @@ class DemoActivity : AppCompatActivity() {
     }
     private fun tasks(b: LinearLayout, id: String? = null) {
         val rows = sample.workspace.tasks.filter { id == null || it.subjectId == id }
-        if(rows.isEmpty()) b.label("No tasks due. A little breathing room.")
+        if(rows.isEmpty()) { b.giraffe("sleep",96); b.label("No tasks due. A little breathing room.") }
+        else if(rows.all { it.done }) { b.giraffe("celebrate",96); b.label("All done. Nice work!") }
         rows.forEach { t -> b.addView(AppCompatCheckBox(this).apply {
             text = t.title + "\n" + subject(t.subjectId).title; minHeight = dp(64); isChecked = t.done; tag = "demo_task_${t.id}"
             setOnCheckedChangeListener { _, _ -> sample.toggleTask(t.id); render() }
@@ -208,7 +203,10 @@ class DemoActivity : AppCompatActivity() {
     }
     private fun profile(b: LinearLayout) {
         b.label("Your space.",26f)
-        b.action(sample.name.split(Regex("\\s+")).take(2).joinToString("") { it.first().uppercase() }) { go("edit") }.quietAction().apply { textSize=32f; contentDescription="Edit demo profile"; cornerRadius=dp(48); layoutParams=LinearLayout.LayoutParams(dp(96),dp(96)).apply { gravity=Gravity.CENTER_HORIZONTAL }; backgroundTintList=android.content.res.ColorStateList.valueOf(tint(R.color.sp_cream)) }
+        b.profileAvatar(sample.name, model.avatar) {
+            chooseAvatar(this, sample.name, model.avatar, "Only changes this demo profile.") { model.avatar=it; render() }
+        }
+        b.compactAction("Change picture") { chooseAvatar(this,sample.name,model.avatar,"Only changes this demo profile.") { model.avatar=it; render() } }
         b.label(sample.name,24f).gravity=Gravity.CENTER
         b.label("@alex.demo · Fictional student\nBS Information Technology · Year 2",14f).gravity=Gravity.CENTER
         b.compactAction("Edit profile") { go("edit") }
@@ -231,6 +229,6 @@ class DemoActivity : AppCompatActivity() {
         b.compactAction("Reset demo") { confirmReset() }; b.compactAction("Exit demo") { confirmExit() }
     }
     private fun info(title:String,text:String) { MaterialAlertDialogBuilder(this).setTitle(title).setMessage(text).setPositiveButton("Close",null).show() }
-    private fun confirmReset() { MaterialAlertDialogBuilder(this).setTitle("Reset demo?").setMessage("Restore the original five subjects, scores and tasks. Your own account is untouched.").setNegativeButton("Keep exploring",null).setPositiveButton("Reset sample data") { _,_-> sample.reset();rootPage("overview") }.show() }
+    private fun confirmReset() { MaterialAlertDialogBuilder(this).setTitle("Reset demo?").setMessage("Restore the original five subjects, scores and tasks. Your own account is untouched.").setNegativeButton("Keep exploring",null).setPositiveButton("Reset sample data") { _,_-> sample.reset();model.avatar="initials";rootPage("overview") }.show() }
     private fun confirmExit() { MaterialAlertDialogBuilder(this).setTitle("Exit demo?").setMessage("Return to your previous screen. Demo changes will be discarded; your account stays signed in.").setNegativeButton("Keep exploring",null).setPositiveButton("Exit demo") { _,_-> finish() }.show() }
 }
