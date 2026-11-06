@@ -37,3 +37,7 @@ Personal grading is a user-entered draft; it does not confer professor approval 
 `aapt dump badging` confirms `com.studypath.app`, versionName 0.1.11, versionCode 12. `apksigner verify --print-certs` passed, certificate SHA-256 `9d573838eb0968cd1e0f63a71f61d67f811a38cd4c52265407c1b28f33b79605`, matching 0.1.10. APK: 60,439,963 bytes; SHA-256 `fd20647d88507873b181d25692f73a297ee4b4534c49c8678ee71201a80410e8`. See cloud-artifact.json.
 
 A post-test optional attempt to launch non-exported MainActivity directly with adb was correctly denied by Android. No component export was changed; this is not an app-flow failure. Native screenshots from instrumentation were used for layout review instead.
+
+## Published release
+
+GitHub release v0.1.11 targets `b1128d995e9783cff8c4e19eae406fff96c459f2`. The GitHub API confirms a published release, uploaded StudyPath.apk, matching 60,439,963-byte size and SHA-256 digest. See github-release.json. Download: https://github.com/marina21-cs/StudyPath/releases/download/v0.1.11/StudyPath.apk

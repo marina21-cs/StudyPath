@@ -1,0 +1,22 @@
+{
+  "assets": [
+    {
+      "browser_download_url": "https://github.com/marina21-cs/StudyPath/releases/download/v0.1.11/SHA256SUMS.txt",
+      "digest": "sha256:32c12f650067ae798120181f5c897a34d5c6792713afba09eb99d2cb0343004b",
+      "name": "SHA256SUMS.txt",
+      "size": 80,
+      "state": "uploaded"
+    },
+    {
+      "browser_download_url": "https://github.com/marina21-cs/StudyPath/releases/download/v0.1.11/StudyPath.apk",
+      "digest": "sha256:fd20647d88507873b181d25692f73a297ee4b4534c49c8678ee71201a80410e8",
+      "name": "StudyPath.apk",
+      "size": 60439963,
+      "state": "uploaded"
+    }
+  ],
+  "draft": false,
+  "html_url": "https://github.com/marina21-cs/StudyPath/releases/tag/v0.1.11",
+  "tag_name": "v0.1.11",
+  "target_commitish": "b1128d995e9783cff8c4e19eae406fff96c459f2"
+}
