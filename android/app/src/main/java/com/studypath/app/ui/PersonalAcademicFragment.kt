@@ -42,6 +42,7 @@ class PersonalAcademicFragment:Fragment() {
         top.compactAction("Review weights & rules →"){open("template")}.tag="academic_template"
         top.compactAction("Link a reviewed course pack"){chooseCatalog(subject)}
         subject.catalogCourseId?.let{courseId->b.action("Open reviewed grade tools"){(requireActivity() as MainActivity).openDetails(PlannerFragment().apply{arguments=Bundle().apply{putString("courseId",courseId);putBoolean("toolsOnly",true)}})}}
+        gradeEditor!!.previousGrading(b,subject.gradeHistory.orEmpty())
         gradeEditor!!.scores(b){open("template")}
         b.action("Explore what-if →"){open("what-if")}.quietAction()
         b.compactAction("Recorded final grade & units"){(requireActivity() as MainActivity).openDetails(PersonalWorkspaceFragment.open(subject.id,"grades"))}

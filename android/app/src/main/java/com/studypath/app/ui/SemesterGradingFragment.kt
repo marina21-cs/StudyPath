@@ -18,6 +18,15 @@ import java.util.UUID
 class SemesterGradingModel:ViewModel() {
     var draft=PersonalGradeDraft()
     var step=0
+    private var initialized=false
+    fun initialize(workspace:PersonalWorkspace) {
+        if(initialized)return
+        initialized=true
+        workspace.gradingTemplate?.let { saved ->
+            draft=saved
+            saved.categories.forEach { selected.add(it.title);weights[it.title]=(it.weight*100).toString() }
+        }
+    }
     val weights=linkedMapOf<String,String>()
     val selected=linkedSetOf<String>()
 }
@@ -28,13 +37,14 @@ class SemesterGradingUi(private val body:LinearLayout,private val state:Semester
     private var editor:GradeDraftEditor?=null
     fun dismiss() { editor?.dismiss() }
     fun render():Unit = with(body) {
+        state.initialize(read())
         removeAllViews()
         label("Set up all subjects",26f)
         label("${read().subjects.size} subjects · Step ${state.step+1} of 3",14f)
         when(state.step) {
             0 -> {
                 label("Choose your grading system",20f)
-                label("Start with how grades are displayed. Next, choose what gets graded and its percentage.",14f)
+                label("Choose how grades are displayed, then set the categories and percentages for every subject. Your saved setup is loaded here.",14f)
                 card("Grading system",state.draft.scale?.description() ?: "Choose a system to continue")
                 editor=GradeDraftEditor(context,state.draft) { state.draft=it;render() }
                 compactAction("Choose grading system") { editor!!.chooseScale() }.tag="semester_scale"
@@ -48,7 +58,7 @@ class SemesterGradingUi(private val body:LinearLayout,private val state:Semester
                 fun updateTotal() { val sum=state.selected.sumOf { state.weights[it]?.toDoubleOrNull() ?: 0.0 };total.text="Total: ${"%.1f".format(sum)}% / 100%" }
                 updateTotal()
                 val names=(listOf("Activities","Quizzes","Exams / Tests","Projects","Homework","Participation","Practical / Lab")+
-                    read().subjects.flatMap { it.gradeDraft?.categories.orEmpty().map { c -> c.title } }+state.weights.keys).distinct()
+                    state.weights.keys).distinct()
                 names.forEach { name ->
                     val box=AppCompatCheckBox(context).apply { text=name;minHeight=context.dp(48);isChecked=name in state.selected;tag="semester_category_$name" }
                     addView(box)
@@ -69,10 +79,9 @@ class SemesterGradingUi(private val body:LinearLayout,private val state:Semester
                     }.show()
                 }
                 action("Review all subjects") { safe {
-                    val existing=read().subjects.flatMap { it.gradeDraft?.categories.orEmpty() }
                     state.draft=state.draft.copy(categories=state.selected.map { name ->
                         val weight=state.weights[name]?.toDoubleOrNull() ?: error("Enter a percentage for $name.")
-                        DraftCategory(UUID.randomUUID().toString(),name,weight/100,existing.firstOrNull { it.title.equals(name,true) }?.aggregation ?: "POOLED_POINTS")
+                        DraftCategory(UUID.randomUUID().toString(),name,weight/100)
                     })
                     SemesterGrading.apply(read(),state.draft);state.step=2;render()
                 } }.tag="semester_review"
@@ -83,10 +92,11 @@ class SemesterGradingUi(private val body:LinearLayout,private val state:Semester
                 label(state.draft.scale!!.description(),16f)
                 state.draft.categories.forEach { label("${it.title} · ${"%.1f".format(it.weight*100)}%",16f) }
                 label("Total: 100%",20f)
-                label("Applies to all current subjects:",14f)
+                label("Replaces grading in all subjects. New subjects will use this setup too.",14f)
                 read().subjects.forEach { label(it.title,14f) }
-                label("Existing scores are kept. Estimates may change with the new weights and scale. Recorded final grades and GWA stay unchanged. You can adjust each subject later.",14f)
-                action("Apply to all subjects") { safe { commit(state.draft);done() } }.tag="semester_apply"
+                val scoreCount=read().subjects.sumOf { it.gradeDraft?.scores?.size ?: 0 }
+                label("This replaces every subject’s categories, weights and grade scale. $scoreCount existing assessment scores will be kept in Previous grading, outside the new calculation. Start entering scores in the new categories after saving. Recorded final grades and GWA stay unchanged.",14f).tag="semester_reset_summary"
+                action("Replace grading for all subjects") { safe { commit(state.draft);done() } }.tag="semester_apply"
                 compactAction("Back: categories") { state.step=1;render() }
             }
         }

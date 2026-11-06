@@ -44,6 +44,29 @@ class GradeDraftEditor(private val context: Context, private val draft: Personal
         label("3. Add your scores",20f)
         label("Enter earned and possible points for activities, tests, projects and other work. Leave earned points blank until graded.",14f)
     }
+    fun previousGrading(body: LinearLayout, history: List<PersonalGradeDraft>) {
+        if(history.isEmpty()) return
+        body.compactAction("Previous grading · ${history.sumOf { it.scores.size }} scores") {
+            dismiss()
+            val form=context.column(16)
+            form.label("Saved records from earlier grading setups. These scores are not included in your current estimate.",14f)
+            history.withIndex().reversed().forEach { (index, previous) ->
+                form.label("Setup ${index+1}",20f)
+                form.label(previous.scale?.description() ?: "Zero-based percentage",14f)
+                previous.categories.forEach { category ->
+                    form.label("${category.title} · ${"%.1f".format(category.weight*100)}%",18f)
+                    form.label(aggregationLabel(category.aggregation),12f)
+                    previous.scores.filter { it.categoryId==category.id }.forEach { score ->
+                        form.card(score.title,if(score.status=="SCORED") "${score.earned} / ${score.possible}" else "${score.status} · ${score.possible} possible points")
+                            .also { card -> score.weight?.let { card.label("Assessment weight: ${it*100}%",12f) } }
+                    }
+                }
+                if(previous.syllabus.isNotBlank()) form.label(previous.syllabus,12f)
+            }
+            dialog=MaterialAlertDialogBuilder(context).setTitle("Previous grading")
+                .setView(context.scrolling(form)).setPositiveButton("Close",null).show()
+        }.tag="grading_history"
+    }
     fun scores(body: LinearLayout, onSetup: () -> Unit) = with(body) {
         action("Set up categories & grade scale",onSetup).tag="grading_setup"
         if(draft.categories.isEmpty()) { label("Choose what gets graded, set weights, then add scores."); return@with }

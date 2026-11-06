@@ -30,24 +30,34 @@ class SemesterDemoDeviceTest {
         }
         fail("Missing $tag")
     }
-    @Test fun semesterSetupAppliesAllSubjectsAndPreservesScores() {
+    @Test fun semesterReplacementAppliesAllSubjectsAndArchivesScores() {
         ActivityScenario.launch(DemoActivity::class.java).use { activity ->
             onView(withId(R.id.nav_planner)).perform(click());tag("planner_grading_setup").perform(scrollTo(),click())
             onView(withText("Choose your grading system")).check(matches(isDisplayed()))
             tag("semester_scale").perform(scrollTo(),click());onView(withText("Zero-based percentage (0–100)")).perform(click());onView(withText("Save")).perform(click())
             tag("semester_next").perform(scrollTo(),click())
-            for((name,value) in listOf("Quizzes" to "30","Midterm" to "30","Final exam" to "40")) {
+            for((name,value) in listOf("Activities" to "60","Exams / Tests" to "40")) {
                 tag("semester_category_$name").perform(scrollTo(),click());tag("semester_weight_$name").perform(scrollTo(),replaceText(value));closeSoftKeyboard()
             }
             activity.recreate()
-            tag("semester_weight_Final exam").perform(scrollTo()).check(matches(withText("40")))
+            tag("semester_weight_Exams / Tests").perform(scrollTo()).check(matches(withText("40")))
             tag("semester_review").perform(scrollTo(),click());tag("semester_apply").perform(scrollTo(),click())
             onView(withText("Advanced Calculus · 1.75")).perform(scrollTo(),click())
-            onView(withText("Edit Quiz 1")).perform(scrollTo()).check(matches(isDisplayed()))
+            tag("grading_history").perform(scrollTo(),click())
+            onView(withText("Quiz 1")).check(matches(isDisplayed()))
+            onView(withText("16.0 / 20.0")).check(matches(isDisplayed()))
+            onView(withText("Close")).perform(click())
+            activity.onActivity { a ->
+                val data=androidx.lifecycle.ViewModelProvider(a)[StudentDemoViewModel::class.java].session.workspace
+                assertTrue(data.subjects.all { it.gradeDraft!!.categories.map { c -> c.title }==listOf("Activities","Exams / Tests") && it.gradeDraft!!.scores.isEmpty() })
+                assertEquals(3,data.subjects.first().gradeHistory!!.single().scores.size)
+            }
             pressBack();onView(withText("Data Structures · 2.0")).perform(scrollTo(),click())
-            onView(withText("Add Quizzes score")).perform(scrollTo()).check(matches(isDisplayed()))
-            onView(withText("Add Midterm score")).perform(scrollTo()).check(matches(isDisplayed()))
-            onView(withText("Add Final exam score")).perform(scrollTo()).check(matches(isDisplayed()))
+            onView(withText("Add Activities score")).perform(scrollTo()).check(matches(isDisplayed()))
+            onView(withText("Add Exams / Tests score")).perform(scrollTo()).check(matches(isDisplayed()))
+            pressBack();tag("planner_grading_setup").perform(scrollTo(),click())
+            tag("semester_next").perform(scrollTo(),click())
+            tag("semester_weight_Activities").perform(scrollTo()).check(matches(withText("60.0")))
         }
     }
     @Test fun fiveRealPdfsOpenAndUseSharedOcrReviewer() {

@@ -14,13 +14,14 @@ import kotlinx.coroutines.flow.*
 data class PersonalSubject(val id: String, val title: String, val category: String? = null,
     val code: String? = null, val units: Double? = null, val grade: String? = null,
     val prerequisiteIds: List<String>? = null,
-    val gradeDraft: com.studypath.app.domain.PersonalGradeDraft? = null, val catalogCourseId: String? = null) {
+    val gradeDraft: com.studypath.app.domain.PersonalGradeDraft? = null, val catalogCourseId: String? = null,
+    val gradeHistory: List<com.studypath.app.domain.PersonalGradeDraft>? = null) {
     fun categoryLabel() = category?.takeIf { it in CATEGORIES } ?: "General"
     companion object { val CATEGORIES = listOf("General", "Mathematics", "Science", "Technology", "Languages", "Humanities") }
 }
 data class PersonalTask(val id: String, val subjectId: String, val title: String, val due: String = "", val done: Boolean = false)
 data class PersonalMaterial(val id: String, val subjectId: String, val title: String, val text: String = "", val question: String = "", val answer: String = "", val pdf: Boolean = false)
-data class PersonalWorkspace(val subjects: List<PersonalSubject> = emptyList(), val tasks: List<PersonalTask> = emptyList(), val materials: List<PersonalMaterial> = emptyList(), val reviewers: List<com.studypath.app.domain.PdfReviewer>? = null)
+data class PersonalWorkspace(val subjects: List<PersonalSubject> = emptyList(), val tasks: List<PersonalTask> = emptyList(), val materials: List<PersonalMaterial> = emptyList(), val reviewers: List<com.studypath.app.domain.PdfReviewer>? = null, val gradingTemplate: com.studypath.app.domain.PersonalGradeDraft? = null)
 
 /** Local personal work is separate from published content and policy-bound academic records. */
 class PersonalStudyStore(root: File, uid: String) {
@@ -38,7 +39,14 @@ class PersonalStudyStore(root: File, uid: String) {
     /** Every screen reads the same UID-owned file after a successful atomic commit. */
     fun observe(): Flow<PersonalWorkspace> = revision.map { read() }.distinctUntilChanged().flowOn(Dispatchers.IO)
     fun update(transform: (PersonalWorkspace) -> PersonalWorkspace): PersonalWorkspace = synchronized(lock) {
-        val value = transform(read()); validate(value)
+        val previous=read()
+        val changed=transform(previous)
+        val oldIds=previous.subjects.map { it.id }.toSet()
+        val value=changed.copy(subjects=changed.subjects.map { subject ->
+            if(subject.id !in oldIds && subject.gradeDraft==null && changed.gradingTemplate!=null)
+                subject.copy(gradeDraft=changed.gradingTemplate) else subject
+        })
+        validate(value)
         val bytes = Gson().toJson(value).toByteArray(Charsets.UTF_8)
         require(bytes.size <= MAX_JSON) { "Your personal workspace is full." }
         val temp = File(directory, "workspace.tmp")
@@ -80,6 +88,7 @@ class PersonalStudyStore(root: File, uid: String) {
         fun newId(): String = UUID.randomUUID().toString()
         private fun validId(value: String) = value.matches(Regex("[a-f0-9-]{36}"))
         fun validate(value: PersonalWorkspace) {
+            value.gradingTemplate?.let { com.studypath.app.domain.SemesterGrading.validateTemplate(it) }
             require(value.subjects.size <= 100 && value.tasks.size <= 500 && value.materials.size <= 200) { "Personal workspace limit reached." }
             val reviewers=value.reviewers.orEmpty()
             require(reviewers.size<=20 && reviewers.map { it.materialId }.distinct().size==reviewers.size) { "Keep at most 20 PDF reviewers." }
@@ -92,6 +101,7 @@ class PersonalStudyStore(root: File, uid: String) {
             value.subjects.forEach { require(validId(it.id) && it.title.isNotBlank() && it.title.length <= 80) { "Use a subject name of 1–80 characters." } }
             value.subjects.forEach {
                 it.gradeDraft?.validate()
+                it.gradeHistory.orEmpty().forEach { draft -> draft.validate() }
                 require(it.catalogCourseId == null || it.catalogCourseId.matches(Regex("[A-Za-z0-9_-]{1,100}")))
                 require(it.category == null || it.category in PersonalSubject.CATEGORIES) { "Choose a subject category." }
                 require(it.code.orEmpty().length <= 24 && it.grade.orEmpty().length <= 16) { "Keep course codes and recorded grades short." }

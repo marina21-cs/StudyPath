@@ -30,6 +30,30 @@ class PersonalStudyStoreTest {
         assertThrows(IllegalArgumentException::class.java) { store.update { it.copy(subjects=listOf(subject.copy(gradeDraft=draft.copy(scale=com.studypath.app.domain.DraftGradeScale("LINEAR",100.0,75.0))))) } }
         assertEquals(subject,store.read().subjects.single())
     }
+    @Test fun `semester replacement persists history and initializes future subjects without resetting later scores`() {
+        val root=temp.newFolder();val store=PersonalStudyStore(root,"semester-owner")
+        val old=com.studypath.app.domain.StudentDemo.workspace().subjects.first().gradeDraft!!
+        val existing=subject().copy(grade="1.75",gradeDraft=old)
+        store.update { it.copy(subjects=listOf(existing)) }
+        val template=com.studypath.app.domain.PersonalGradeDraft(categories=listOf(com.studypath.app.domain.DraftCategory("activities","Activities",1.0)),scale=com.studypath.app.domain.DraftGradeScale())
+        store.update { com.studypath.app.domain.SemesterGrading.apply(it,template) }
+        val reopened=PersonalStudyStore(root,"semester-owner")
+        assertEquals(template,reopened.read().gradingTemplate)
+        assertEquals(old,reopened.read().subjects.single().gradeHistory!!.single())
+        assertEquals("1.75",reopened.read().subjects.single().grade)
+        val added=subject();val override=subject().copy(gradeDraft=old)
+        reopened.update { it.copy(subjects=it.subjects+added+override) }
+        assertEquals(template,reopened.read().subjects.first { it.id==added.id }.gradeDraft)
+        assertEquals(old,reopened.read().subjects.first { it.id==override.id }.gradeDraft)
+        val newScore=com.studypath.app.domain.DraftScore("lab","activities","Lab",10.0,8.0,"SCORED")
+        reopened.update { data -> data.copy(subjects=data.subjects.map { if(it.id==added.id)it.copy(gradeDraft=it.gradeDraft!!.copy(scores=listOf(newScore)))else it }) }
+        reopened.update { it.copy(tasks=emptyList()) }
+        assertEquals(listOf(newScore),reopened.read().subjects.first { it.id==added.id }.gradeDraft!!.scores)
+        val before=reopened.read()
+        assertThrows(IllegalArgumentException::class.java) { reopened.update { com.studypath.app.domain.SemesterGrading.apply(it,template.copy(scale=null)) } }
+        assertEquals(before,reopened.read())
+        assertEquals(PersonalWorkspace(),PersonalStudyStore(root,"other-owner").read())
+    }
     @Test fun `reviewer progress persists with its PDF and is removed with that material`() {
         val root=temp.newFolder();val store=PersonalStudyStore(root,"owner");val subject=subject()
         val pdf=PersonalMaterial(PersonalStudyStore.newId(),subject.id,"Module",pdf=true)

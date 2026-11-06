@@ -52,6 +52,7 @@ class DemoActivity : AppCompatActivity(), DemoReviewerHost {
         shell.connectionStatus.visibility = View.GONE
         val mainPage = page in listOf("study","overview","subjects","grades","library","profile")
         shell.toolbar.title = if(mainPage) "studypath." else when {
+            page=="semester-grading" -> "Set up grading"
             page=="settings" -> "Settings"
             page=="edit" -> "Edit profile"
             page.startsWith("reviewer:") -> "PDF reviewer"
@@ -170,6 +171,7 @@ class DemoActivity : AppCompatActivity(), DemoReviewerHost {
     private fun scores(b: LinearLayout, s: PersonalSubject) {
         b.label(s.title,26f); b.label("Sample grading draft · not approved",12f)
         gradeEditor=GradeDraftEditor(this,s.gradeDraft ?: com.studypath.app.domain.PersonalGradeDraft()) { sample.saveDraft(s.id,it); render() }
+        gradeEditor!!.previousGrading(b,s.gradeHistory.orEmpty())
         gradeEditor!!.scores(b) { go("template:${s.id}") }
     }
     private fun gradingSetup(b: LinearLayout, s: PersonalSubject) {
