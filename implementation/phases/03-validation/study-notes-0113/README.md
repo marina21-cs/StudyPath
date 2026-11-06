@@ -20,3 +20,7 @@ APK: version 0.1.13 (14), 60,051,076 bytes, SHA-256 `1167afbd8a9380d4dd52ac0298c
 ## Observations and limits
 
 Create/edit, save/reopen, caption storage, recreation, discard, PDF-page source return and invalid-image cleanup were exercised. Attachment decoding uses the real normalization path; test setup inserts the normalized attachment into the editor model. The system picker was opened and cancelled, not automated through a successful provider selection. Images are device-local, with no cloud sync; demo changes reset with the session. External PDF import is available in personal workspaces; demo uses bundled PDFs. No preview account data was cleared or rebound. Physical-device, production cloud, full accessibility and lifecycle acceptance remain separate.
+
+## Published release
+
+GitHub v0.1.13 is public (`draft: false`). Uploaded StudyPath.apk is 60,051,076 bytes and GitHub's SHA-256 matches the local candidate above. `curl -I -L` on the versioned APK URL returned HTTP 200. See `github-release.json` and `release-build.json`. The initial download 404 occurred while the release was still a draft and its APK was uploading; no link change was necessary after publication.

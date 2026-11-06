@@ -1,0 +1,21 @@
+{
+  "status": "BUILT_CLOUD_UNVERIFIED",
+  "startedAtUtc": "2026-11-06T06:07:40.193693+00:00",
+  "emulatorMode": false,
+  "cloudVerified": false,
+  "buildExitCode": 0,
+  "artifacts": {
+    "StudyPath-cloud-candidate-debug.apk": {
+      "sha256": "1167afbd8a9380d4dd52ac0298cb6603a308b2dd77b96b5e5fb789d173a14888",
+      "bytes": 60051076
+    },
+    "StudyPath-cloud-candidate-test.apk": {
+      "sha256": "4c5afbaae42f3827f83792111c69952ab24a270aa88a2dc8b1cd3a944befd3a4",
+      "bytes": 1773402
+    }
+  },
+  "finishedAtUtc": "2026-11-06T06:08:16.945213+00:00",
+  "releaseCommit": "f756ba90",
+  "applicationSourceMatchesTestedSource": true,
+  "testOnlyFollowup": "TideDemoDeviceTest expectation updated for new editable-note screen; full ten-test rerun passed."
+}
